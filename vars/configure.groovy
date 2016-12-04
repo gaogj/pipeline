@@ -12,7 +12,7 @@ def branchMatch(branch, rules) {
 def call(branchRules, body) {
 	def currentBranch = "${env.BRANCH_NAME}";
 
-	if (branchMatch(currentBranch, currentBranch)) {
+	if (branchMatch(currentBranch, branchRules)) {
 		body()
 	}
 }
