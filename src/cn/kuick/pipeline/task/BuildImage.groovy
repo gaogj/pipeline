@@ -1,3 +1,4 @@
+package cn.kuick.pipeline.task;
 
 /**
  *	构建镜像
