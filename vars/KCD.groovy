@@ -9,10 +9,16 @@ def branchMatch(branch, rules) {
 /**
  * 配置分支规则
  */
-def configure(branchRules, body) {
+def configure(branchRules) {
 	def currentBranch = "${env.BRANCH_NAME}";
 
 	if (branchMatch(currentBranch, currentBranch)) {
-		body()
+		return {
+			body -> body()
+		}
+	} else {
+		return {
+			body -> 
+		}
 	}
 }
