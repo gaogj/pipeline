@@ -4,6 +4,8 @@ package cn.kuick.pipeline.task;
  *	构建镜像
  */
 class BuildImage {
+	String serverName;
+	String version;
 
 	BuildImage(serverName, version) {
 		this.serverName = serverName;
