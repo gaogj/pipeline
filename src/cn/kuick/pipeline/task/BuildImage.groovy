@@ -18,28 +18,16 @@ class BuildImage implements Serializable {
 		script.echo "serverName: ${serverName}, version: ${version}"
 	}
 
-	def existImage(baseImage) {
-		try {
-			baseImage.inside {
-				this.script.sh "echo Hello"
-			}
-
-			return true;
-		} catch(e) {
-			return false;
-		}
-	}
-
 	def buildBase() {
 		def name = this.serverName;
 		def docker = this.script.docker;
 		def baseImage = docker.image("registry.kuick.cn/cc/${name}:base");
 
-		if (!existImage(baseImage)) {
+		try {
+			baseImage.pull();
+		} catch(e) {
 			baseImage = docker.build("registry.kuick.cn/cc/${name}:base", '.');
 			baseImage.push();
-		} else {
-			baseImage.pull()
 		}
 
 		return baseImage;
@@ -52,9 +40,8 @@ class BuildImage implements Serializable {
 		def docker = this.script.docker;
 		def releaseImage = docker.image("registry.kuick.cn/cc/${name}:${version}");
 
-		if (releaseImage == null) {
-			releaseImage = docker.build("registry.kuick.cn/cc/${name}:${version}", 'release/docker');
-		}
+		// build
+		releaseImage = docker.build("registry.kuick.cn/cc/${name}:${version}", 'release/docker');
 
 		return releaseImage;
 	}
