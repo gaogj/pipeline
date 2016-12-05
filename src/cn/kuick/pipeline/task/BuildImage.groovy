@@ -17,11 +17,12 @@ class BuildImage implements Serializable {
 	}
 
 	def buildBase() {
+		def name = this.serverName;
 		def docker = this.script.docker;
-		def baseImage = docker.image("registry.kuick.cn/cc/${serverName}:base");
+		def baseImage = docker.image("registry.kuick.cn/cc/${name}:base");
 
 		if (baseImage == null) {
-			baseImage = docker.build("registry.kuick.cn/cc/${serverName}:base", '.');
+			baseImage = docker.build("registry.kuick.cn/cc/${name}:base", '.');
 			baseImage.push();
 		} else {
 			baseImage.pull()
@@ -31,11 +32,14 @@ class BuildImage implements Serializable {
 	}
 
 	def buildRelease() {
+		def name = this.serverName;
+		def version = this.version;
+
 		def docker = this.script.docker;
-		def releaseImage = docker.image("registry.kuick.cn/cc/${serverName}:${version}");
+		def releaseImage = docker.image("registry.kuick.cn/cc/${name}:${version}");
 
 		if (releaseImage == null) {
-			releaseImage = docker.build("registry.kuick.cn/cc/${serverName}:${version}", 'release/docker');
+			releaseImage = docker.build("registry.kuick.cn/cc/${name}:${version}", 'release/docker');
 		}
 
 		return releaseImage;
@@ -48,6 +52,7 @@ class BuildImage implements Serializable {
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
 		def docker = this.script.docker;
+		
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// Build base image
 			baseImage = this.buildBase();
