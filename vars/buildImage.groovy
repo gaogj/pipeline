@@ -9,6 +9,8 @@ def call(body) {
     body.delegate = config
     body()
 
+    echo "config: ${config}"
+
     stage '生成镜像'
     node('aliyun327-test') {
         def build = new BuildImage(this, config.serverName, config.version);
