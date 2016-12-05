@@ -18,12 +18,24 @@ class BuildImage implements Serializable {
 		script.echo "serverName: ${serverName}, version: ${version}"
 	}
 
+	def existImage(baseImage) {
+		try {
+			baseImage.inside {
+				this.script.sh "echo Hello"
+			}
+
+			return true;
+		} catch(e) {
+			return false;
+		}
+	}
+
 	def buildBase() {
 		def name = this.serverName;
 		def docker = this.script.docker;
 		def baseImage = docker.image("registry.kuick.cn/cc/${name}:base");
 
-		if (baseImage == null) {
+		if (!existImage(baseImage)) {
 			baseImage = docker.build("registry.kuick.cn/cc/${name}:base", '.');
 			baseImage.push();
 		} else {
