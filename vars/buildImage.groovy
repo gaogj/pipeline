@@ -10,7 +10,9 @@ def call(body) {
     body()
 
     echo "config: ${config}"
-
+    echo "config.serverName: ${config.serverName}"
+    echo "config.version: ${config.version}"
+    
     stage '生成镜像'
     node('aliyun327-test') {
         def build = new BuildImage(this, config.serverName, config.version);
