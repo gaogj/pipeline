@@ -4,8 +4,9 @@ package cn.kuick.pipeline.task;
  *	构建镜像
  */
 class BuildImage {
-	String serverName;
-	String version;
+	def script;
+	def serverName;
+	def version;
 
 	BuildImage(script, serverName, version) {
 		this.script = script;
