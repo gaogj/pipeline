@@ -65,14 +65,4 @@ class BuildImageStage implements Serializable {
 
 		return releaseImage;
 	}
-
-	def start() {
-		this.script.stage this.stageName
-
-	    this.script.node('aliyun327-test') {
-	    	this.script.checkout scm
-
-	        this.run();
-	    }
-	}
 }

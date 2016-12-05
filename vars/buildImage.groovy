@@ -9,9 +9,8 @@ def call(body) {
     body.delegate = config
     body()
 
-    config.each {
-    	echo "param ${it.key}:${it.value}"
-    }
+    echo "param name:${config.name}"
+    echo "param version:${config.version}"
 
 	stage "生成镜像"
     node('aliyun327-test') {
