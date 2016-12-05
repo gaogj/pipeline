@@ -10,9 +10,14 @@ def call(body) {
     body()
 
     config.each {
-    	echo "${it.key}:${it.value}"
+    	echo "param ${it.key}:${it.value}"
     }
 
-	def stage = new BuildImageStage(this, config);
-    stage.start();
+	stage "生成镜像"
+    node('aliyun327-test') {
+    	checkout scm
+
+    	def stage = new BuildImageStage(this, config);
+        stage.run();
+    }
 }
