@@ -1,4 +1,5 @@
 // See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
+import cn.kuick.pipeline.task.BuildImage
 
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
@@ -8,13 +9,13 @@ def call(body) {
     body.delegate = config
     body()
     stage 'checkout'
-    node {
-        checkout scm
-        stage 'main'
-        docker.image(config.environment).inside {
-            sh config.mainScript
-        }
-        stage 'post'
-        sh config.postScript
+    echo "config: ${config}"
+    echo "config.serverName: ${config.serverName}"
+    echo "config.version: ${config.version}"
+
+    stage '生成镜像'
+    node('aliyun327-test') {
+        def build = new BuildImage(this, config.serverName, config.version);
+        build.execute();
     }
 }
