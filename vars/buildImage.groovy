@@ -12,11 +12,6 @@ def call(body) {
     echo "param name:${config.name}"
     echo "param version:${config.version}"
 
-	stage "生成镜像"
-    node('aliyun327-test') {
-    	checkout scm
-
-    	def stage = new BuildImageStage(this, config);
-        stage.run();
-    }
+	def stage = new BuildImageStage(this, config);
+    stage.start();
 }
