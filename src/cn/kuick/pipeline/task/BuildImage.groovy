@@ -48,7 +48,7 @@ class BuildImage implements Serializable {
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
 		def docker = this.script.docker;
-		docker.withRegistry('https://registry.kuick.cn', 'docker-registry-login') {
+		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// Build base image
 			baseImage = this.buildBase();
 
