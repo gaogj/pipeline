@@ -1,21 +1,23 @@
-package cn.kuick.pipeline.task;
+package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
 
 /**
  *	构建镜像
  */
-class BuildImage implements Serializable {
+class BuildImageStage implements Serializable {
 	def script;
+
+	def stageName;
 	def serverName;
 	def version;
 
-	BuildImage(script, serverName, version) {
+	BuildImageStage(script, config) {
 		this.script = script;
-		this.serverName = serverName;
-		this.version = version;
 
-		script.echo "serverName: ${serverName}, version: ${version}"
+		this.stageName = '生成镜像';
+		this.serverName = config.name;
+		this.version = config.version;
 	}
 
 	def buildBase() {
@@ -46,14 +48,13 @@ class BuildImage implements Serializable {
 		return releaseImage;
 	}
 
-	def execute() {
+	def run() {
 		def baseImage, releaseImage;
+		def docker = this.script.docker;
 
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
-		def docker = this.script.docker;
-
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// Build base image
 			baseImage = this.buildBase();
@@ -63,5 +64,15 @@ class BuildImage implements Serializable {
 		}
 
 		return releaseImage;
+	}
+
+	def start() {
+		this.script.stage this.stageName
+
+	    this.script.node('aliyun327-test') {
+	    	this.script.checkout scm
+
+	        this.run();
+	    }
 	}
 }
