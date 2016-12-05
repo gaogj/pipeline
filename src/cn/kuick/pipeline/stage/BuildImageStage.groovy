@@ -70,7 +70,7 @@ class BuildImageStage implements Serializable {
 		this.script.stage this.stageName
 
 	    this.script.node('aliyun327-test') {
-	    	this.script.checkout scm
+	    	this.script.checkout this.script.scm
 
 	        this.run();
 	    }
