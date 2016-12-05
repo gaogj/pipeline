@@ -1,9 +1,11 @@
 package cn.kuick.pipeline.task;
 
+import java.io.Serializable;
+
 /**
  *	构建镜像
  */
-class BuildImage {
+class BuildImage implements Serializable {
 	def script;
 	def serverName;
 	def version;
