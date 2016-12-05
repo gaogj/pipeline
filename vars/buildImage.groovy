@@ -15,6 +15,8 @@ def call(body) {
 
     stage '生成镜像'
     node('aliyun327-test') {
+    	checkout scm
+    	
         def build = new BuildImage(this, config.name, config.version);
         build.execute();
     }
