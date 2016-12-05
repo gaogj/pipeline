@@ -11,7 +11,7 @@ def call(body) {
 
     stage '生成镜像'
     node('aliyun327-test') {
-        def build = new BuildImage(config.serverName, config.version);
+        def build = new BuildImage(scripts, config.serverName, config.version);
         build.execute();
     }
 }
