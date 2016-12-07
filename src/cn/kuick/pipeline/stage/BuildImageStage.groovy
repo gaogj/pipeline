@@ -43,7 +43,7 @@ class BuildImageStage implements Serializable {
 		def releaseImage = docker.image("registry.kuick.cn/cc/${name}:${version}");
 
 		// build
-		releaseImage = docker.build("registry.kuick.cn/cc/${name}:${version}", '-f ./release/docker/Dockerfile');
+		releaseImage = docker.build("registry.kuick.cn/cc/${name}:${version}", '-f ./release/docker/Dockerfile .');
 
 		return releaseImage;
 	}
