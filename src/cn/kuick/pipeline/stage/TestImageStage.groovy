@@ -23,12 +23,12 @@ class TestImageStage implements Serializable {
 	def testImage() {
 		def name = this.serverName;
 		def version = this.version;
-		
+
 		def docker = this.script.docker;
 		def image = docker.image("registry.kuick.cn/cc/${name}:${version}");
 
 		image.inside {
-			this.script.sh "echo Hello!"
+			this.script.sh "gradle test"
 		}
 	}
 
