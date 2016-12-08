@@ -26,7 +26,7 @@ class TestImageStage implements Serializable {
 
 	def start() {
 		this.dockerCompose.apply(this.script);
-		
+
 		this.script.stage this.stageName
 
 	    this.script.node('aliyun327-test') {
@@ -43,7 +43,7 @@ class TestImageStage implements Serializable {
 		def docker = this.script.docker;
 		def image = docker.image("registry.kuick.cn/cc/${name}:${version}");
 
-		def cluster = this.dockerCompose.up("./src/integration_test/resources/docker-compose.yml");
+		def cluster = this.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", version);
 
 		cluster.inside(":last") {
 			this.script.sh "echo $PATH"

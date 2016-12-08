@@ -10,7 +10,7 @@ class DockerComposePlugin implements Serializable {
 
 	def project;
 	def steps;
-	
+
     void apply(project) {
     	this.project = project;
     	this.steps = project.steps;
@@ -18,13 +18,15 @@ class DockerComposePlugin implements Serializable {
         println "project.steps:" + project.steps
     }
 
-    def up(config) {
+    def up(config, version) {
     	println "compose config:" + config;
 
     	def file = new File(config);
     	def dir = file.getParent();
 
-    	this.steps.sh "cd ${dir} && docker-compose up"
+    	this.project.withEnv(["TAG=${version}"]) {
+	        this.steps.sh "cd ${dir} && docker-compose up"
+	    }
     }
 
     def down() {
