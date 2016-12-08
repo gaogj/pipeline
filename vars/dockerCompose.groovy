@@ -1,11 +1,11 @@
 import cn.kuick.pipeline.plugin.dockercompose.DockerComposePlugin;
 
-def dockerCompose = new DockerComposePlugin();
+def compose = new DockerComposePlugin();
 
 def composeUp() {
-	dockerCompose.up();
+	compose.up();
 }
 
 def composeDown() {
-	dockerCompose.down();
+	compose.down();
 }
