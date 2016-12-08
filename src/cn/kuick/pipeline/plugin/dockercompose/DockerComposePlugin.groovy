@@ -6,12 +6,12 @@ import cn.kuick.pipeline.plugin.Plugin;
 /**
  *	Docker Compose Plugin
  */
-class DockerComposePlugin implements Plugin {
+class DockerComposePlugin {
 
 	DockerComposePlugin() {
 
 	}
-	
+
     void apply(project) {
         println "project.steps:" + project.steps
     }
