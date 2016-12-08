@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  *	Docker Compose Plugin
  */
-class DockerComposePlugin {
+class DockerComposePlugin implements Serializable {
 
 	DockerComposePlugin() {
 
