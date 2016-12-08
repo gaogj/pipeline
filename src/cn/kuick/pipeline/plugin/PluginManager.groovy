@@ -1,7 +1,20 @@
 package cn.kuick.pipeline.plugin;
 
 import java.io.Serializable;
-import cn.kuick.pipeline.plugin.dockercompose.DockerComposePlugin;
+
+/**
+ *	Docker Compose Plugin
+ */
+class DockerComposePlugin {
+
+	DockerComposePlugin() {
+
+	}
+
+    void apply(project) {
+        println "project.steps:" + project.steps
+    }
+}
 
 /**
  *	插件管理
