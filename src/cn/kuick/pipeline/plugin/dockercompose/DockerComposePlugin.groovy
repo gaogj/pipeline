@@ -9,7 +9,8 @@ import java.io.File;
 class DockerComposePlugin implements Serializable {
 
 	def project;
-
+	def steps;
+	
     void apply(project) {
     	this.project = project;
     	this.steps = project.steps;
