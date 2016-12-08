@@ -1,6 +1,7 @@
 package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
+import cn.kuick.pipeline.plugin.dockercompose.DockerComposePlugin;
 
 /**
  *	测试镜像
@@ -11,6 +12,7 @@ class TestImageStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def dockerCompose;
 
 	TestImageStage(script, config) {
 		this.script = script;
@@ -20,12 +22,25 @@ class TestImageStage implements Serializable {
 		this.version = config.version;
 	}
 
+	def start() {
+		this.dockerCompose = new DockerComposePlugin();
+		this.script.stage this.stageName
+
+	    this.script.node('aliyun327-test') {
+	    	this.script.checkout this.script.scm
+
+	        this.run();
+	    }
+	}
+
 	def testImage() {
 		def name = this.serverName;
 		def version = this.version;
 
 		def docker = this.script.docker;
 		def image = docker.image("registry.kuick.cn/cc/${name}:${version}");
+
+		this.dockerCompose.up();
 
 		image.inside {
 			this.script.sh "echo $PATH"
@@ -45,13 +60,4 @@ class TestImageStage implements Serializable {
 		}
 	}
 
-	def start() {
-		this.script.stage this.stageName
-
-	    this.script.node('aliyun327-test') {
-	    	this.script.checkout this.script.scm
-
-	        this.run();
-	    }
-	}
 }
