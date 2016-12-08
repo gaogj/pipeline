@@ -7,9 +7,18 @@ import java.io.Serializable;
  */
 class PluginManager implements Serializable {
 
+	private static PluginManager pluginManager = null;
+	public static PluginManager getInstance() {
+		if (pluginManager == null) {
+			pluginManager = new PluginManager();
+		}
+
+		return pluginManager;
+	}
+
 	def plugins = [:];
 
-	PluginManager() {
+	private PluginManager() {
 
 	}
 
