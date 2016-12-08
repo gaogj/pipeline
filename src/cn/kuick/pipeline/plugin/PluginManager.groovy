@@ -19,7 +19,7 @@ class PluginManager implements Serializable {
 
 	def plugins = [:];
 
-	private PluginManager() {
+	PluginManager() {
 		init()
 	}
 
