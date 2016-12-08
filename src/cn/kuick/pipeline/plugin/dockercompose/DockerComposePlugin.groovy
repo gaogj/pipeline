@@ -1,4 +1,4 @@
-package cn.kuick.pipeline.stage;
+package cn.kuick.pipeline.plugin.dockercompose;
 
 import java.io.Serializable;
 import cn.kuick.pipeline.plugin.Plugin;
