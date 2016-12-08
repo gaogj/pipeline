@@ -13,11 +13,11 @@ class PluginManager implements Serializable {
 
 	}
 
-	def registerPlugin(name, plugin) {
+	def register(name, plugin) {
 		plugins[name] = plugin;
 	}
 
-    void applyPlugin(project, pluginName) {
+    void apply(project, pluginName) {
         def plugin = plugins[pluginName];
         plugin.apply(project);
     } 
