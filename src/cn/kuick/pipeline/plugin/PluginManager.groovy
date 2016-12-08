@@ -1,20 +1,7 @@
 package cn.kuick.pipeline.plugin;
 
 import java.io.Serializable;
-
-/**
- *	Docker Compose Plugin
- */
-class DockerComposePlugin implements Serializable {
-
-	DockerComposePlugin() {
-
-	}
-
-    void apply(project) {
-        println "project.steps:" + project.steps
-    }
-}
+import cn.kuick.pipeline.plugin.dockercompose.DockerComposePlugin;
 
 /**
  *	插件管理
@@ -32,7 +19,7 @@ class PluginManager implements Serializable {
 
 	def plugins = [:];
 
-	PluginManager() {
+	private PluginManager() {
 		init()
 	}
 
