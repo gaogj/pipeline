@@ -8,6 +8,10 @@ import cn.kuick.pipeline.plugin.Plugin;
  */
 class DockerComposePlugin implements Plugin {
 
+	DockerComposePlugin() {
+
+	}
+	
     void apply(project) {
         println "project.steps:" + project.steps
     }
