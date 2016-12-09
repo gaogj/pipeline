@@ -50,9 +50,7 @@ class TestImageStage implements Serializable {
 			this.script.echo "end parseDockerfile"
 
 			cluster.waitReady(":last") { container ->
-				testImage.inside("--link=${container.id}:localhost") {
-		          	this.script.sh "gradle integration_test"
-		        }
+				imageRun(testImage, "--link=${container.id}:localhost", "integration_test")
 			}
 		} catch(e) {
 			this.script.echo e.message
@@ -61,6 +59,16 @@ class TestImageStage implements Serializable {
 				cluster.down();
 			}
 		}
+	}
+
+	def imageRun(image, args, command) {
+		def docker = this.script.docker;
+		def id = image.id;
+
+		docker.node {
+            def container = docker.script.sh(script: "docker run ${args != '' ? ' ' + args : ''} ${id}${command != '' ? ' ' + command : ''}", returnStdout: true).trim()
+            docker.script.dockerFingerprintRun containerId: container, toolName: docker.script.env.DOCKER_TOOL_NAME
+        }
 	}
 
 	def run() {
