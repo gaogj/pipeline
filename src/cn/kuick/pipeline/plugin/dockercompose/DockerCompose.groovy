@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.io.File;
 
 import hudson.FilePath;
+import hudson.WorkspaceList;
 
 /**
  *	Docker Compose
@@ -24,8 +25,11 @@ class DockerCompose implements Serializable {
     	def file = new File(dockerfile);
 
     	def uuid = java.util.UUID.randomUUID().toString().replaceAll("-", "");
-    	def workspace = new File(file.getParent(), uuid);
+    	def workspace = new File(WorkspaceList.tempDir(), uuid);
     	def newDockerfile = new File(workspace, file.getName());
+
+    	this.script.echo "compose workspace:" + workspace.getPath();
+    	this.script.echo "compose newDockerfile:" + newDockerfile.getPath();
 
     	this.script.dir(workspace.getPath()) {
 			new FilePath(newDockerfile).copyFrom(new FilePath(file));
