@@ -41,17 +41,17 @@ class TestImageStage implements Serializable {
 
 		try {
 			cluster = this.script.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", name, version);
-			println "cluster up ok!"
+			this.script.echo "cluster up ok!"
 
-			println "start parseDockerfile"
+			this.script.echo "start parseDockerfile"
 			cluster.parseDockerfile();
-			println "end parseDockerfile"
+			this.script.echo "end parseDockerfile"
 
 			cluster.inside(":last") {
 				commandLine "gradle integration_test"
 			}
 		} catch(e) {
-			println e
+			this.script.echo e
 		} finally {
 			if (cluster != null) {
 				cluster.down();
