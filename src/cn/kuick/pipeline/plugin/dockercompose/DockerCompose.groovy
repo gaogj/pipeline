@@ -27,14 +27,15 @@ class DockerCompose implements Serializable {
     	def workspace = new File(file.getParent(), uuid);
     	def newDockerfile = new File(workspace, file.getName());
 
-    	new FilePath(workspace).mkdirs();
-    	new FilePath(newDockerfile).copyFrom(new FilePath(file));
+    	this.script.dir(workspace) {
+			new FilePath(newDockerfile).copyFrom(new FilePath(file));
 
-    	def newDockerfilePath = newDockerfile.getPath();
+	    	def newDockerfilePath = newDockerfile.getPath();
 
-    	this.script.withEnv(["TAG=${version}", "SERVER_NAME=${name}"]) {
-	        this.script.sh "cd ${workspace} && docker-compose up -d"
-	        return new Cluster(this, uuid, newDockerfilePath, name, version)
-	    }
+	    	this.script.withEnv(["TAG=${version}", "SERVER_NAME=${name}"]) {
+		        this.script.sh "cd ${workspace} && docker-compose up -d"
+		        return new Cluster(this, uuid, newDockerfilePath, name, version)
+		    }
+    	}
     }
 }
