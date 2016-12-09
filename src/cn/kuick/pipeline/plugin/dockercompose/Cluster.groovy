@@ -66,7 +66,7 @@ class Cluster implements Serializable {
         def container = findMatchContainer(match);
         this.script.echo "container:" + container.id
 
-        this.script.sleep 20
+        this.script.sleep 40
 
         container.inside body
     }
