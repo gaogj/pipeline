@@ -26,7 +26,7 @@ class DockerCompose implements Serializable {
 
     	this.script.sh "mkdir -p ${workspace}"
     	this.script.sh "cp ${dockerfile} ${workspace}"
-    	def newDockerfile = new File(workspace, "Dockerfile").getPath();
+    	def newDockerfile = new File(workspace, file.getName()).getPath();
 
     	this.script.withEnv(["TAG=${version}", "SERVER_NAME=${name}"]) {
 	        this.script.sh "cd ${workspace} && docker-compose up -d"
