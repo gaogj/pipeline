@@ -1,3 +1,5 @@
+package cn.kuick.pipeline.plugin.dockercompose;
+
 /**
  *  Docker Compose Container
  */
