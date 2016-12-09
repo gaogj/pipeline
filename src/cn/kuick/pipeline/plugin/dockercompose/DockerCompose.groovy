@@ -3,38 +3,37 @@ package cn.kuick.pipeline.plugin.dockercompose;
 import java.io.Serializable;
 import java.io.File;
 
-import org.jenkinsci.plugins.workflow.cps.CpsScript;
+import hudson.FilePath;
+import hudson.Util;
+import hudson.slaves.WorkspaceList;
 
 /**
  *	Docker Compose Cluster
  */
 class DockerCompose implements Serializable {
 
-	private CpsScript script;
+	def script;
 
-	public DockerCompose(CpsScript script) {
+	public DockerCompose(script) {
 		this.script = script;
     }
 
-    def inside(match, body) {
-        body();
-    }
-
-    def up(dockerfile, version) {
+    def up(dockerfile, name, version) {
     	println "compose dockerfile:" + dockerfile;
+    	println "compose name:" + name;
+    	println "compose version:" + version;
 
     	def file = new File(dockerfile);
     	def dir = file.getParent();
+    	def uuid = java.util.UUID.randomUUID()
+    	def workspace = new File(dir, uuid);
 
-    	this.script.withEnv(["TAG=${version}"]) {
-	        this.script.sh "cd ${dir} && docker-compose up -d"
+    	this.script.sh "cp ${dockerfile} ${workspace}"
+    	def newDockerfile = new File(workspace, "Dockerfile").getPath();
+
+    	this.script.withEnv(["TAG=${version}", "SERVER_NAME=${name}"]) {
+	        this.script.sh "cd ${workspace} && docker-compose up -d"
+	        return new Cluster(this, uuid, newDockerfile)
 	    }
-    }
-
-    def down(config, version) {
-    	def file = new File(config);
-    	def dir = file.getParent();
-
-    	this.script.sh "cd ${dir} && docker-compose down"
     }
 }

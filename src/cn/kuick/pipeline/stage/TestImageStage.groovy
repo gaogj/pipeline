@@ -38,13 +38,10 @@ class TestImageStage implements Serializable {
 		def name = this.serverName;
 		def version = this.version;
 
-		def image = this.script.docker.image("registry.kuick.cn/cc/${name}:${version}");
-		
-		def cluster = this.script.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", version);
+		def cluster = this.script.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", name, version);
 
 		cluster.inside(":last") {
-			this.script.sh "echo $PATH"
-			this.script.sh "gradle integration_test"
+			commandLine "gradle integration_test"
 		}
 	}
 
