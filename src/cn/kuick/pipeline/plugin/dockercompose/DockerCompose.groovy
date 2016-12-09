@@ -20,13 +20,13 @@ class DockerCompose implements Serializable {
     	this.script.echo "compose version:" + version;
 
     	def file = new File(dockerfile);
-    	def dir = file.getParent();
-    	def uuid = java.util.UUID.randomUUID().toString();
-    	def workspace = new File(dir, uuid);
 
-    	this.script.sh "mkdir -p ${workspace}"
-    	this.script.sh "cp ${dockerfile} ${workspace}"
-    	def newDockerfile = new File(workspace, file.getName()).getPath();
+    	def uuid = java.util.UUID.randomUUID().toString().replaceAll("-", "");
+    	def workspace = new File(file.getParent(), uuid);
+    	def newDockerfile = new FilePath(new File(workspace, file.getName()));
+
+    	newDockerfile.mkdirs();
+    	newDockerfile.copyFrom(new FilePath(file));
 
     	this.script.withEnv(["TAG=${version}", "SERVER_NAME=${name}"]) {
 	        this.script.sh "cd ${workspace} && docker-compose up -d"
