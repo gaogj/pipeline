@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.io.File;
 
 import hudson.FilePath;
-import hudson.WorkspaceList;
+import hudson.slaves.WorkspaceList;
 
 /**
  *	Docker Compose
