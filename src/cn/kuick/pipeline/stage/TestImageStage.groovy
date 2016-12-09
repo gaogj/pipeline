@@ -40,6 +40,8 @@ class TestImageStage implements Serializable {
 		def cluster;
 
 		try {
+			def testImage = this.script.docker.image("registry.kuick.cn/cc/${name}:${version}");
+
 			cluster = this.script.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", name, version);
 			this.script.echo "cluster up ok!"
 
@@ -47,8 +49,10 @@ class TestImageStage implements Serializable {
 			cluster.parseDockerfile();
 			this.script.echo "end parseDockerfile"
 
-			cluster.inside(":last") {
-				commandLine = "gradle integration_test"
+			cluster.waitReady(":last") { container ->
+				testImage.inside("--link=${container.id}:localhost") {
+		          	this.script.sh "gradle integration_test"
+		        }
 			}
 		} catch(e) {
 			this.script.echo e.message

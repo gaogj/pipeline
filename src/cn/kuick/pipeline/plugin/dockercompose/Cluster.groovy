@@ -70,6 +70,11 @@ class Cluster implements Serializable {
         container.inside body
     }
 
+    def waitReady(match, body) {
+        def container = findMatchContainer(match);
+        body(container)
+    }
+
     def findMatchContainer(match) {
         return new Container(this.script, this.id + "_dealdemoserver_1");
     }
