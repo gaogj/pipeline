@@ -28,7 +28,7 @@ class Cluster implements Serializable {
 
     def dockerfile;
     def containers;
-    def services;
+    def services = [];
 
     Cluster(dockerCompose, uuid, dockerfile, name, version) {
         this.script = dockerCompose.script;
@@ -57,8 +57,10 @@ class Cluster implements Serializable {
             this.script.echo "compose:" + compose
 
             // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
-            this.services =  '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
-            compose = null;
+            def services =  '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
+            services.each {
+                it -> this.services.add(it)
+            }
         } catch(e) {
             this.script.echo "error in parseDockerfile:" + e
         }
