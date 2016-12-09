@@ -51,7 +51,7 @@ class TestImageStage implements Serializable {
 				commandLine = "gradle integration_test"
 			}
 		} catch(e) {
-			this.script.echo e
+			this.script.echo e.message
 		} finally {
 			if (cluster != null) {
 				cluster.down();
