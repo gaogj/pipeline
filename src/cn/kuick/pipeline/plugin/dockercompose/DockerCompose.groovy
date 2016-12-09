@@ -34,6 +34,9 @@ class DockerCompose implements Serializable {
     	this.script.echo "compose newDockerfile:" + newDockerfile.getPath();
 
     	this.script.dir(workspace.getPath()) {
+    		this.script.sh "whoami";
+    		this.script.sh "ls -l ./build/docker-compose";
+
 			new FilePath(newDockerfile).copyFrom(new FilePath(file));
 
 	    	def newDockerfilePath = newDockerfile.getPath();
