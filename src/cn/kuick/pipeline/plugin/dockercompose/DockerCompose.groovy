@@ -27,7 +27,7 @@ class DockerCompose implements Serializable {
     	def uuid = java.util.UUID.randomUUID().toString().replaceAll("-", "");
     	this.script.echo "compose uuid:" + uuid;
 
-    	def workspace = new File(WorkspaceList.tempDir(new FilePath(new File("."))).absolutize(), uuid);
+    	def workspace = new File("./build/docker-compose/" + uuid);
     	this.script.echo "compose workspace:" + workspace.getPath();
 
     	def newDockerfile = new File(workspace, file.getName());
