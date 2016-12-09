@@ -43,7 +43,7 @@ class Cluster implements Serializable {
             def text = new FilePath(new File(dockerfile)).readToString()
             println "compose text:" + text
 
-            def compose = (Map<String, Object>) (new Yaml().load(text)
+            def compose = (Map<String, Object>) (new Yaml().load(text))
             println "compose:" + compose
 
             // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
