@@ -48,7 +48,7 @@ class TestImageStage implements Serializable {
 			this.script.echo "end parseDockerfile"
 
 			cluster.inside(":last") {
-				commandLine "gradle integration_test"
+				commandLine = "gradle integration_test"
 			}
 		} catch(e) {
 			this.script.echo e
