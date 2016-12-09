@@ -27,7 +27,7 @@ class DockerCompose implements Serializable {
     	def workspace = new File(file.getParent(), uuid);
     	def newDockerfile = new File(workspace, file.getName());
 
-    	this.script.dir(workspace) {
+    	this.script.dir(workspace.getPath()) {
 			new FilePath(newDockerfile).copyFrom(new FilePath(file));
 
 	    	def newDockerfilePath = newDockerfile.getPath();
