@@ -21,6 +21,6 @@ class Container implements Serializable {
 
         def containerId = this.id;
 
-        this.script.sh "docker exec -it ${containerId} ${config.commandLine}"
+        this.script.sh "docker exec -it ${containerId} /bin/bash -c '${config.commandLine}'"
     }
 }
