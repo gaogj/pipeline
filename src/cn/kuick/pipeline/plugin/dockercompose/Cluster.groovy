@@ -50,10 +50,8 @@ class Cluster implements Serializable {
             def dockerfile = this.dockerfile;
             this.script.echo "parseDockerfile:" + dockerfile
 
-            def text = new FilePath(new File(dockerfile)).readToString()
-            this.script.echo "compose text:" + text
-
-            def compose = (Map<String, Object>) (new Yaml().load(text))
+            def fis = new FileInputStream(new File(dockerfile));
+            def compose = (Map<String, Object>) (new Yaml().load(fis))
             this.script.echo "compose:" + compose
 
             // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
