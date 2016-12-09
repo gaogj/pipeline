@@ -27,7 +27,7 @@ class DockerCompose implements Serializable {
     	def dir = file.getParent();
 
     	this.script.withEnv(["TAG=${version}"]) {
-	        this.steps.sh "cd ${dir} && docker-compose up -d"
+	        this.script.sh "cd ${dir} && docker-compose up -d"
 	    }
     }
 
