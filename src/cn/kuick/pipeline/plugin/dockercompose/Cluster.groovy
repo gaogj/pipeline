@@ -23,15 +23,21 @@ class Cluster implements Serializable {
     def dockerCompose;
     
     def id;
+    def name;
+    def version;
+
     def dockerfile;
     def containers;
     def services;
 
-    Cluster(dockerCompose, uuid, dockerfile) {
+    Cluster(dockerCompose, uuid, dockerfile, name, version) {
         this.script = dockerCompose.script;
         this.dockerCompose = dockerCompose;
 
         this.id = uuid;
+        this.name = name;
+        this.version = version;
+
         this.dockerfile = dockerfile;
 
         println "this.id:" + this.id
@@ -67,10 +73,13 @@ class Cluster implements Serializable {
     }
 
     def down() {
+        def name = this.name;
+        def version = this.version;
         def file = new File(this.dockerfile);
         def workspace = file.getParent();
 
-        this.script.sh "cd ${workspace} && docker-compose down"
-        this.script.sh "cd ${workspace} && docker-compose rm -f -a"
+        this.script.withEnv(["TAG=${version}", "SERVER_NAME=${name}"]) {
+            this.script.sh "cd ${workspace} && docker-compose down"
+        }
     }
 }

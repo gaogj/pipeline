@@ -30,7 +30,7 @@ class DockerCompose implements Serializable {
 
     	this.script.withEnv(["TAG=${version}", "SERVER_NAME=${name}"]) {
 	        this.script.sh "cd ${workspace} && docker-compose up -d"
-	        return new Cluster(this, uuid, newDockerfile)
+	        return new Cluster(this, uuid, newDockerfile, name, version)
 	    }
     }
 }
