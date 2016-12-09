@@ -1,5 +1,6 @@
 package cn.kuick.pipeline.plugin.dockercompose;
 
+@GrabResolver(name='aliyun', root='http://maven.aliyun.com/nexus/content/groups/public')
 @Grab('org.yaml:snakeyaml:1.16')
 import org.yaml.snakeyaml.Yaml;
 
@@ -52,5 +53,6 @@ class Cluster implements Serializable {
         def workspace = file.getParent();
 
         this.script.sh "cd ${workspace} && docker-compose down"
+        this.script.sh "cd ${workspace} && docker-compose rm -f -a"
     }
 }

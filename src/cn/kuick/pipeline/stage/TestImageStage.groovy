@@ -25,13 +25,13 @@ class TestImageStage implements Serializable {
 		def dockerCompose = new DockerComposePlugin();
 		dockerCompose.apply(this.script);
 
-		this.script.stage this.stageName
+		this.script.stage(this.stageName) {
+		    this.script.node('aliyun327-test') {
+		    	this.script.checkout this.script.scm
 
-	    this.script.node('aliyun327-test') {
-	    	this.script.checkout this.script.scm
-
-	        this.run();
-	    }
+		        this.run();
+		    }
+		}
 	}
 
 	def testImage() {
