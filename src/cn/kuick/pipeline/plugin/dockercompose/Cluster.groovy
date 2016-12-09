@@ -7,6 +7,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.Serializable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Map;
 
 import hudson.FilePath;
 import hudson.Util;
@@ -24,6 +25,7 @@ class Cluster implements Serializable {
     def id;
     def dockerfile;
     def containers;
+    def services;
 
     Cluster(dockerCompose, uuid, dockerfile) {
         this.script = dockerCompose.script;
@@ -31,15 +33,15 @@ class Cluster implements Serializable {
 
         this.id = uuid;
         this.dockerfile = dockerfile;
-        this.services = this.parseDockerfile(dockerfile);
 
         println "this.id:" + this.id
         println "this.dockerfile:" + this.dockerfile
         println "this.services:" + this.services
     }
 
-    def parseDockerfile(dockerfile) {
+    def parseDockerfile() {
         try {
+            def dockerfile = this.dockerfile;
             println "parseDockerfile:" + dockerfile
 
             def text = new FilePath(new File(dockerfile)).readToString()
@@ -49,7 +51,7 @@ class Cluster implements Serializable {
             println "compose:" + compose
 
             // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
-            return '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
+            this.services =  '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
         } catch(e) {
             println "error in parseDockerfile:" + e
         }
