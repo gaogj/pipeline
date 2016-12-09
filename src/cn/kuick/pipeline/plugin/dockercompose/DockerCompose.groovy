@@ -3,6 +3,8 @@ package cn.kuick.pipeline.plugin.dockercompose;
 import java.io.Serializable;
 import java.io.File;
 
+import hudson.FilePath;
+
 /**
  *	Docker Compose
  */
