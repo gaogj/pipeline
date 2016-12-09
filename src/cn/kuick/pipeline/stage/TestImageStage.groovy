@@ -12,7 +12,6 @@ class TestImageStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
-	def dockerCompose;
 
 	TestImageStage(script, config) {
 		this.script = script;
@@ -20,12 +19,11 @@ class TestImageStage implements Serializable {
 		this.stageName = '测试镜像';
 		this.serverName = config.name;
 		this.version = config.version;
-
-		this.dockerCompose = new DockerComposePlugin();
 	}
 
 	def start() {
-		this.dockerCompose.apply(this.script);
+		def dockerCompose = new DockerComposePlugin();
+		dockerCompose.apply(this.script);
 
 		this.script.stage this.stageName
 
@@ -40,10 +38,9 @@ class TestImageStage implements Serializable {
 		def name = this.serverName;
 		def version = this.version;
 
-		def docker = this.script.docker;
-		def image = docker.image("registry.kuick.cn/cc/${name}:${version}");
-
-		def cluster = this.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", version);
+		def image = this.script.docker.image("registry.kuick.cn/cc/${name}:${version}");
+		
+		def cluster = this.script.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", version);
 
 		cluster.inside(":last") {
 			this.script.sh "echo $PATH"
@@ -52,12 +49,10 @@ class TestImageStage implements Serializable {
 	}
 
 	def run() {
-		def docker = this.script.docker;
-
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
-		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+		this.script.docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// Build base image
 			this.testImage();
 		}
