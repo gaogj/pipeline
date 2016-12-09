@@ -58,6 +58,7 @@ class Cluster implements Serializable {
 
             // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
             this.services =  '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
+            compose = null;
         } catch(e) {
             this.script.echo "error in parseDockerfile:" + e
         }
@@ -68,7 +69,7 @@ class Cluster implements Serializable {
         this.script.echo "container:" + container.id
 
         this.script.sleep 5
-        
+
         container.inside body
     }
 
