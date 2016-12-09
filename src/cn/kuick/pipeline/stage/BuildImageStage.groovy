@@ -20,6 +20,16 @@ class BuildImageStage implements Serializable {
 		this.version = config.version;
 	}
 
+	def start() {
+		this.script.stage(this.stageName) {
+		    this.script.node('aliyun345-test') {
+		    	this.script.checkout this.script.scm
+
+		        this.run();
+		    }
+		}
+	}
+
 	def buildBase() {
 		def name = this.serverName;
 		def docker = this.script.docker;
@@ -64,15 +74,5 @@ class BuildImageStage implements Serializable {
 		}
 
 		return releaseImage;
-	}
-
-	def start() {
-		this.script.stage(this.stageName) {
-		    this.script.node('aliyun327-test') {
-		    	this.script.checkout this.script.scm
-
-		        this.run();
-		    }
-		}
 	}
 }
