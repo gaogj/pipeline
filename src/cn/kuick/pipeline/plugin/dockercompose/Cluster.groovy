@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import hudson.FilePath;
+import hudson.Util;
+import hudson.slaves.WorkspaceList;
 
 import org.jenkinsci.plugins.workflow.cps.CpsScript;
 
@@ -29,7 +31,7 @@ class Cluster implements Serializable {
 
         this.id = uuid;
         this.dockerfile = dockerfile;
-        this.services = parseDockerfile(dockerfile);
+        this.services = this.parseDockerfile(dockerfile);
 
         println "this.id:" + this.id
         println "this.dockerfile:" + this.dockerfile
@@ -37,9 +39,9 @@ class Cluster implements Serializable {
     }
 
     def parseDockerfile(dockerfile) {
-        println "parseDockerfile:" + dockerfile
-
         try {
+            println "parseDockerfile:" + dockerfile
+
             def text = new FilePath(new File(dockerfile)).readToString()
             println "compose text:" + text
 
@@ -49,7 +51,7 @@ class Cluster implements Serializable {
             // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
             return '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
         } catch(e) {
-            println e
+            println "error in parseDockerfile:" + e
         }
     }
 
