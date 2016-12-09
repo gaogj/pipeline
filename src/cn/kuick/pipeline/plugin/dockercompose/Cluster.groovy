@@ -40,26 +40,26 @@ class Cluster implements Serializable {
 
         this.dockerfile = dockerfile;
 
-        println "this.id:" + this.id
-        println "this.dockerfile:" + this.dockerfile
-        println "this.services:" + this.services
+        this.script.echo "this.id:" + this.id
+        this.script.echo "this.dockerfile:" + this.dockerfile
+        this.script.echo "this.services:" + this.services
     }
 
     def parseDockerfile() {
         try {
             def dockerfile = this.dockerfile;
-            println "parseDockerfile:" + dockerfile
+            this.script.echo "parseDockerfile:" + dockerfile
 
             def text = new FilePath(new File(dockerfile)).readToString()
-            println "compose text:" + text
+            this.script.echo "compose text:" + text
 
             def compose = (Map<String, Object>) (new Yaml().load(text))
-            println "compose:" + compose
+            this.script.echo "compose:" + compose
 
             // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
             this.services =  '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
         } catch(e) {
-            println "error in parseDockerfile:" + e
+            this.script.echo "error in parseDockerfile:" + e
         }
     }
 
