@@ -15,7 +15,7 @@ class BuildImageStage implements Serializable {
 	BuildImageStage(script, config) {
 		this.script = script;
 
-		this.stageName = '生成镜像';
+		this.stageName = '单元测试 + 生成镜像';
 		this.serverName = config.name;
 		this.version = config.version;
 	}

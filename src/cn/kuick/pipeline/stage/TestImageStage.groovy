@@ -16,7 +16,7 @@ class TestImageStage implements Serializable {
 	TestImageStage(script, config) {
 		this.script = script;
 
-		this.stageName = '测试镜像';
+		this.stageName = '集成测试';
 		this.serverName = config.name;
 		this.version = config.version;
 	}

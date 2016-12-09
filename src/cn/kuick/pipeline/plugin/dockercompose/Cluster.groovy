@@ -34,9 +34,18 @@ class Cluster implements Serializable {
     }
 
     def parseDockerfile(dockerfile) {
-        def compose = (Map<String, Object>) (new Yaml().load(dockerfile))
-        // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
-        '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
+        println "parseDockerfile:" + dockerfile
+
+        try {
+            def compose = (Map<String, Object>) (new Yaml().load(dockerfile))
+
+            println "compose:" + compose
+            
+            // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
+            return '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
+        } catch(e) {
+            println e
+        }
     }
 
     def inside(match, body) {
@@ -45,7 +54,7 @@ class Cluster implements Serializable {
     }
 
     def findMatchContainer(match) {
-        return new Container(this.script, this.id + "_dealdemoserver1");
+        return new Container(this.script, this.id + "_dealdemoserver_1");
     }
 
     def down() {

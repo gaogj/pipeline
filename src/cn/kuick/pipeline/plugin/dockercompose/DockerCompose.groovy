@@ -8,7 +8,7 @@ import hudson.Util;
 import hudson.slaves.WorkspaceList;
 
 /**
- *	Docker Compose Cluster
+ *	Docker Compose
  */
 class DockerCompose implements Serializable {
 
