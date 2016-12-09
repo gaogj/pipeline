@@ -15,9 +15,9 @@ class DockerCompose implements Serializable {
     }
 
     def up(dockerfile, name, version) {
-    	println "compose dockerfile:" + dockerfile;
-    	println "compose name:" + name;
-    	println "compose version:" + version;
+    	this.script.echo "compose dockerfile:" + dockerfile;
+    	this.script.echo "compose name:" + name;
+    	this.script.echo "compose version:" + version;
 
     	def file = new File(dockerfile);
     	def dir = file.getParent();
