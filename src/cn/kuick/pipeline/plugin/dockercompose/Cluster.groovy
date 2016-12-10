@@ -68,18 +68,27 @@ class Cluster implements Serializable {
         }
     }
 
-    def inside(match, body) {
-        def container = findMatchContainer(match);
-        this.script.echo "container:" + container.id
+    def inside(patten, body) {
+        def container = findMatchContainer(patten);
 
-        this.script.sleep 40
+        if (container != null) {
+            this.script.echo "container:" + container.id
+            this.script.sleep 40
 
-        container.inside body
+            container.inside body
+        } else {
+            throw new RuntimeException("Not found container with patten:" + patten);
+        }
     }
 
-    def waitReady(match, body) {
-        def container = findMatchContainer(match);
-        body(container)
+    def waitReady(patten, body) {
+        def container = findMatchContainer(patten);
+
+        if (container != null) {
+            body(container)
+        } else {
+            throw new RuntimeException("Not found container with patten:" + patten);
+        }
     }
 
     def findMatchContainer(patten) {
@@ -89,7 +98,7 @@ class Cluster implements Serializable {
 
         if (this.services.length > 0) {
             switch(patten) {
-                case ":first"
+                case ":first":
                     matchId = this.services[0]
                 case ":last":
                     matchId = this.services[his.services.length - 1]:
