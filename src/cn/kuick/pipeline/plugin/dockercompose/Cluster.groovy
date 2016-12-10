@@ -93,21 +93,27 @@ class Cluster implements Serializable {
     def findMatchContainer(patten) {
         this.script.echo "services:" + this.services.toString();
 
-        def matchId = null;
+        def id = this.id;
+        def matchName = null;
 
         if (this.services.size() > 0) {
             switch(patten) {
                 case ":first":
-                    matchId = this.services[0]
+                    matchName = this.services[0]
                 case ":last":
-                    matchId = this.services[this.services.size() - 1]
+                    matchName = this.services[this.services.size() - 1]
                 default: 
-                    this.services.each { if (it.match(patten)) matchId = it}
+                    for (def it : this.services) { 
+                        if (it.match(patten)) { 
+                            matchName = it; 
+                            break;
+                        }
+                    }
             }
         }
 
-        if (matchId != null) {
-            return new Container(this.script, matchId + "_dealdemoserver_1");
+        if (matchName != null) {
+            return new Container(this.script, "${id}_${matchName}_1");
         }
 
         return null;
