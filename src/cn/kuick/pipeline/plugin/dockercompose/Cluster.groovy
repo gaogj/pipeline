@@ -55,19 +55,14 @@ class Cluster implements Serializable {
             // if there is 'version: 2' on top-level then information about services is in 'services' sub-tree
             def services =  '2'.equals(compose.get('version')) ? ((Map) compose.get('services')).keySet() : compose.keySet()
             
-            this.script.echo "services:" + services.toString()
+            this.script.echo "services set:" + services.toString()
 
             for(def it : services) {
                 this.script.echo "services it:" + it
                 this.services.add(it)
             }
 
-            services.each {
-                this.script.echo "services2 it:" + it
-                this.services.add(it)
-            }
-
-            this.script.echo "services:" + this.services.toString()
+            this.script.echo "services array:" + this.services.toString()
         } catch(e) {
             this.script.echo "error in parseDockerfile:" + e
         }
@@ -87,9 +82,27 @@ class Cluster implements Serializable {
         body(container)
     }
 
-    def findMatchContainer(match) {
-        this.script.echo "services:" + this.services.toString()
-        return new Container(this.script, this.id + "_dealdemoserver_1");
+    def findMatchContainer(patten) {
+        this.script.echo "services:" + this.services.toString();
+
+        def matchId = null;
+
+        if (this.services.length > 0) {
+            switch(patten) {
+                case ":first"
+                    matchId = this.services[0]
+                case ":last":
+                    matchId = this.services[his.services.length - 1]:
+                default:
+                    this.services.each { it.match(patten) && matchId = it}
+            }
+        }
+
+        if (matchId != null) {
+            return new Container(this.script, matchId + "_dealdemoserver_1");
+        }
+
+        return null;
     }
 
     def down() {
