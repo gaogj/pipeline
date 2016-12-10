@@ -55,8 +55,16 @@ class TestImageStage implements Serializable {
 			}
 			*/
 
+			/*
 			cluster.waitInside(":last") { 
 				commandLine = "gradle integration_test"
+			}
+			*/
+
+			cluster.waitReady(":last") { container ->
+				container.exec "pwd"
+				container.exec "env"
+				container.exec "ls -la"
 			}
 		} catch(e) {
 			this.script.echo e.message
