@@ -91,7 +91,7 @@ class Cluster implements Serializable {
                     return (r == 0);
                     */
 
-                    this.script.sh "docker exec ${container.id} /bin/bash -c 'echo hello'"
+                    this.script.sh "docker exec ${container.id} gradle build"
                 }
             }
 
