@@ -57,7 +57,7 @@ class Cluster implements Serializable {
             
             this.script.echo "services:" + services.toString()
 
-            services.each {
+            for(def it : services) {
                 this.script.echo "services it:" + it
                 this.services.add(it)
             }
