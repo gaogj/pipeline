@@ -62,6 +62,11 @@ class Cluster implements Serializable {
                 this.services.add(it)
             }
 
+            services.each {
+                this.script.echo "services2 it:" + it
+                this.services.add(it)
+            }
+
             this.script.echo "services:" + this.services.toString()
         } catch(e) {
             this.script.echo "error in parseDockerfile:" + e
