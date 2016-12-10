@@ -33,11 +33,14 @@ class Container implements Serializable {
         }
     }
 
-    def exec(commandLine) {
+    def sh(commandLine) {
         def containerId = this.id;
+        this.script.sh "docker exec ${containerId} ${commandLine}"
+    }
 
+    def exec(commandLine) {
         try {
-            this.script.sh "docker exec ${containerId} ${commandLine}"
+            this.sh commandLine
             return true;
         } catch(e) {
             this.script.echo e.message
