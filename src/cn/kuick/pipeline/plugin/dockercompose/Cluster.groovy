@@ -86,8 +86,12 @@ class Cluster implements Serializable {
         if (container != null) {
             this.script.timeout(10) {
                 this.script.waitUntil {
+                    /*
                     def r = this.script.sh script: "docker exec ${container.id} /bin/bash -c 'wget -q http://localhost/welcome.jsf -O /dev/null'", returnStatus: true
                     return (r == 0);
+                    */
+
+                    this.script.sh "docker exec ${container.id} /bin/bash -c 'echo hello'"
                 }
             }
 
