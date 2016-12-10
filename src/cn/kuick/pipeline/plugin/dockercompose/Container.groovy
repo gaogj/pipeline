@@ -26,7 +26,7 @@ class Container implements Serializable {
 
     def ports() {
         def containerId = this.id;
-        def portInfo = this.script.sh script: "docker port ${containerId}" returnStdout:true
+        def portInfo = this.script.sh script: "docker port ${containerId}", returnStdout:true
 
         portInfo.split("\n").each {
             mappingPorts.add(it);
