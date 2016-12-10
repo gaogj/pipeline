@@ -8,6 +8,8 @@ class Container implements Serializable {
     def script;
     def id;
 
+    def mappingPorts = []
+
     Container(script, id) {
         this.script = script;
         this.id = id;
@@ -19,8 +21,35 @@ class Container implements Serializable {
         body.delegate = config
         body()
 
-        def containerId = this.id;
+        this.exec config.commandLine
+    }
 
-        this.script.sh "docker exec -it ${containerId} script /dev/null -c '${config.commandLine}'"
+    def ports() {
+        def containerId = this.id;
+        def portInfo = this.script.sh script: "docker port ${containerId}" returnStdout:true
+
+        portInfo.split("\n").each {
+            mappingPorts.add(it);
+        }
+    }
+
+    def exec(commandLine) {
+        def containerId = this.id;
+        this.script.sh "docker exec ${containerId} ${commandLine}"
+    }
+
+    def logs(follow = false, tailClount = 100) {
+        def containerId = this.id;
+        def opts = "";
+
+        if (follow) {
+            opts += "-f "
+        }
+
+        if (tailClount) {
+            opts += "--tail  ${tailClount}"
+        }
+
+        this.script.sh "docker logs ${opts} ${containerId}"
     }
 }

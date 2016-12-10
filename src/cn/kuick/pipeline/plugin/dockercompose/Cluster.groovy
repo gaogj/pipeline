@@ -91,7 +91,7 @@ class Cluster implements Serializable {
                     return (r == 0);
                     */
 
-                    this.script.sh "docker exec ${container.id} gradle build"
+                    container.exec "/bin/bash -c 'wget -q http://localhost:8080/manage/health'"
                 }
             }
 
