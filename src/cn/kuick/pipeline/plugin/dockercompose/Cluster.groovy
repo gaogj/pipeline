@@ -58,7 +58,6 @@ class Cluster implements Serializable {
             this.script.echo "services set:" + services.toString()
 
             for(def it : services) {
-                this.script.echo "services it:" + it
                 this.services.add(it)
             }
 
@@ -96,12 +95,12 @@ class Cluster implements Serializable {
 
         def matchId = null;
 
-        if (this.services.length > 0) {
+        if (this.services.size() > 0) {
             switch(patten) {
                 case ":first":
                     matchId = this.services[0]
                 case ":last":
-                    matchId = this.services[his.services.length - 1]
+                    matchId = this.services[this.services.size() - 1]
                 default: 
                     this.services.each { if (it.match(patten)) matchId = it}
             }
