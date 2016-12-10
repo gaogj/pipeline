@@ -101,7 +101,7 @@ class Cluster implements Serializable {
                 case ":first":
                     matchId = this.services[0]
                 case ":last":
-                    matchId = this.services[his.services.length - 1]:
+                    matchId = this.services[his.services.length - 1]
                 default:
                     this.services.each { it.match(patten) && matchId = it}
             }
