@@ -45,10 +45,8 @@ class TestImageStage implements Serializable {
 
 			cluster.waitReady(":last") { container ->
                 container.exec "env"
-                container.exec "gradle integration_test --debug"
+                container.exec "gradle integration_test"
             }
-		} catch(e) {
-			this.script.echo e.message
 		} finally {
 			if (cluster != null) {
 				cluster.down();
