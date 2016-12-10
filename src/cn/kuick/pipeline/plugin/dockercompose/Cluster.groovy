@@ -84,6 +84,13 @@ class Cluster implements Serializable {
         def container = findMatchContainer(patten);
 
         if (container != null) {
+            timeout(240) {
+                waitUntil {
+                    def r = this.script.sh script: "docker exec -it ${container.id} 'wget -q http://localhost/welcome.jsf -O /dev/null'", returnStatus: true
+                    return (r == 0);
+                }
+            }
+
             body(container)
         } else {
             throw new RuntimeException("Not found container with patten:" + patten);
