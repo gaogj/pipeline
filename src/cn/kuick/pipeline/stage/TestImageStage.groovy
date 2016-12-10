@@ -49,8 +49,14 @@ class TestImageStage implements Serializable {
 			cluster.parseDockerfile();
 			this.script.echo "end parseDockerfile"
 
+			/*
 			cluster.waitReady(":last") { container ->
 				imageRun(testImage, "--link=${container.id}:localhost", "integration_test")
+			}
+			*/
+
+			cluster.waitInside(":last") { 
+				commandLine = "gradle integration_test"
 			}
 		} catch(e) {
 			this.script.echo e.message

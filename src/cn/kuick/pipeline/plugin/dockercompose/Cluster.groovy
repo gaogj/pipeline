@@ -71,9 +71,6 @@ class Cluster implements Serializable {
         def container = findMatchContainer(patten);
 
         if (container != null) {
-            this.script.echo "container:" + container.id
-            this.script.sleep 40
-
             container.inside body
         } else {
             throw new RuntimeException("Not found container with patten:" + patten);
@@ -95,6 +92,12 @@ class Cluster implements Serializable {
             body(container)
         } else {
             throw new RuntimeException("Not found container with patten:" + patten);
+        }
+    }
+
+    def waitInside(patten, body) {
+        this.waitReady(patten) {
+            container -> container.inside body
         }
     }
 
