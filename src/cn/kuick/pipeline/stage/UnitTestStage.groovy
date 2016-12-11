@@ -40,9 +40,10 @@ class UnitTestStage implements Serializable {
 	def buildRelease() {
 		def name = this.serverName;
 		def version = this.version;
+		def workspace = this.script.pwd();
 
 		def testerImage = this.script.docker.image("registry.kuick.cn/cc/${name}-tester:${version}")
-		testerImage.run('-v ${pwd}/build/libs:/workspace/build/libs')
+		testerImage.run("-v ${workspace}/build/libs:/workspace/build/libs")
 
 		this.script.docker.build("registry.kuick.cn/cc/${name}-server:${version}", '-f ./release/docker/Dockerfile .');
 	}
