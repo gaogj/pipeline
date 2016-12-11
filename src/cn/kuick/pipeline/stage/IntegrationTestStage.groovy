@@ -43,10 +43,13 @@ class IntegrationTestStage implements Serializable {
 			def testerImage = this.script.docker.image("registry.kuick.cn/cc/${name}-tester:${version}");
 
 			cluster = this.script.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", name, version);
-			cluster.parseDockerfile();
 
-			cluster.waitReady(":last") { container ->
-			   	imageRun(testerImage, "--link=${container.id}:localhost", "integration_test")
+			cluster.waitReady("server") { container ->
+			   	container.sh "echo server ready!"
+			}
+
+			cluster.inside("tester") { container ->
+			   	container.sh "integration_test"
 			}
 		} finally {
 			if (cluster != null) {
