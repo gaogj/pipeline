@@ -115,7 +115,7 @@ class Cluster implements Serializable {
                     matchName = this.services[this.services.size() - 1]
                 default: 
                     for (def it : this.services) { 
-                        if (it.match(patten)) { 
+                        if (it.matches(patten)) { 
                             matchName = it; 
                             break;
                         }
