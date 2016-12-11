@@ -45,7 +45,7 @@ class IntegrationTestStage implements Serializable {
 			cluster = this.script.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", name, version);
 			cluster.parseDockerfile();
 
-			this.script.sh "docker-compose up ok!";
+			this.script.echo "docker-compose up ok!";
 
 			cluster.waitReady("server") { container ->
 			   	container.sh "echo server ready!"
