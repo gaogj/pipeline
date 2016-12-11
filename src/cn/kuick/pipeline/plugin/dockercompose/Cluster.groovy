@@ -40,8 +40,6 @@ class Cluster implements Serializable {
 
         this.dockerfile = dockerfile;
 
-        this.parseDockerfile();
-
         this.script.echo "this.id:" + this.id
         this.script.echo "this.dockerfile:" + this.dockerfile
         this.script.echo "this.services:" + this.services
