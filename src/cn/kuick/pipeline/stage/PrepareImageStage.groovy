@@ -15,7 +15,7 @@ class PrepareImageStage implements Serializable {
 	PrepareImageStage(script, stageName, config) {
 		this.script = script;
 
-		this.stageName = stageName?stageName:"准备镜像";
+		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
 	}

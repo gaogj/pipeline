@@ -12,10 +12,10 @@ class UnitTestStage implements Serializable {
 	def serverName;
 	def version;
 
-	UnitTestStage(script, config) {
+	UnitTestStage(script, stageName, config) {
 		this.script = script;
 
-		this.stageName = '单元测试 + 生成镜像';
+		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
 	}
