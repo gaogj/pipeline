@@ -30,36 +30,6 @@ class PrepareImageStage implements Serializable {
 		}
 	}
 
-	def buildBase() {
-		def name = this.serverName;
-		def docker = this.script.docker;
-		def baseImage = docker.image("registry.kuick.cn/cc/${name}-server:base");
-
-		try {
-			baseImage.pull();
-		} catch(e) {
-			baseImage = docker.build("registry.kuick.cn/cc/${name}-server:base", '.');
-			baseImage.push();
-		}
-
-		return baseImage;
-	}
-
-	def buildTestBase() {
-		def name = this.serverName;
-		def docker = this.script.docker;
-		def baseImage = docker.image("registry.kuick.cn/cc/${name}-tester:base");
-
-		try {
-			baseImage.pull();
-		} catch(e) {
-			baseImage = docker.build("registry.kuick.cn/cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
-			baseImage.push();
-		}
-
-		return baseImage;
-	}
-
 	def run() {
 		def docker = this.script.docker;
 
@@ -67,11 +37,8 @@ class PrepareImageStage implements Serializable {
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
-			// Build base image
-			this.buildBase();
-
-			// Build TestBase image
-			this.buildTestBase();
+			// 生成基础镜像
+			this.script.sh "./release/docker/base.sh";
 		}
 	}
 }
