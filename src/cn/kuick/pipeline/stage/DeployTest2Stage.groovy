@@ -39,8 +39,6 @@ class DeployTest2Stage implements Serializable {
 
 	        this.script.checkout this.script.scm
 
-	        this.script.sh "release/docker/pull.sh ${version}"
-
 	        this.script.sh "release/docker/test2/deploy.sh ${version}"
 
 	        this.script.echo "deploy test2 ok!"
