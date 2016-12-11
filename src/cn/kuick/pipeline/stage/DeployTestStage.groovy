@@ -22,18 +22,21 @@ class DeployTestStage implements Serializable {
 
 	def start() {
 		this.script.stage(this.stageName) {
-		    this.script.node('aliyun327-test') {
-		    	this.script.checkout this.script.scm
-
-		       	this.run();
-		    }
+		    this.run();
 		}
 	}
 
 	def run() {
 		def version = this.version;
 
-		// 部署测试环境
-		this.script.sh "./release/docker/aliyun327-test/deploy.sh ${version}";
+		this.script.node('aliyun327-test') {
+			this.script.echo "login to aliyun327-test"
+
+	    	this.script.checkout this.script.scm
+
+			this.script.sh "./release/docker/test/deploy.sh ${version}";
+
+			this.script.echo "deploy test ok!"
+	    }
 	}
 }
