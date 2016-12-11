@@ -34,6 +34,8 @@ class DeployTestStage implements Serializable {
 
 	    	this.script.checkout this.script.scm
 
+	    	this.script.sh "release/docker/pull.sh ${version}"
+	    	
 			this.script.sh "./release/docker/test/deploy.sh ${version}";
 
 			this.script.echo "deploy test ok!"

@@ -11,6 +11,7 @@ class DeployTest2Stage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def deployNode;
 
 	DeployTest2Stage(script, stageName, config) {
 		this.script = script;
@@ -37,6 +38,8 @@ class DeployTest2Stage implements Serializable {
 	        this.script.echo "login to ${deployNode}-test2"
 
 	        this.script.checkout this.script.scm
+
+	        this.script.sh "release/docker/pull.sh ${version}"
 
 	        this.script.sh "release/docker/test2/deploy.sh ${version}"
 
