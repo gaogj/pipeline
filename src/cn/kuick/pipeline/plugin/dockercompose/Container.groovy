@@ -15,15 +15,6 @@ class Container implements Serializable {
         this.id = id;
     }
 
-    def inside(body) {
-        def config = [:]
-        body.resolveStrategy = Closure.DELEGATE_FIRST
-        body.delegate = config
-        body()
-
-        this.exec config.commandLine
-    }
-
     def ports() {
         def containerId = this.id;
         def portInfo = this.script.sh script: "docker port ${containerId}", returnStdout:true

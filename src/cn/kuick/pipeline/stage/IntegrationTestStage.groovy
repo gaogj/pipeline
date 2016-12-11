@@ -52,6 +52,7 @@ class IntegrationTestStage implements Serializable {
 			}
 
 			cluster.inside("tester") { container ->
+				this.script.echo "the tester container id ${container.id}"
 			   	container.sh "gradle integration_test"
 			}
 		} finally {
