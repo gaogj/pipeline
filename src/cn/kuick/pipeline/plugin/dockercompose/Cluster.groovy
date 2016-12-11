@@ -85,7 +85,7 @@ class Cluster implements Serializable {
                 this.script.waitUntil {
                     container.logs()
 
-                    container.exec "/bin/bash -c 'wget -q http://localhost:8080/manage/health'"
+                    container.exec "/bin/sh -c 'wget -q http://localhost:8080/manage/health'"
                 }
             }
 
