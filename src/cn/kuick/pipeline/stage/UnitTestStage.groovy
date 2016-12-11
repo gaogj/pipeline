@@ -25,41 +25,20 @@ class UnitTestStage implements Serializable {
 		    this.script.node('aliyun345-test') {
 		    	this.script.checkout this.script.scm
 
-		        this.run();
+		       	this.run();
 		    }
 		}
 	}
 
-	def buildTester() {
-		def name = this.serverName;
-		def version = this.version;
-
-		this.script.docker.build("registry.kuick.cn/cc/${name}-tester:${version}", '-f ./release/docker/tester.docker .');
-	}
-
-	def buildRelease() {
-		def name = this.serverName;
-		def version = this.version;
-		def workspace = this.script.pwd();
-
-		def testerImage = this.script.docker.image("registry.kuick.cn/cc/${name}-tester:${version}")
-		testerImage.run("-v ${workspace}/build/libs:/workspace/build/libs")
-
-		this.script.docker.build("registry.kuick.cn/cc/${name}-server:${version}", '-f ./release/docker/Dockerfile .');
-	}
-
 	def run() {
+		def version = this.version;
 		def docker = this.script.docker;
 
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
-			// Build tester image
-			this.buildTester();
-
-			// Build release image
-			this.buildRelease();
+			this.script.sh "./release/docker/build.sh ${version}";
 		}
 	}
 }
