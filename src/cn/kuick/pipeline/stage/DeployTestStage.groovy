@@ -38,7 +38,7 @@ class DeployTestStage implements Serializable {
 	    	
 			this.script.sh "./release/docker/test/deploy.sh ${version}";
 
-			this.script.echo "deploy test ok!"
+			this.script.echo "deploy test success!"
 	    }
 	}
 }
