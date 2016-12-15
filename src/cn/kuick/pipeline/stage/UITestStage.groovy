@@ -34,7 +34,6 @@ class UITestStage implements Serializable {
 
 			this.script.sh "env";
 			this.script.sh "pwd";
-			this.script.sh "macaca doctor";
 
 			dir("ui-test") {
 	            git([
@@ -43,7 +42,7 @@ class UITestStage implements Serializable {
 	                credentialsId: 'kuick_deploy'
 	            ]);
 
-	            this.script.sh "macaca run";
+	            this.script.sh "make ui-test";
 	        }
 
 			this.script.echo "test success!"
