@@ -29,12 +29,22 @@ class UITestStage implements Serializable {
 	def run() {
 		def version = this.version;
 
-		this.script.node('osx-kuick001') {
-			this.script.echo "login to osx-kuick001"
+		this.script.node('osx') {
+			this.script.echo "login to osx"
 
 			this.script.sh "env";
 			this.script.sh "pwd";
 			this.script.sh "macaca doctor";
+
+			dir("ui-test") {
+	            git([
+	                url: "https://git.oschina.net/kuick-cn/kuick-deal-web-test.git", 
+	                branch: "master",
+	                credentialsId: 'kuick_deploy'
+	            ]);
+
+	            this.script.sh "macaca run";
+	        }
 
 			this.script.echo "test success!"
 	    }
