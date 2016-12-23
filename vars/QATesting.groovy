@@ -13,6 +13,6 @@ def call(stageName, body) {
     stage(stageName) {
 	    echo "${stageName} run ok!"
 
-        input message: "验收测试是否通过?"
+        input message: "QA测试是否通过?"
 	}
 }
