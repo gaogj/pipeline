@@ -35,8 +35,7 @@ class InterfaceTestStage implements Serializable {
 		def id = image.id;
 
 		docker.node {
-            def container = docker.script.sh(script: "docker run ${args != '' ? ' ' + args : ''} ${id}${command != '' ? ' ' + command : ''}", returnStdout: true).trim()
-            docker.script.dockerFingerprintRun containerId: container, toolName: docker.script.env.DOCKER_TOOL_NAME
+            docker.script.sh(script: "docker run ${args != '' ? ' ' + args : ''} ${id}${command != '' ? ' ' + command : ''}")
         }
 	}
 
