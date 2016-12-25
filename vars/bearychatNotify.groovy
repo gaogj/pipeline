@@ -9,7 +9,7 @@ def call(text, channel) {
 
     def payload = JsonOutput.toJson([
     	text : text,
-        channel : channel,
+        channel : channel?channel:"技术讨论组",
         username : "jenkins",
         icon_emoji : ":jenkins:"
     ])
