@@ -1,6 +1,9 @@
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
 def call() {
+	echo "----------------------------------------------"
+	echo "------------------printEnv-start--------------"
+
 	echo "BRANCH_ID:${env.BRANCH_ID}"
 	echo "BRANCH_NAME:${env.BRANCH_NAME}"
 
@@ -42,4 +45,7 @@ def call() {
 	echo "gitlabBefore: ${env.gitlabBefore}"
 	echo "gitlabAfter: ${env.gitlabAfter}"
 	echo "gitlabTriggerPhrase: ${env.gitlabTriggerPhrase}"
+
+	echo "------------------printEnv-end----------------"
+	echo "----------------------------------------------"
 }

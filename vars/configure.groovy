@@ -17,20 +17,20 @@ def branchMatch(branch, rules) {
  */
 def call(actionTypeRules, branchRules, body) {
 	def actionType = "${env.gitlabActionType}";
-	def currentBranch = "${env.BRANCH_NAME}";
+	def branch = "${env.BRANCH_NAME}";
 
-	if (currentBranch == null) {
-		currentBranch = "${env.gitlabBranch}"
+	if (branch == null || branch == "null") {
+		branch = "${env.gitlabTargetBranch}"
 	}
 
-	echo "actionType: ${actionType}"
-	echo "currentBranch: ${currentBranch}"
+	echo "current actionType: ${actionType}"
+	echo "current Branch: ${branch}"
 
 	echo "actionTypeRules: ${actionTypeRules}"
 	echo "branchRules: ${branchRules}"
 
 	if (actionTypeMatch(actionType, actionTypeRules) 
-		&& branchMatch(currentBranch, branchRules)) {
+		&& branchMatch(branch, branchRules)) {
 		body()
 	}
 }
