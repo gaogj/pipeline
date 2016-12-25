@@ -25,7 +25,9 @@ class UnitTestStage implements Serializable {
 		    this.script.node('aliyun345-test') {
 		    	this.script.checkout this.script.scm
 
-		       	this.run();
+		    	this.script.gitlabCommitStatus(this.stageName) {
+		       		this.run();
+		       	}
 		    }
 		}
 	}
