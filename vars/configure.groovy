@@ -23,6 +23,12 @@ def call(actionTypeRules, branchRules, body) {
 		currentBranch = "${env.gitlabBranch}"
 	}
 
+	echo "actionType: ${actionType}"
+	echo "currentBranch: ${currentBranch}"
+
+	echo "actionTypeRules: ${actionTypeRules}"
+	echo "branchRules: ${branchRules}"
+
 	if (actionTypeMatch(actionType, actionTypeRules) 
 		&& branchMatch(currentBranch, branchRules)) {
 		body()
