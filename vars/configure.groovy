@@ -1,3 +1,9 @@
+/**
+ * 类型匹配
+ */
+def actionTypeMatch(type, rules) {
+	return type == rules;
+}
 
 /**
  * 分支匹配
@@ -9,10 +15,16 @@ def branchMatch(branch, rules) {
 /**
  * 配置分支规则
  */
-def call(branchRules, body) {
+def call(actionTypeRules, branchRules, body) {
+	def actionType = "${env.gitlabActionType}";
 	def currentBranch = "${env.BRANCH_NAME}";
 
-	if (branchMatch(currentBranch, branchRules)) {
+	if (currentBranch == null) {
+		currentBranch = "${env.gitlabBranch}"
+	}
+
+	if (actionTypeMatch(actionType, actionTypeRules) 
+		&& branchMatch(currentBranch, branchRules)) {
 		body()
 	}
 }
