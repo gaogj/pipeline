@@ -27,9 +27,9 @@ class DeployProdStage implements Serializable {
 
 	def start() {
 		this.script.stage(this.stageName) {
-			def token = input message: '请输入部署正式服务器授权码？', parameters: [string(defaultValue: '', description: '部署正式服务器授权码', name: '授权码')];
+			def token = this.script.input message: '请输入部署正式服务器授权码？', parameters: [string(defaultValue: '', description: '部署正式服务器授权码', name: '授权码')];
 
-			if (DEPLOY_TOKEN.equalse(token)) {
+			if (DEPLOY_TOKEN.equals(token)) {
 		    	this.run();
 		    } else {
 		    	throw new RuntimeException("部署正式服务器授权码不正确！");
