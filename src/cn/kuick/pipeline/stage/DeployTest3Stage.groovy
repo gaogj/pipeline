@@ -54,9 +54,9 @@ class DeployTest3Stage implements Serializable {
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
-	            this.script.config = this.readYaml("test3/aliyuncs/application.yml");
+	            this.script.config = this.script.readProperties("test3/aliyuncs/application.properties");
 
-	            def mysqlCfg = this.script.config.get('mysql');
+	            def mysqlCfg = this.script.config.get('mysql.host');
 	            this.script.echo "mysqlCfg:" + mysqlCfg.toString()
 	        }
 
