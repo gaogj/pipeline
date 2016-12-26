@@ -51,7 +51,7 @@ class DeployTest3Stage implements Serializable {
 
 	        this.script.checkout this.script.scm
 
-	        def serverEnv = [:];
+	        def serverEnv = [];
 
 	        this.script.dir("deploy-config") {
 	            this.script.git([
@@ -63,8 +63,10 @@ class DeployTest3Stage implements Serializable {
 	            def properties = this.readProperties("test3/aliyuncs/application.properties");
 
 	            for(def entry : properties) {
-	            	this.script.echo "Key: ${entry.key}, Value: ${entry.value}"
-	                serverEnv[entry.key] = entry.value;
+	            	def item = "${entry.key}=${entry.value}";
+
+	            	this.script.echo "Item: ${item}"
+	                serverEnv.add(item)
 	            }
 	        }
 
