@@ -38,7 +38,7 @@ class DeployTest3Stage implements Serializable {
 	}
 
 	def readProperties(propFile) {
-		return this.script.readProperties encoding: 'UTF-8', file: propFile
+		return this.script.readProperties([file: propFile])
 	}
 
 	def run() {
