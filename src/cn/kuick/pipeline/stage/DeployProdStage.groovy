@@ -31,6 +31,8 @@ class DeployProdStage implements Serializable {
 				[$class: 'PasswordParameterDefinition', defaultValue: '', description: '部署正式服务器授权码', name: '授权码']
 			];
 
+			this.script.echo "The input token: ${token}"
+
 			if (DEPLOY_TOKEN.equals(token)) {
 		    	this.run();
 		    } else {
