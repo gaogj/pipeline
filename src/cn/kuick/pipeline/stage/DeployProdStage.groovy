@@ -6,6 +6,8 @@ import java.io.Serializable;
  *	部署正式环境
  */
 class DeployProdStage implements Serializable {
+	static String DEPLOY_TOKEN = "cc123456!@#V5";
+
 	def script;
 
 	def stageName;
@@ -25,7 +27,13 @@ class DeployProdStage implements Serializable {
 
 	def start() {
 		this.script.stage(this.stageName) {
-		    this.run();
+			def token = input message: '请输入部署正式服务器授权码？', parameters: [string(defaultValue: '', description: '部署正式服务器授权码', name: '授权码')];
+
+			if (DEPLOY_TOKEN.equalse(token)) {
+		    	this.run();
+		    } else {
+		    	throw new RuntimeException("部署正式服务器授权码不正确！");
+		    }
 		}
 	}
 
