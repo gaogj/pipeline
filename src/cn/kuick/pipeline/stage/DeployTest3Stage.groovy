@@ -1,9 +1,6 @@
 package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
-import org.yaml.snakeyaml.Yaml;
-
-import java.util.Map;
 
 /**
  *	部署测试3环境
@@ -30,11 +27,6 @@ class DeployTest3Stage implements Serializable {
 		this.script.stage(this.stageName) {
 		    this.run();
 		}
-	}
-
-	def readYaml(yamlFile) {
-		def text = this.script.readFile encoding: 'UTF-8', file: yamlFile
-        return (Map<String, Object>) (new Yaml().load(text))
 	}
 
 	def readProperties(propFile) {

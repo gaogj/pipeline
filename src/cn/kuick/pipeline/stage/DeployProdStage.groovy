@@ -29,6 +29,10 @@ class DeployProdStage implements Serializable {
 		}
 	}
 
+	def readProperties(propFile) {
+		return this.script.readProperties([file: propFile])
+	}
+
 	def run() {
 		def version = this.version;
 		def deployNode = this.deployNode;
@@ -39,6 +43,8 @@ class DeployProdStage implements Serializable {
 
 	        this.script.checkout this.script.scm
 
+	        def serverEnv = [];
+
 	        this.script.dir("deploy-config") {
 	            this.script.git([
 	                url: "https://git.kuick.cn/deploys/deploy-config.git", 
@@ -46,11 +52,25 @@ class DeployProdStage implements Serializable {
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
-	            this.script.config = this.script.readYaml("prod/aliyuncs/application.yml");
+	            // application.properties
+	            def properties = this.readProperties("prod/aliyuncs/application.properties");
+
+	            for(def entry : properties) {
+	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
+	            	def value = entry.value.trim();
+
+	            	def item = "${key}=${value}";
+	            	serverEnv.add(item)
+	            }
+
+	            // certs
+	            def PGRDIR = this.script.pwd();
+
+	           	serverEnv.add("DOCKER_TLS_VERIFY=1")
+				serverEnv.add("DOCKER_HOST=tcp://master1.cs-cn-hangzhou.aliyun.com:13601")
+				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncs/certs")
 	        }
 
-	        def serverEnv = this.script.config;
-	        
 	        this.script.withEnv(serverEnv) {
 	            this.script.sh "release/docker/prod/deploy.sh ${version}"
 	        }
