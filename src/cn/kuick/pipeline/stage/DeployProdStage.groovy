@@ -6,7 +6,7 @@ import java.io.Serializable;
  *	部署正式环境
  */
 class DeployProdStage implements Serializable {
-	static String DEPLOY_TOKEN = "cc123456!@#V5";
+	static String DEPLOY_TOKEN = "cc123456v5";
 
 	def script;
 
@@ -31,8 +31,6 @@ class DeployProdStage implements Serializable {
 				[$class: 'PasswordParameterDefinition', defaultValue: '', description: '部署正式服务器授权码', name: '授权码']
 			];
 
-			this.script.echo "The input token: ${token}"
-			
 			if (DEPLOY_TOKEN == token) {
 		    	this.run();
 		    } else {
