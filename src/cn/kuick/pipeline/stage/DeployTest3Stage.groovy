@@ -1,6 +1,7 @@
 package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  *	部署测试3环境
@@ -29,6 +30,11 @@ class DeployTest3Stage implements Serializable {
 		}
 	}
 
+	def readYaml(yamlFile) {
+		def text = this.script.readFile encoding: 'UTF-8', file: yamlFile
+        return compose = (Map<String, Object>) (new Yaml().load(text))
+	}
+
 	def run() {
 		def version = this.version;
 		def deployNode = this.deployNode;
@@ -46,7 +52,7 @@ class DeployTest3Stage implements Serializable {
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
-	            this.script.config = this.script.readYaml("test3/aliyuncs/application.yml");
+	            this.script.config = this.readYaml("test3/aliyuncs/application.yml");
 
 	            def mysqlCfg = this.script.config.get('mysql');
 	            this.script.echo "mysqlCfg:" + mysqlCfg.toString()
