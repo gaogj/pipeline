@@ -62,13 +62,13 @@ class DeployTest3Stage implements Serializable {
 
 	            def properties = this.readProperties("test3/aliyuncs/application.properties");
 
-	            for(def it : properties) {
-	                serverEnv[it] = properties.get(it)
+	            for(def key : properties) {
+	                serverEnv[key] = properties.get(key)
 	            }
 	        }
 
 	        this.script.echo "serverEnv:" + serverEnv.toString()
-	        
+
 	        this.script.withEnv(serverEnv) {
 	            this.script.sh "release/docker/test3/deploy.sh ${version}"
 	        }
