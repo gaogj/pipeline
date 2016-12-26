@@ -37,6 +37,10 @@ class DeployTest3Stage implements Serializable {
         return (Map<String, Object>) (new Yaml().load(text))
 	}
 
+	def readProperties(propFile) {
+		return this.script.readProperties encoding: 'UTF-8', file: propFile
+	}
+
 	def run() {
 		def version = this.version;
 		def deployNode = this.deployNode;
@@ -54,7 +58,7 @@ class DeployTest3Stage implements Serializable {
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
-	            this.script.config = this.script.readProperties("test3/aliyuncs/application.properties");
+	            this.script.config = this.readProperties("test3/aliyuncs/application.properties");
 
 	            def mysqlCfg = this.script.config.get('mysql.host');
 	            this.script.echo "mysqlCfg:" + mysqlCfg.toString()
