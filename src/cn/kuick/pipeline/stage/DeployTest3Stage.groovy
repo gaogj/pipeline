@@ -60,17 +60,25 @@ class DeployTest3Stage implements Serializable {
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
+	            // application.properties
 	            def properties = this.readProperties("test3/aliyuncs/application.properties");
 
 	            for(def entry : properties) {
 	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
 	            	def value = entry.value.trim();
-	            	
+
 	            	def item = "${key}=${value}";
 
 	            	this.script.echo "Item: ${item}"
 	                serverEnv.add(item)
 	            }
+
+	            // certs
+	            def PGRDIR = this.script.pwd;
+	            
+	           	serverEnv.add("DOCKER_TLS_VERIFY=1")
+				serverEnv.add("tcp://master1.cs-cn-hangzhou.aliyun.com:13601")
+				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/test3/aliyuncs/certs")
 	        }
 
 	        this.script.echo "serverEnv:" + serverEnv.toString()
