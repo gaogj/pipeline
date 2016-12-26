@@ -51,6 +51,8 @@ class DeployTest3Stage implements Serializable {
 
 	        this.script.checkout this.script.scm
 
+	        def serverEnv = [];
+
 	        this.script.dir("deploy-config") {
 	            this.script.git([
 	                url: "https://git.kuick.cn/deploys/deploy-config.git", 
@@ -58,13 +60,14 @@ class DeployTest3Stage implements Serializable {
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
-	            this.script.config = this.readProperties("test3/aliyuncs/application.properties");
+	            def properties = this.readProperties("test3/aliyuncs/application.properties");
 
-	            def mysqlCfg = this.script.config.get('mysql.host');
-	            this.script.echo "mysqlCfg:" + mysqlCfg.toString()
+	            for(def it : properties) {
+	                serverEnv[it] = properties.get(it)
+	            }
 	        }
 
-	        def serverEnv = this.script.config;
+	        this.script.echo "serverEnv:" + serverEnv.toString()
 	        
 	        this.script.withEnv(serverEnv) {
 	            this.script.sh "release/docker/test3/deploy.sh ${version}"
