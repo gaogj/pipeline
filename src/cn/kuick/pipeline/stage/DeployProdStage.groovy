@@ -3,9 +3,9 @@ package cn.kuick.pipeline.stage;
 import java.io.Serializable;
 
 /**
- *	部署测试3环境
+ *	部署正式环境
  */
-class DeployTest3Stage implements Serializable {
+class DeployProdStage implements Serializable {
 	def script;
 
 	def stageName;
@@ -13,7 +13,7 @@ class DeployTest3Stage implements Serializable {
 	def version;
 	def deployNode;
 
-	DeployTest3Stage(script, stageName, config) {
+	DeployProdStage(script, stageName, config) {
 		this.script = script;
 
 		this.stageName = stageName;
@@ -33,7 +33,7 @@ class DeployTest3Stage implements Serializable {
 		def version = this.version;
 		def deployNode = this.deployNode;
 
-		// 部署测试3环境
+		// 部署正式环境
 		this.script.node("aliyun345-test") {
 	        this.script.echo "login to aliyun345-test"
 
@@ -46,19 +46,16 @@ class DeployTest3Stage implements Serializable {
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
-	            this.script.config = this.script.readYaml("test3/aliyuncs/application.yml");
-
-	            def mysqlCfg = this.script.config.get('mysql');
-	            this.script.echo "mysqlCfg:" + mysqlCfg.toString()
+	            this.script.config = this.script.readYaml("prod/aliyuncs/application.yml");
 	        }
 
 	        def serverEnv = this.script.config;
 	        
 	        this.script.withEnv(serverEnv) {
-	            this.script.sh "release/docker/test3/deploy.sh ${version}"
+	            this.script.sh "release/docker/prod/deploy.sh ${version}"
 	        }
 
-	        this.script.echo "deploy test3 success!"
+	        this.script.echo "deploy prod success!"
 	    }
 	}
 }
