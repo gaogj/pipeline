@@ -74,7 +74,7 @@ class DeployTest3Stage implements Serializable {
 	            }
 
 	            // certs
-	            def PGRDIR = this.script.sh(script: "pwd", returnStdout: true);
+	            def PGRDIR = this.script.pwd();
 
 	           	serverEnv.add("DOCKER_TLS_VERIFY=1")
 				serverEnv.add("DOCKER_HOST=tcp://master1.cs-cn-hangzhou.aliyun.com:13601")
