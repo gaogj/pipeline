@@ -32,8 +32,8 @@ class DeployProdStage implements Serializable {
 			];
 
 			this.script.echo "The input token: ${token}"
-
-			if (DEPLOY_TOKEN.equals(token)) {
+			
+			if (DEPLOY_TOKEN == token) {
 		    	this.run();
 		    } else {
 		    	throw new RuntimeException("部署正式服务器授权码不正确！");
