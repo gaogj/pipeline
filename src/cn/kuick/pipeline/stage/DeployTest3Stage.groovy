@@ -68,9 +68,7 @@ class DeployTest3Stage implements Serializable {
 	            	def value = entry.value.trim();
 
 	            	def item = "${key}=${value}";
-
-	            	this.script.echo "Item: ${item}"
-	                serverEnv.add(item)
+	            	serverEnv.add(item)
 	            }
 
 	            // certs
@@ -80,8 +78,6 @@ class DeployTest3Stage implements Serializable {
 				serverEnv.add("DOCKER_HOST=tcp://master1.cs-cn-hangzhou.aliyun.com:13601")
 				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/test3/aliyuncs/certs")
 	        }
-
-	        this.script.echo "serverEnv:" + serverEnv.toString()
 
 	        this.script.withEnv(serverEnv) {
 	            this.script.sh "release/docker/test3/deploy.sh ${version}"
