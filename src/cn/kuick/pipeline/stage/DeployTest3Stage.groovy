@@ -51,7 +51,7 @@ class DeployTest3Stage implements Serializable {
 
 	        this.script.checkout this.script.scm
 
-	        def serverEnv = [];
+	        def serverEnv = [:];
 
 	        this.script.dir("deploy-config") {
 	            this.script.git([
