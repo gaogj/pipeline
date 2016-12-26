@@ -62,11 +62,9 @@ class DeployTest3Stage implements Serializable {
 
 	            def properties = this.readProperties("test3/aliyuncs/application.properties");
 
-	            for(def key : properties) {
-	            	def value = properties.get(key);
-
-	            	this.script.echo "Key: ${key}, Value: ${value}"
-	                serverEnv[key] = properties.get(key).toString();
+	            for(def entry : properties) {
+	            	this.script.echo "Key: ${entry.key}, Value: ${entry.value}"
+	                serverEnv[entry.key] = entry.value;
 	            }
 	        }
 
