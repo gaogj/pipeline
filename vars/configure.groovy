@@ -34,7 +34,7 @@ def call(actionTypeRules, branchRules, body) {
 	echo "-----------------configure-start--------------"
 
 	def actionType = "${env.CHANGE_TYPE}";
-	def branch = "${env.BRANCH_NAME}";
+	def branch = "${env.CHANGE_TARGET}";
 
 	echo "current actionType: ${actionType}"
 	echo "current Branch: ${branch}"

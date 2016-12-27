@@ -71,6 +71,7 @@ def call(envCallback) {
 	// BRANCH_NAME 
 	if (env.gitlabSourceBranch != null) {
 		env.BRANCH_NAME = env.gitlabSourceBranch;
+		env.CHANGE_TARGET = env.gitlabSourceBranch;
 	}
 
 	// CHANGE_ID
