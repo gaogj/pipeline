@@ -64,17 +64,6 @@ def printGitLabEnv() {
 	echo "----------------------------------------------"
 }
 
-def parseCommitId() {
-	node("aliyun345-test") {
-		checkout scm
-
-		def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-		def shortCommit = gitCommit.take(6)
-
-		env.COMMIT_ID = shortCommit;
-	}
-}
-
 def call(envCallback) {
 	this.printPipelineEnv();
 	this.printGitLabEnv();
@@ -124,9 +113,6 @@ def call(envCallback) {
 	if (env.gitlabTargetBranch != null) {
 		env.CHANGE_TARGET = env.gitlabTargetBranch;
 	}
-
-	// COMMIT_ID
-	this.parseCommitId();
 
 	this.printPipelineEnv();
 }
