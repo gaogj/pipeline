@@ -4,6 +4,7 @@ def printPipelineEnv() {
 	echo "----------------------------------------------"
 	echo "------------------printPipelineEnv-start--------------"
 
+	echo "COMMIT_ID:${env.COMMIT_ID}"
 	echo "BRANCH_NAME:${env.BRANCH_NAME}"
 
 	echo "BUILD_ID:${env.BUILD_ID}"
@@ -63,6 +64,14 @@ def printGitLabEnv() {
 	echo "----------------------------------------------"
 }
 
+def parseCommitId() {
+	node("master") {
+		def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+		def shortCommit = gitCommit.take(6)
+
+		env.COMMIT_ID = shortCommit;
+	}
+}
 
 def call(envCallback) {
 	this.printPipelineEnv();
@@ -113,6 +122,9 @@ def call(envCallback) {
 	if (env.gitlabTargetBranch != null) {
 		env.CHANGE_TARGET = env.gitlabTargetBranch;
 	}
+
+	// COMMIT_ID
+	this.parseCommitId();
 
 	this.printPipelineEnv();
 }
