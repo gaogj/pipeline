@@ -4,7 +4,6 @@ def printPipelineEnv() {
 	echo "----------------------------------------------"
 	echo "------------------printPipelineEnv-start--------------"
 
-	echo "COMMIT_ID:${env.COMMIT_ID}"
 	echo "BRANCH_NAME:${env.BRANCH_NAME}"
 
 	echo "BUILD_ID:${env.BUILD_ID}"
