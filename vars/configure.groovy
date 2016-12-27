@@ -33,12 +33,8 @@ def call(actionTypeRules, branchRules, body) {
 	echo "----------------------------------------------"
 	echo "-----------------configure-start--------------"
 
-	def actionType = "${env.gitlabActionType}";
+	def actionType = "${env.CHANGE_TYPE}";
 	def branch = "${env.BRANCH_NAME}";
-
-	if (branch == null || branch == "null") {
-		branch = "${env.gitlabTargetBranch}"
-	}
 
 	echo "current actionType: ${actionType}"
 	echo "current Branch: ${branch}"
