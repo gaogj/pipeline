@@ -13,6 +13,28 @@ def call(stageName, body) {
     stage(stageName) {
 	    echo "${stageName} run ok!"
 
+        def buildId = env.BUILD_ID;
+        def toMail = config.toMail;
+
+        def title = "${config.name}已经部署测试2!"
+        def content = "${config.name}已经部署测试2!";
+
+        if (toMail != null) {
+            mail([
+                bcc: '', 
+                body: content, 
+                cc: '', 
+                from: 'jenkins2@kuick.cn', 
+                replyTo: '', 
+                subject: title, 
+                to: toMail
+            ]);
+
+            echo "mail send ok!"
+        }
+
+        bearychatNotify(content);
+
         input message: "QA测试是否通过?"
 	}
 }
