@@ -65,8 +65,8 @@ def printGitLabEnv() {
 
 
 def call(envCallback) {
-	printPipelineEnv.call(this)
-	printGitLabEnv.call(this)
+	this.printPipelineEnv();
+	this.printGitLabEnv();
 
 	// BRANCH_NAME 
 	if (env.gitlabSourceBranch != null) {
@@ -113,5 +113,5 @@ def call(envCallback) {
 		env.CHANGE_TARGET = env.gitlabTargetBranch;
 	}
 
-	printPipelineEnv.call(this)
+	this.printPipelineEnv();
 }
