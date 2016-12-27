@@ -65,7 +65,9 @@ def printGitLabEnv() {
 }
 
 def parseCommitId() {
-	node("master") {
+	node("aliyun345-test") {
+		checkout scm
+
 		def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 		def shortCommit = gitCommit.take(6)
 
