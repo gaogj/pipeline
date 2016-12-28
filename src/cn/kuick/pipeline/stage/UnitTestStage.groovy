@@ -39,7 +39,7 @@ class UnitTestStage implements Serializable {
 		// This is used to authenticate the Docker client to the registry.
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// 单元测试 + 构建镜像
-			this.script.sh "-e ./release/docker/build.sh ${version}";
+			this.script.sh "./release/docker/build.sh ${version}";
 		}
 	}
 }
