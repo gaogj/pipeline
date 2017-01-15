@@ -31,7 +31,7 @@ class DeployProdStage implements Serializable {
 				[$class: 'PasswordParameterDefinition', defaultValue: '', description: '部署正式服务器授权码', name: '授权码']
 			];
 
-			if (DEPLOY_TOKEN == token) {
+			if (DEPLOY_TOKEN.equals(token)) {
 		    	this.run();
 		    } else {
 		    	throw new RuntimeException("部署正式服务器授权码不正确！");
