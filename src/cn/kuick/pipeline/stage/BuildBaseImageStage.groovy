@@ -43,8 +43,8 @@ class BuildBaseImageStage implements Serializable {
 	def buildTestBase() {
 		def name = this.serverName;
 		def docker = this.script.docker;
-		
-		def baseImage = baseImage = docker.build("registry.kuick.cn/cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
+
+		def baseImage = docker.build("registry.kuick.cn/cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
 		baseImage.push();
 
 		return baseImage;
@@ -57,7 +57,7 @@ class BuildBaseImageStage implements Serializable {
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
-			// Build base image
+			// Build Base Image
 			this.buildBase();
 
 			// Build TestBase image
