@@ -27,6 +27,7 @@ class DeployProdStage implements Serializable {
 
 	def start() {
 		this.script.stage(this.stageName) {
+			/*
 			def token = this.script.input message: '请输入部署正式服务器授权码？', parameters: [
 				[$class: 'PasswordParameterDefinition', defaultValue: '', description: '部署正式服务器授权码', name: '授权码']
 			];
@@ -36,6 +37,9 @@ class DeployProdStage implements Serializable {
 		    } else {
 		    	throw new RuntimeException("部署正式服务器授权码不正确！");
 		    }
+		    */
+
+		    this.run();
 		}
 	}
 
