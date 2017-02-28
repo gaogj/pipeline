@@ -12,7 +12,7 @@ class IntegrationTestStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
-	def path = "./src/integration_test/resources/docker-compose.yml";
+	def path = "/resources/docker-compose.yml";
 
 	IntegrationTestStage(script, stageName, config) {
 		this.script = script;
