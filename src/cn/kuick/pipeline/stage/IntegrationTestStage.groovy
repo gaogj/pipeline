@@ -20,7 +20,7 @@ class IntegrationTestStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-		this.path = config.path;
+		this.path = config.path + this.path;
 	}
 
 	def start() {
