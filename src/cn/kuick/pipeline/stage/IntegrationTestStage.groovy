@@ -61,7 +61,7 @@ class IntegrationTestStage implements Serializable {
 
 			cluster.inside("tester") { container ->
 				container.sh "env"
-			   	container.sh "gradle integration_test --stacktrace"
+			   	container.sh "gradle integration_test --info --stacktrace"
 			}
 		} finally {
 			if (cluster != null) {
