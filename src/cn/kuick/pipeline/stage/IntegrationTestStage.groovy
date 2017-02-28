@@ -20,7 +20,12 @@ class IntegrationTestStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-		this.path = config.path + this.path;
+
+		if(config.path == null){
+			this.path = "./src/integration_test" + this.path;
+		} else {
+			this.path = config.path + this.path;
+		}
 	}
 
 	def start() {
