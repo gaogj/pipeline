@@ -19,7 +19,7 @@ def call(stageName, body) {
         def title = "${config.name}已经部署测试2!"
         def content = "${config.name}已经部署测试2!";
 
-        if (toMail != null) {
+        if (toMail != null && toMain != "xiongfei@chuchuchina.com") {
             mail([
                 bcc: '', 
                 body: content, 
