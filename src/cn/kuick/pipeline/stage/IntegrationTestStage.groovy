@@ -12,6 +12,7 @@ class IntegrationTestStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def path = "/resources/docker-compose.yml";
 
 	IntegrationTestStage(script, stageName, config) {
 		this.script = script;
@@ -19,6 +20,12 @@ class IntegrationTestStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
+
+		if(config.path == null){
+			this.path = "./src/integration_test" + this.path;
+		} else {
+			this.path = config.path + this.path;
+		}
 	}
 
 	def start() {
@@ -37,12 +44,13 @@ class IntegrationTestStage implements Serializable {
 	def testImage() {
 		def name = this.serverName;
 		def version = this.version;
+		def path = this.path;
 		def cluster;
 
 		try {
 			def testerImage = this.script.docker.image("registry.kuick.cn/cc/${name}-tester:${version}");
 
-			cluster = this.script.dockerCompose.up("./src/integration_test/resources/docker-compose.yml", name, version);
+			cluster = this.script.dockerCompose.up(path, name, version);
 			cluster.parseDockerfile();
 
 			this.script.echo "docker-compose up ok!";
@@ -53,7 +61,7 @@ class IntegrationTestStage implements Serializable {
 
 			cluster.inside("tester") { container ->
 				container.sh "env"
-			   	container.sh "gradle integration_test --stacktrace"
+			   	container.sh "gradle integration_test --info --stacktrace"
 			}
 		} finally {
 			if (cluster != null) {
