@@ -39,6 +39,8 @@ class PreDeployShareStage implements Serializable {
 			this.script.echo "pre-deploy test success!"
 	    }
 
+}
+
 	def run345() {
 		def version = this.version;
 
@@ -51,5 +53,7 @@ class PreDeployShareStage implements Serializable {
 
 			this.script.echo "pre-deploy test success!"
 	    }
+
+}
 
 }
