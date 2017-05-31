@@ -1,5 +1,5 @@
 // See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
-import cn.kuick.pipeline.stage.DeployProdStage
+import cn.kuick.pipeline.stage.PreDeployShareStage
 
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
