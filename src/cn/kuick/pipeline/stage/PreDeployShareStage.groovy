@@ -40,6 +40,7 @@ class PreDeployShareStage implements Serializable {
                     branch: "develop",
                     credentialsId: 'f1f2adb1-ccb4-4e29-bd61-7ea8eeba7770'
 	            ]);
+	            }
 
 			this.script.sh "./release/docker/test/predeploy.sh";
             // 拉取子库
@@ -65,6 +66,7 @@ class PreDeployShareStage implements Serializable {
                     credentialsId: 'f1f2adb1-ccb4-4e29-bd61-7ea8eeba7770'
 	            ]);
 
+            }
 			this.script.sh "./release/docker/test/predeploy.sh";
             // 拉取子库
             this.script.sh "git submodule update --init --recursive";
