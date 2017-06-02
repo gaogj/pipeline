@@ -34,7 +34,16 @@ class PreDeployShareStage implements Serializable {
 
 	    	this.script.checkout this.script.scm
 
+	        this.script.dir("shared") {
+	            this.script.git([
+                    url: "https://git.oschina.net/kuick-cn/kuick-shared.git",
+                    branch: "develop",
+                    credentialsId: 'f1f2adb1-ccb4-4e29-bd61-7ea8eeba7770'
+	            ]);
+
 			this.script.sh "./release/docker/test/predeploy.sh";
+            // 拉取子库
+            this.script.sh "git submodule update --init --recursive";
 
 			this.script.echo "pre-deploy test success!"
 	    }
@@ -49,7 +58,16 @@ class PreDeployShareStage implements Serializable {
 
 	    	this.script.checkout this.script.scm
 
+	        this.script.dir("shared") {
+	            this.script.git([
+                    url: "https://git.oschina.net/kuick-cn/kuick-shared.git",
+                    branch: "develop",
+                    credentialsId: 'f1f2adb1-ccb4-4e29-bd61-7ea8eeba7770'
+	            ]);
+
 			this.script.sh "./release/docker/test/predeploy.sh";
+            // 拉取子库
+            this.script.sh "git submodule update --init --recursive";
 
 			this.script.echo "pre-deploy test success!"
 	    }
