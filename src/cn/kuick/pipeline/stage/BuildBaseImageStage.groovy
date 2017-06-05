@@ -57,6 +57,9 @@ class BuildBaseImageStage implements Serializable {
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+			// pull submodule
+			this.script.sh "git submodule update --init --recursive"
+
 			// Build Base Image
 			this.buildBase();
 
