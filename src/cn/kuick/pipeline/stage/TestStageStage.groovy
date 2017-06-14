@@ -13,7 +13,7 @@ class TestStageStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
-	def commitId
+	def commitId;
 
 	TestStageStage(script, stageName, config) {
 		this.script = script;
@@ -21,7 +21,7 @@ class TestStageStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-		this.commitId = config.commitId
+		this.commitId = version.substring(-6);
 	}
 
 	def start() {
