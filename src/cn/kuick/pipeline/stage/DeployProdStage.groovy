@@ -92,6 +92,10 @@ class DeployProdStage implements Serializable {
 	        	this.script.sh "git reset --hard ${commitId}"
 
 	            this.script.sh "release/docker/prod/deploy.sh ${version}"
+
+			    this.script.sh "git tag v${version} ${commitId}"
+
+			    this.script.sh " git push origin v${version}"
 	        }
 
 	        this.script.echo "deploy prod success!"
