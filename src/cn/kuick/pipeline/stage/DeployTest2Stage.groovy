@@ -12,6 +12,7 @@ class DeployTest2Stage implements Serializable {
 	def serverName;
 	def version;
 	def deployNode;
+	def commitId;
 
 	DeployTest2Stage(script, stageName, config) {
 		this.script = script;
@@ -21,6 +22,7 @@ class DeployTest2Stage implements Serializable {
 		this.serverName = config.name;
 		this.version = config.version;
 		this.deployNode = config.deployNode;
+		this.commitId = version[-6..-1];
 	}
 
 	def start() {
@@ -38,6 +40,8 @@ class DeployTest2Stage implements Serializable {
 	        this.script.echo "login to ${deployNode}-test2"
 
 	        this.script.checkout this.script.scm
+
+	    	this.script.sh "git reset --hard ${commitId}"
 
 	        this.script.sh "release/docker/test2/deploy.sh ${version}"
 
