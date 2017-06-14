@@ -46,6 +46,8 @@ class TestStageStage implements Serializable {
 
 			this.script.sh "git tag v${version} ${commitId}"
 
+			this.script.sh " git push origin v${version}"
+
 			this.script.echo "deploy test success!"
 	    }
 	}
