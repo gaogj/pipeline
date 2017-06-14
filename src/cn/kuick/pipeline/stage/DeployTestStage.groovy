@@ -11,6 +11,7 @@ class DeployTestStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def commitId;
 
 	DeployTestStage(script, stageName, config) {
 		this.script = script;
@@ -18,6 +19,7 @@ class DeployTestStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
+		this.commitId = version[-6..-1];
 	}
 
 	def start() {
@@ -33,6 +35,8 @@ class DeployTestStage implements Serializable {
 			this.script.echo "login to aliyun327-test"
 
 	    	this.script.checkout this.script.scm
+
+	    	this.script.sh "git reset --hard ${commitId}"
 
 	    	this.script.sh "release/docker/pull.sh ${version}"
 	    	
