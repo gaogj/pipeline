@@ -44,6 +44,8 @@ class TestStageStage implements Serializable {
 	    	
 			this.script.sh "./release/docker/test/deploy.sh ${version}";
 
+			this.script.sh "git tag v${version} ${commitId}"
+
 			this.script.echo "deploy test success!"
 	    }
 	}
