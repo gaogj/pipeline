@@ -21,7 +21,7 @@ class TestStageStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-		this.commitId = version.substring(-6);
+		this.commitId = version[-6];
 	}
 
 	def start() {
