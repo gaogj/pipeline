@@ -14,6 +14,7 @@ class DeployProdStage implements Serializable {
 	def serverName;
 	def version;
 	def deployNode;
+	def commitId;
 
 	DeployProdStage(script, stageName, config) {
 		this.script = script;
@@ -23,6 +24,7 @@ class DeployProdStage implements Serializable {
 		this.serverName = config.name;
 		this.version = config.version;
 		this.deployNode = config.deployNode;
+		this.commitId = version[-6..-1];
 	}
 
 	def start() {
@@ -86,6 +88,9 @@ class DeployProdStage implements Serializable {
 	        }
 
 	        this.script.withEnv(serverEnv) {
+
+	        	this.script.sh "git reset --hard ${commitId}"
+
 	            this.script.sh "release/docker/prod/deploy.sh ${version}"
 	        }
 
