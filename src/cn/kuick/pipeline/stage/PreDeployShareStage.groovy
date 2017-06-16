@@ -39,7 +39,7 @@ class PreDeployShareStage implements Serializable {
 	            this.script.git([
                     url: "https://git.oschina.net/kuick-cn/kuick-shared.git",
                     branch: "develop",
-                    credentialsId: 'f1f2adb1-ccb4-4e29-bd61-7ea8eeba7770'
+                    credentialsId: 'kuick_deploy'
 	            ]);
 	            }
 
