@@ -1,6 +1,7 @@
 package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
+import java.io.File;
 
 /**
  *	生成基础镜像
@@ -65,7 +66,7 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-			if (fileExists('release/docker/testBase.docker')) {
+			if (TestBaseImageExists) {
 			    this.buildTestBase()
 			    }
 			else {
