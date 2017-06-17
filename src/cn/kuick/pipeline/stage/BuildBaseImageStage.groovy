@@ -1,6 +1,7 @@
 package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
+import java.io.File;
 
 /**
  *	生成基础镜像
@@ -52,7 +53,7 @@ class BuildBaseImageStage implements Serializable {
 
 	def run() {
 		def docker = this.script.docker;
-//		def TestBaseImageExists = new File('./release/docker/testBase.docker').exists()
+		def TestBaseFile = new File('./release/docker/testBase.docker');
 
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
@@ -67,8 +68,7 @@ class BuildBaseImageStage implements Serializable {
 			// Build TestBase image
             this.script.sh "pwd"
             this.script.sh "ls ./release/docker/testBase.docker"
-            def TestBaseImageExists = new File('./release/docker/testBase.docker').exists()
-			if (TestBaseImageExists) {
+			if (TestBaseFile.exists() && !TestBaseFile.isDirectory()) {
 			    this.buildTestBase()
 			    }
 			else {
