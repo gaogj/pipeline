@@ -65,8 +65,8 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-			scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
-            println scriptDir
+            def workspace = pwd()
+            this.script.echo  "workspace"
 			if (TestBaseImageExists) {
 			    this.buildTestBase()
 			    }
