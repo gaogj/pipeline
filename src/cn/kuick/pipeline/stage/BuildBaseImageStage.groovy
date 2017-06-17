@@ -66,12 +66,12 @@ class BuildBaseImageStage implements Serializable {
 
 			// Build TestBase image
             this.script.sh "pwd"
-			if (TestBaseImageExists) {
-			    this.buildTestBase()
-			    }
-			else {
-                this.script.echo "Passed Build TestBase image!!!"
-                }
+//			if (TestBaseImageExists) {
+			this.buildTestBase()
+//			    }
+//			else {
+//                this.script.echo "Passed Build TestBase image!!!"
+//                }
 		}
 	}
 }
