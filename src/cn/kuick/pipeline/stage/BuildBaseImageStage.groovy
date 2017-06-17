@@ -66,11 +66,15 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-            new File("release").eachDirRecurse() { dir ->
-                dir.eachFileMatch(~/testBase.docker/) { file ->
-                    println file.getPath()
+            String workingDir = System.getProperty("user.dir");
+            println workingDir
+            import static groovy.io.FileType.FILES
+            new File('.').eachFileRecurse(FILES) {
+                if(it.name.endsWith('.docker')) {
+                    println it
                 }
             }
+            
 			if (TestBaseFile.exists() && !TestBaseFile.isDirectory()) {
 			    this.buildTestBase()
 			    }
