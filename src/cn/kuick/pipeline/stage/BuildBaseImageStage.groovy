@@ -66,6 +66,8 @@ class BuildBaseImageStage implements Serializable {
 
 			// Build TestBase image
             this.script.sh "pwd"
+            this.script.sh "ls ./release/docker/testBase.docker"
+            def TestBaseImageExists = new File('./release/docker/testBase.docker').exists()
 			if (TestBaseImageExists) {
 			    this.buildTestBase()
 			    }
