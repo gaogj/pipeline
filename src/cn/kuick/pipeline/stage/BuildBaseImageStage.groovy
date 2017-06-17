@@ -66,8 +66,11 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-            this.script.sh "pwd"
-            this.script.sh "ls ./release/docker/testBase.docker"
+            new File("release").eachDirRecurse() { dir ->
+                dir.eachFileMatch(~/testBase.docker/) { file ->
+                    println file.getPath()
+                }
+            }
 			if (TestBaseFile.exists() && !TestBaseFile.isDirectory()) {
 			    this.buildTestBase()
 			    }
