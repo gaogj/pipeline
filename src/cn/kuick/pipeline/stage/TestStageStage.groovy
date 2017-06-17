@@ -5,7 +5,9 @@ import java.io.Serializable;
 /**
  *	部署测试环境
  */
-class DeployTestStage implements Serializable {
+
+ // This is test module 
+class TestStageStage implements Serializable {
 	def script;
 
 	def stageName;
@@ -13,7 +15,7 @@ class DeployTestStage implements Serializable {
 	def version;
 	def commitId;
 
-	DeployTestStage(script, stageName, config) {
+	TestStageStage(script, stageName, config) {
 		this.script = script;
 
 		this.stageName = stageName;
@@ -41,6 +43,10 @@ class DeployTestStage implements Serializable {
 	    	this.script.sh "release/docker/pull.sh ${version}"
 	    	
 			this.script.sh "./release/docker/test/deploy.sh ${version}";
+
+			this.script.sh "git tag v${version} ${commitId}"
+
+			this.script.sh " git push origin v${version}"
 
 			this.script.echo "deploy test success!"
 	    }
