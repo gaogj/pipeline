@@ -53,7 +53,6 @@ class BuildBaseImageStage implements Serializable {
 
 	def run() {
 		def docker = this.script.docker;
-		def TestBaseImageExists = fileExists 'release';
 
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
@@ -66,7 +65,7 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-			if (TestBaseImageExists) {
+			if(fileExists('./release/docker/testBase.docker')){
 			    this.buildTestBase()
 			    }
 			else {
