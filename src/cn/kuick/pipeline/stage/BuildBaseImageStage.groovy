@@ -12,6 +12,7 @@ class BuildBaseImageStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def testBase;
 
 	BuildBaseImageStage(script, stageName, config) {
 		this.script = script;
@@ -19,6 +20,7 @@ class BuildBaseImageStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
+		this.testBase = config.testBase;
 	}
 
 	def start() {
@@ -53,7 +55,6 @@ class BuildBaseImageStage implements Serializable {
 
 	def run() {
 		def docker = this.script.docker;
-		def TestBaseFile = new File('./release/docker/testBase.docker');
 
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
@@ -66,11 +67,7 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-            new File("*").eachDir() { dir ->
-                println dir.getPath()
-            }
-
-			if (TestBaseFile.exists() && !TestBaseFile.isDirectory()) {
+			if (testBase == null && testBase == Y) {
 			    this.buildTestBase()
 			    }
 			else {
