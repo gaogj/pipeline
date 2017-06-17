@@ -67,6 +67,7 @@ class BuildBaseImageStage implements Serializable {
 
 			// Build TestBase image
             this.script.sh "pwd"
+            println filePath
 			if (TestBaseImageExists) {
 			    this.buildTestBase()
 			    }
