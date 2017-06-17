@@ -66,7 +66,7 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-            new File("release").eachDir() { dir ->
+            new File("Readme.md").eachDir() { dir ->
                 println dir.getPath()
             }
 
