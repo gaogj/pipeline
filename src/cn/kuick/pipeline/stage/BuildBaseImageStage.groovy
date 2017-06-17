@@ -65,8 +65,7 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-            def workspace = pwd()
-            this.script.echo  "workspace"
+            this.script.sh "pwd"
 			if (TestBaseImageExists) {
 			    this.buildTestBase()
 			    }
