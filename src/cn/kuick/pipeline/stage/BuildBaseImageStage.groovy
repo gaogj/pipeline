@@ -65,7 +65,7 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-			if (TestBaseImageExists) {
+			if (fileExists('release/docker/testBase.docker')) {
 			    this.buildTestBase()
 			    }
 			else {
