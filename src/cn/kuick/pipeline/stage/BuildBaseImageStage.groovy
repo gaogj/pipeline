@@ -67,7 +67,7 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-			if (testBase != "Y") {
+			if (testBase != "N") {
 			    this.buildTestBase()
 			    }
 			else {
