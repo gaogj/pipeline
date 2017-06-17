@@ -65,7 +65,7 @@ class BuildBaseImageStage implements Serializable {
 			this.buildBase();
 
 			// Build TestBase image
-			if (TestBaseImageExists ) {
+			if (TestBaseImageExists) {
 			    this.buildTestBase();}
 			else {
                 echo 'Don not have to  Build TestBase image'
