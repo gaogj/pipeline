@@ -93,7 +93,7 @@ class DeployProdStage implements Serializable {
 
 	            this.script.sh "release/docker/prod/deploy.sh ${version}"
 
-			    this.script.sh "git tag v${version} ${commitId}"
+			    this.script.sh "git tag -f v${version} ${commitId}"
 
 			    this.script.sh " git push origin v${version}"
 	        }
