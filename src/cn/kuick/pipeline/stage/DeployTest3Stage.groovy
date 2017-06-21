@@ -77,8 +77,6 @@ class DeployTest3Stage implements Serializable {
 
 	        	this.script.sh "git reset --hard ${commitId}"
 
-                this.script.sh "cd release/docker/test3/ && docker-compose rm -f"
-
 	            this.script.sh "release/docker/test3/deploy.sh ${version}"
 	        }
 
