@@ -36,9 +36,9 @@ class PostDeployAutoMergeStage implements Serializable {
 
 	        this.script.sh "git fetch"
 
-	        this.script.sh "git checkout --track origin/master"
+	        this.script.sh "git checkout -B master --track origin/master"
 
-	        this.script.sh "git checkout --track origin/develop"
+	        this.script.sh "git checkout -B develop --track origin/develop"
 
 	        this.script.sh "git merge master"
 
