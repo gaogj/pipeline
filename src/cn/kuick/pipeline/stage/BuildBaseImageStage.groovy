@@ -36,7 +36,7 @@ class BuildBaseImageStage implements Serializable {
 	def buildBase() {
 		def name = this.serverName;
 		def docker = this.script.docker;
-
+        // 存储在本地是 cc/deal-rabbitpre-server-server 上传到 registry.kuick.cn server 会自动加上 https://registry.kuick.cn
 		def baseImage = docker.build("cc/${name}-server:base", '.');
 		baseImage.push();
 
