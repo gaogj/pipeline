@@ -38,6 +38,7 @@ class PrepareImageStage implements Serializable {
 		try {
 			baseImage.pull();
 		} catch(e) {
+		    // 存储在本地是 cc/deal-rabbitpre-server-server 上传到 registry.kuick.cn server 会自动加上 https://registry.kuick.cn
 			baseImage = docker.build("cc/${name}-server:base", '.');
 			baseImage.push();
 		}
