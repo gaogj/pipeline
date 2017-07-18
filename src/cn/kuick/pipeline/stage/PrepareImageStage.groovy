@@ -38,7 +38,7 @@ class PrepareImageStage implements Serializable {
 		try {
 			baseImage.pull();
 		} catch(e) {
-			baseImage = docker.build("registry.kuick.cn/cc/${name}-server:base", '.');
+			baseImage = docker.build("cc/${name}-server:base", '.');
 			baseImage.push();
 		}
 
@@ -53,7 +53,7 @@ class PrepareImageStage implements Serializable {
 		try {
 			baseImage.pull();
 		} catch(e) {
-			baseImage = docker.build("registry.kuick.cn/cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
+			baseImage = docker.build("cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
 			baseImage.push();
 		}
 
