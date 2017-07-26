@@ -34,6 +34,7 @@ class DeployTest2Stage implements Serializable {
 	def run() {
 		def version = this.version;
 		def deployNode = this.deployNode;
+		def docker = this.script.docker;
 
 		// 部署测试2环境
 		// We are pushing to a private secure Docker registry in this demo.
