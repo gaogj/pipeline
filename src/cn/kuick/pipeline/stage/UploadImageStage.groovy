@@ -30,8 +30,14 @@ class UploadImageStage implements Serializable {
 
 	def run() {
 		def version = this.version;
+		def docker = this.script.docker;
 
-		// 上传镜像
-		this.script.sh "./release/docker/push.sh ${version}";
+		// We are pushing to a private secure Docker registry in this demo.
+		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
+		// This is used to authenticate the Docker client to the registry.
+		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+			// 上传镜像
+			this.script.sh "./release/docker/push.sh ${version}";
+		}
 	}
 }
