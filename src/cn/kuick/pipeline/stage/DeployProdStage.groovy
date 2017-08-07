@@ -3,7 +3,7 @@ package cn.kuick.pipeline.stage;
 import java.io.Serializable;
 
 /**
- *	部署正式环境
+ *	部署正式环境 + 自动打tag
  */
 class DeployProdStage implements Serializable {
 	static String DEPLOY_TOKEN = "cc123456v5";
@@ -89,10 +89,13 @@ class DeployProdStage implements Serializable {
 
 	        this.script.withEnv(serverEnv) {
 
+                // Fix: docker部署时变量代码的版本与镜像版本不一致的问题
 	        	this.script.sh "git reset --hard ${commitId}"
 
+	        	// 部署prod
 	            this.script.sh "release/docker/prod/deploy.sh ${version}"
 
+                // 自动打tag
 			    this.script.sh "git tag -f v${version} ${commitId}"
 
 			    this.script.sh " git push origin v${version}"

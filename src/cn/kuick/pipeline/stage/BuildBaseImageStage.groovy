@@ -71,7 +71,7 @@ class BuildBaseImageStage implements Serializable {
 			    this.buildTestBase()
 			    }
 			else {
-                this.script.echo "Passed Build TestBase image!!!"
+                this.script.echo "Skiped Build TestBase image!!!"
                 }
 		}
 	}
