@@ -38,7 +38,7 @@ class UITestStage implements Serializable {
 			this.script.dir("ui-test") {
 	            this.script.git([
 	                url: "https://git.oschina.net/kuick-cn/kuick-deal-web-test.git", 
-	                branch: "master",
+	                branch: "develop",
 	                credentialsId: 'kuick_deploy'
 	            ]);
 
