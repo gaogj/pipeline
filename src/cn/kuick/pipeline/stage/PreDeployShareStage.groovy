@@ -69,6 +69,9 @@ class PreDeployShareStage implements Serializable {
 
             }
 			this.script.sh "./release/docker/test/predeploy.sh";
+
+            // clean old libs
+             this.script.sh "rm -rf libs/*";
             // 拉取子库
             this.script.sh "git submodule update --init --recursive";
 
