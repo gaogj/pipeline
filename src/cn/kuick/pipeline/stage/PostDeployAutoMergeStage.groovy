@@ -42,7 +42,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
             // 获取当前分支自动合并分支
 
-            if (gitlabBranch=="master") {
+            if (gitlabBranch == "master") {
 
                 this.script.sh "git checkout -B master --track origin/master"
 
@@ -57,7 +57,7 @@ class PostDeployAutoMergeStage implements Serializable {
                 this.script.echo "Merged branch master to develop success!"
                 }
 
-			else  if  (gitlabBranch=="develop") {
+			else  if  (gitlabBranch == "develop") {
 
                 this.script.sh "git checkout -B develop --track origin/develop"
 
