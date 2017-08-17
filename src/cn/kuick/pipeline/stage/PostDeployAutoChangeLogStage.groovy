@@ -56,7 +56,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
 
                 this.script.sh "git add CHANGELOG.md"
 
-                this.script.sh "git commit -m 'Update Changelog commit ${commitId}'"
+                this.script.sh "git commit -m 'docs: Update Changelog commit ${commitId}'"
 
 	            this.script.sh "git push origin ${branch}"
 
