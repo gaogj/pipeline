@@ -40,6 +40,7 @@ class PostDeployAutoMergeStage implements Serializable {
 	    	this.script.checkout this.script.scm
 
 	        this.script.sh "git fetch"
+	        this.script.echo "${branch}"
 
             // 获取当前分支自动合并分支
 
