@@ -13,7 +13,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
 	def version;
 	def commitId;
 	def branch;
-	def changelog;
+	def changeLog;
 
 
 	PostDeployAutoChangeLogStage(script, stageName, config) {
@@ -24,7 +24,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
 		this.version = config.version;
 		this.commitId = version[-6..-1];
 		this.branch = config.branch;
-		this.changelog = config.changelog;
+		this.changeLog = config.changeLog;
 
 	}
 
