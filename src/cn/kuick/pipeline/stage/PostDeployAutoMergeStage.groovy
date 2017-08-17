@@ -32,6 +32,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
 	def run345() {
 		def version = this.version;
+		def branch = this.gitlabBranch;
 
 		this.script.node('aliyun345-test') {
 			this.script.echo "login to aliyun345-test"
@@ -42,7 +43,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
             // 获取当前分支自动合并分支
 
-            if (gitlabBranch == "master") {
+            if (branch == "master") {
 
                 this.script.sh "git checkout -B master --track origin/master"
 
@@ -57,7 +58,7 @@ class PostDeployAutoMergeStage implements Serializable {
                 this.script.echo "Merged branch master to develop success!"
                 }
 
-			else if (gitlabBranch == "develop") {
+			else if (branch == "develop") {
 
                 this.script.sh "git checkout -B develop --track origin/develop"
 
@@ -71,6 +72,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
                 this.script.echo "Merged branch develop to master success!"
                 }
+
 			else {
 
                 this.script.echo "Please make sure your branch is develop or master!"
