@@ -32,7 +32,6 @@ class PostDeployAutoMergeStage implements Serializable {
 
 	def run345() {
 		def version = this.version;
-		def branch = this.gitlabBranch;
 
 		this.script.node('aliyun345-test') {
 			this.script.echo "login to aliyun345-test"
