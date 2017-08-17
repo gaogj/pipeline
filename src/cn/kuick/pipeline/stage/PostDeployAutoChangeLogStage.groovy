@@ -51,7 +51,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
             if (changeLog == "Y") {
                 this.script.sh "npm run chagelog"
 
-                this.script.sh "git add ."
+                this.script.sh "git add CHANGELOG.md"
 
                 this.script.sh "git commit -m 'Update Changelog commit ${commitId}'"
 
