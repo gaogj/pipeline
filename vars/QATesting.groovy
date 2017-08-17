@@ -19,11 +19,11 @@ def call(stageName, body) {
         def title = "${config.name}已经部署测试2!"
         def content = "${config.name}已经部署测试2!";
 
-        if (toMail != null && toMail != "xiongfei@chuchuchina.com") {
+        if (toMail != null && toMail != "zhuguoliang@kuick.cn") {
             mail([
                 bcc: '', 
                 body: content, 
-                cc: '', 
+                cc: 'devops@kuick.cn',
                 from: 'jenkins2@kuick.cn', 
                 replyTo: '', 
                 subject: title, 
@@ -32,6 +32,10 @@ def call(stageName, body) {
 
             echo "mail send ok!"
         }
+        else {
+            echo "Please check pipeline QA email settings"
+        }
+
 
         bearychatNotify(content);
 
