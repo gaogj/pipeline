@@ -43,14 +43,16 @@ class PreDeployShareStage implements Serializable {
 	            ]);
 	            }
 
+            // need mv it to ./release/docker/predeploy.sh
 			this.script.sh "./release/docker/test/predeploy.sh";
 
             // clean old libs
-             this.script.sh "rm -rf libs/*";
+            this.script.sh "rm -rf libs/*";
+
             // 拉取子库
             this.script.sh "git submodule update --init --recursive";
 
-			this.script.echo "pre-deploy test success!"
+			this.script.echo "test1-node1-327 pre-deploy success!"
 	    }
 
 }
@@ -71,14 +73,17 @@ class PreDeployShareStage implements Serializable {
 	            ]);
 
             }
+
+            // need mv it to ./release/docker/predeploy.sh
 			this.script.sh "./release/docker/test/predeploy.sh";
 
             // clean old libs
-             this.script.sh "rm -rf libs/*";
+            this.script.sh "rm -rf libs/*";
+
             // 拉取子库
             this.script.sh "git submodule update --init --recursive";
 
-			this.script.echo "pre-deploy test success!"
+			this.script.echo "build-server-345 pre-deploy success!"
 	    }
 
 }
