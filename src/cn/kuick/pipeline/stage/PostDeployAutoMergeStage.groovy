@@ -20,6 +20,8 @@ class PostDeployAutoMergeStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
+		this.commitId = version[-6..-1];
+		this.gitlabBranch = config.gitlabBranch;
 	}
 
 	def start() {
