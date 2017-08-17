@@ -57,7 +57,7 @@ class PostDeployAutoMergeStage implements Serializable {
                 this.script.echo "Merged branch master to develop success!"
                 }
 
-			else  if  (gitlabBranch == "develop") {
+			else if (gitlabBranch == "develop") {
 
                 this.script.sh "git checkout -B develop --track origin/develop"
 
@@ -69,7 +69,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
                 this.script.sh "git push origin master"
 
-                this.script.echo "Merged branch develop ${} to develop success!"
+                this.script.echo "Merged branch develop to master success!"
                 }
 			else {
 
