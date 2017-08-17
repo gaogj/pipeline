@@ -32,9 +32,6 @@ def call(stageName, body) {
 
             echo "mail send ok!"
         }
-        else {
-            echo "Please check pipeline QA email settings"
-        }
 
 
         bearychatNotify(content);
