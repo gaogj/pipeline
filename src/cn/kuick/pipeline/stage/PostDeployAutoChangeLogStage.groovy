@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  *	自动更新changelog
  */
-class PostDeployAutoMergeStage implements Serializable {
+class PostDeployAutoChangeLogStage implements Serializable {
 	def script;
 
 	def stageName;
@@ -15,7 +15,7 @@ class PostDeployAutoMergeStage implements Serializable {
 	def branch;
 
 
-	PostDeployAutoMergeStage(script, stageName, config) {
+	PostDeployAutoChangeLogStage(script, stageName, config) {
 		this.script = script;
 
 		this.stageName = stageName;
