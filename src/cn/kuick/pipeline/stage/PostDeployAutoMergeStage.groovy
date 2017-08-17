@@ -12,7 +12,7 @@ class PostDeployAutoMergeStage implements Serializable {
 	def serverName;
 	def version;
 	def commitId;
-	def gitlabBranch;
+	def branch;
 
 	PostDeployAutoMergeStage(script, stageName, config) {
 		this.script = script;
@@ -21,7 +21,7 @@ class PostDeployAutoMergeStage implements Serializable {
 		this.serverName = config.name;
 		this.version = config.version;
 		this.commitId = version[-6..-1];
-		this.gitlabBranch = config.gitlabBranch;
+		this.branch = config.branch;
 	}
 
 	def start() {
@@ -40,6 +40,7 @@ class PostDeployAutoMergeStage implements Serializable {
 	    	this.script.checkout this.script.scm
 
 	        this.script.sh "git fetch"
+
 	        this.script.echo "${branch}"
 
             // 获取当前分支自动合并分支
