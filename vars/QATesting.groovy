@@ -23,7 +23,7 @@ def call(stageName, body) {
             mail([
                 bcc: '', 
                 body: content, 
-                cc: 'devops@kuick.cn',
+                cc: '',
                 from: 'jenkins2@kuick.cn', 
                 replyTo: '', 
                 subject: title, 
