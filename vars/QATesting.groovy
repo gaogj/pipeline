@@ -19,19 +19,19 @@ def call(stageName, body) {
         def title = "${config.name}已经部署测试2!"
         def content = "${config.name}已经部署测试2!";
 
-        if (toMail != null && toMail != "xiongfei@chuchuchina.com") {
-            mail([
-                bcc: '', 
-                body: content, 
-                cc: '',
-                from: 'jenkins2@kuick.cn', 
-                replyTo: '', 
-                subject: title, 
-                to: toMail
-            ]);
-
-            echo "mail send ok!"
-        }
+//        if (toMail != null && toMail != "zhuguoliang@kuick.cn" ) {
+//            mail([
+//                bcc: '',
+//                body: content,
+//                cc: '',
+//                from: 'jenkins2@kuick.cn',
+//                replyTo: '',
+//                subject: title,
+//                to: toMail
+//            ]);
+//
+//            echo "mail send ok!"
+//        }
 
 
         bearychatNotify(content);
