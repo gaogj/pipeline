@@ -84,7 +84,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
 		    this.script.sh "The Follow branch will be deleted!"
 
-		    this.script.sh "git branch -r --merged develop| grep -v develop|grep -v master|grep -v HEAD|sed 's/origin\///'"
+		    this.script.sh "git branch -r --merged develop| grep -v develop|grep -v master|grep -v HEAD|sed 's/origin"\"///'"
 
 		    this.script.sh "git branch -r --merged develop| grep -v develop|grep -v master|grep -v HEAD|sed 's/origin"\"///' | xargs -n 1 git push --delete origin"
 
