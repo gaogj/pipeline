@@ -82,11 +82,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
 		    // 清理已经合并的分支
 
-		    this.script.echo "The Follow branch will be deleted!"
-
-		    this.script.sh "git branch -r --merged develop| grep -v develop|grep -v master|grep -v HEAD| cut -d/ -f2-"
-
-		    this.script.sh "git branch -r --merged develop| grep -v develop|grep -v master|grep -v HEAD| cut -d/ -f2- | xargs -n 1 git push --delete origin"
+		    this.script.sh "./shared/scripts/clean_merged_branch.sh"
 
 		    this.script.echo "Clean branch which merged to develop success!"
 
