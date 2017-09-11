@@ -80,8 +80,10 @@ class PostDeployAutoMergeStage implements Serializable {
 
 		        }
 
-		    // 清理已经合并的分支
+            // 确保shared 在并行构建存在
+			this.script.sh "./release/docker/predeploy.sh";
 
+		    // 清理已经合并的分支
 		    this.script.sh "./shared/scripts/clean_merged_branch.sh";
 
 			// this.script.sh "./release/docker/clean_merged_branch.sh";
