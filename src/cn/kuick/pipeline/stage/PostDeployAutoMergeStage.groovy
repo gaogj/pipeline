@@ -82,7 +82,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
 		    // 清理已经合并的分支
 
-		    this.script.sh "cd shared/scripts && pwd && ls"
+		    this.script.sh "cd shared/scripts && pwd && ls -la"
 
 		    this.script.sh "sh clean_merged_branch.sh"
 
