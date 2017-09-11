@@ -84,7 +84,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
 		    this.script.sh "cd shared/scripts && pwd && ls -la"
 
-		    this.script.sh "sh clean_merged_branch.sh"
+		    this.script.sh "clean_merged_branch.sh"
 
 		    this.script.echo "Clean branch which merged to develop success!"
 
