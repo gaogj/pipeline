@@ -84,7 +84,7 @@ class PostDeployAutoMergeStage implements Serializable {
 
 		    this.script.sh "./shared/scripts/clean_merged_branch.sh";
 
-			this.script.sh "./release/docker/clean_merged_branch.sh";
+			// this.script.sh "./release/docker/clean_merged_branch.sh";
 
 		    this.script.echo "Clean branch which merged to develop success!"
 
