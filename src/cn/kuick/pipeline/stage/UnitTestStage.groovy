@@ -23,7 +23,7 @@ class UnitTestStage implements Serializable {
 	def start() {
 		this.script.stage(this.stageName) {
 		    this.script.node('aliyun345-test') {
-		    	// this.script.checkout this.script.scm
+		    	this.script.checkout this.script.scm
 
 		       	this.run();
 		    }
