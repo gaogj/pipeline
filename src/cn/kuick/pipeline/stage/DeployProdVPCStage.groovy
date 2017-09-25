@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  *	部署正式环境 + 自动打tag
  */
-class DeployProdStage implements Serializable {
+class DeployProdVPCStage implements Serializable {
 	static String DEPLOY_TOKEN = "cc123456v5";
 
 	def script;
@@ -16,7 +16,7 @@ class DeployProdStage implements Serializable {
 	def deployNode;
 	def commitId;
 
-	DeployProdStage(script, stageName, config) {
+	DeployProdVPCStage(script, stageName, config) {
 		this.script = script;
 
 		this.stageName = stageName;
