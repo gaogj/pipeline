@@ -1,5 +1,22 @@
+//// See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
+//import cn.kuick.pipeline.stage.UnitTestStage
+//
+//// The call(body) method in any file in workflowLibs.git/vars is exposed as a
+//// method with the same name as the file.
+//def call(stageName, body) {
+//    def config = [:]
+//    body.resolveStrategy = Closure.DELEGATE_FIRST
+//    body.delegate = config
+//    body()
+//
+//    def stage = new UnitTestStage(this, stageName, config);
+//    stage.start();
+//}
+
+// 测试完成启用单元测试
+
 // See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
-import cn.kuick.pipeline.stage.UnitTestStage
+import cn.kuick.pipeline.stage.DeployProdVPCStage
 
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
@@ -9,6 +26,6 @@ def call(stageName, body) {
     body.delegate = config
     body()
 
-    def stage = new UnitTestStage(this, stageName, config);
+    def stage = new DeployProdVPCStage(this, stageName, config);
     stage.start();
 }
