@@ -26,6 +26,6 @@ def call(stageName, body) {
     body.delegate = config
     body()
 
-    def stage = new DeployProdVPCStage(this, stageName, config);
-    stage.start();
+    def stage2 = new DeployProdVPCStage(this, stageName, config);
+    stage2.start();
 }
