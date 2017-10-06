@@ -63,13 +63,13 @@ class DeployProdStage implements Serializable {
 
 	        this.script.dir("deploy-config") {
 	            this.script.git([
-	                url: "https://git.kuick.cn/deploys/deploy-config.git", 
+	                url: "https://git.kuick.cn/deploys/deploy-config.git",
 	                branch: "master",
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
 	            // application.properties
-	            def properties = this.readProperties("prod/aliyuncs/application.properties");
+	            def properties = this.readProperties("prod/aliyuncsvpc/application.properties");
 
 	            for(def entry : properties) {
 	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
@@ -83,8 +83,8 @@ class DeployProdStage implements Serializable {
 	            def PGRDIR = this.script.pwd();
 
 	           	serverEnv.add("DOCKER_TLS_VERIFY=1")
-				serverEnv.add("DOCKER_HOST=tcp://master1g3.cs-cn-hangzhou.aliyun.com:16251")
-				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncs/certs")
+				serverEnv.add("DOCKER_HOST=tcp://master3g9.cs-cn-hangzhou.aliyun.com:20103")
+				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncsvpc/certs")
 	        }
 
 	        this.script.withEnv(serverEnv) {
@@ -96,9 +96,9 @@ class DeployProdStage implements Serializable {
 	            this.script.sh "release/docker/prod/deploy.sh ${version}"
 
                 // 自动打tag
-			    this.script.sh "git tag -f v${version} ${commitId}"
-
-			    this.script.sh " git push origin v${version}"
+//			    this.script.sh "git tag -f v${version} ${commitId}"
+//
+//			    this.script.sh " git push origin v${version}"
 	        }
 
 	        this.script.echo "deploy prod success!"
