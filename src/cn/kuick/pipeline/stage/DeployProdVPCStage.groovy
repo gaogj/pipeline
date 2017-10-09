@@ -96,9 +96,9 @@ class DeployProdVPCStage implements Serializable {
 	            this.script.sh "release/docker/prod/deploy.sh ${version}"
 
                 // 自动打tag
-//			    this.script.sh "git tag -f v${version} ${commitId}"
-//
-//			    this.script.sh " git push origin v${version}"
+			    this.script.sh "git tag -f v${version} ${commitId}"
+
+			    this.script.sh " git push origin v${version}"
 	        }
 
 	        this.script.echo "deploy prod success!"
