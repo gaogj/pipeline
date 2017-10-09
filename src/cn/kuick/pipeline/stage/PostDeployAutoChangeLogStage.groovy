@@ -52,7 +52,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
 
                // this.script.sh "npm install"
 
-               this.script.sh "npm install commitizen@^2.3.0 validate-commit-msg@^2.11.1 conventional-changelog-cli@^1.2.0 husky@^0.13.1  --registry=https://registry.npm.taobao.org"
+               // this.script.sh "npm install commitizen@^2.3.0 validate-commit-msg@^2.11.1 conventional-changelog-cli@^1.2.0 husky@^0.13.1  --registry=https://registry.npm.taobao.org"
 
                 this.script.sh "npm run changelog"
 
