@@ -33,17 +33,16 @@ class SonarQubeStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def docker = this.script.docker;
-		//def sonarqube = this.script.sonarqube;
-	    def sonarqubeScannerHome = 'SonarQube_Scanner';
 
 		this.script.node("aliyun327-test") {
 	        this.script.echo "login to aliyun327-test"
 
 	        this.script.checkout this.script.scm
 
-            this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=74a5055a367c4a64bcb5d1a136690126a78a1510"
-            
-            this.script.echo "Please login and check your code :https://sonar.kuick.cn/projects"
+//            this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=74a5055a367c4a64bcb5d1a136690126a78a1510"
+//
+//            this.script.echo "Please login and check your code :https://sonar.kuick.cn/projects"
+            this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner"
 
         }
 
