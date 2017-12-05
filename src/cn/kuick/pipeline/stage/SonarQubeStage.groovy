@@ -43,7 +43,7 @@ class SonarQubeStage implements Serializable {
 
         //withSonarQubeEnv('SonarQube') {
             //this.script.sh "${sonarqubeScannerHome}/bin/sonar-scanner"
-            this.script.sh "source  /etc/profile && ./gradlew --info sonarqube"
+            this.script.bash "source  /etc/profile && ./gradlew --info sonarqube"
             //}
 
         }
