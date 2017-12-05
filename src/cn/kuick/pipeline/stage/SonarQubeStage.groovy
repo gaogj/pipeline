@@ -41,10 +41,8 @@ class SonarQubeStage implements Serializable {
 
 	        this.script.checkout this.script.scm
 
-        //withSonarQubeEnv('SonarQube') {
-            //this.script.sh "${sonarqubeScannerHome}/bin/sonar-scanner"
-            this.script.sh "./gradlew --info sonarqube"
-            //}
+            this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=74a5055a367c4a64bcb5d1a136690126a78a1510
+"
 
         }
 
