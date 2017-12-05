@@ -33,7 +33,7 @@ class SonarQubeStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def docker = this.script.docker;
-		def sonarqube = this.script.sonarqube;
+		//def sonarqube = this.script.sonarqube;
 	    def sonarqubeScannerHome = 'SonarQube_Scanner';
 
 		this.script.node("aliyun345-test") {
