@@ -11,6 +11,7 @@ class SonarQubeStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def projectType;
 
 	SonarQubeStage(script, stageName, config) {
 		this.script = script;
@@ -18,6 +19,7 @@ class SonarQubeStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
+		this.projectType = config.type;
 	}
 
 	def start() {
@@ -33,17 +35,35 @@ class SonarQubeStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def docker = this.script.docker;
+		def serverName = this.serverName;
+		def projectType = this.projectType;
+		def sonarToken = "74a5055a367c4a64bcb5d1a136690126a78a1510"
 
 		this.script.node("aliyun327-test") {
 	        this.script.echo "login to aliyun327-test"
 
 	        this.script.checkout this.script.scm
 
-            this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=74a5055a367c4a64bcb5d1a136690126a78a1510"
+
+	        if (projectType == "java") {
+
+                this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken}"
+                }
+
+            else if (projectType == "nodejs") {
+
+                this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken} -Dsonar.projectKey=${serverName}  -Dsonar.sources=."
 
             this.script.echo "Please login and check your code :https://sonar.kuick.cn/projects"
-//            this.script.sh "./gradlew build"
-//            this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner"
+                }
+
+            else {
+
+                this.script.echo "The project unsupport SonarQube!"
+
+            }
+
+            this.script.echo "Please login and check your code :https://sonar.kuick.cn/projects"
 
         }
 
