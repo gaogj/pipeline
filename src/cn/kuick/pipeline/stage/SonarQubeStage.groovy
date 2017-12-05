@@ -33,7 +33,7 @@ class SonarQubeStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def docker = this.script.docker;
-	    def sonarqubeScannerHome = tool name: 'SonarQube Scanner';
+	    def sonarqubeScannerHome = 'SonarQube_Scanner';
 
         withSonarQubeEnv('SonarQube') {
             sh "${sonarqubeScannerHome}/bin/sonar-scanner"
