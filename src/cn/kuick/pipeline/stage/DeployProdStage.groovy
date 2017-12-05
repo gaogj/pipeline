@@ -84,7 +84,7 @@ class DeployProdStage implements Serializable {
 
 	           	serverEnv.add("DOCKER_TLS_VERIFY=1")
 				serverEnv.add("DOCKER_HOST=tcp://master3g9.cs-cn-hangzhou.aliyun.com:20103")
-				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncsvpc/certs")
+				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncs/certs")
 	        }
 
 	        this.script.withEnv(serverEnv) {
