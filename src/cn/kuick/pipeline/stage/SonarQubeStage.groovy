@@ -39,11 +39,11 @@ class SonarQubeStage implements Serializable {
 
 	        this.script.checkout this.script.scm
 
-//            this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=74a5055a367c4a64bcb5d1a136690126a78a1510"
-//
-//            this.script.echo "Please login and check your code :https://sonar.kuick.cn/projects"
-            this.script.sh "./gradlew build"
-            this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner"
+            this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=74a5055a367c4a64bcb5d1a136690126a78a1510"
+
+            this.script.echo "Please login and check your code :https://sonar.kuick.cn/projects"
+//            this.script.sh "./gradlew build"
+//            this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner"
 
         }
 
