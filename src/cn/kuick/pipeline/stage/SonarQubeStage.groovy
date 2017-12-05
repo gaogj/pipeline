@@ -52,7 +52,7 @@ class SonarQubeStage implements Serializable {
 
             else if (projectType == "nodejs") {
 
-                this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken} -Dsonar.projectKey=${serverName}  -Dsonar.sources=."
+                this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken} -Dsonar.projectKey=${serverName}  -Dsonar.sourceEncoding=UTF-8 -Dsonar.sources=."
 
             this.script.echo "Please login and check your code :https://sonar.kuick.cn/projects"
                 }
