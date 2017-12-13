@@ -31,8 +31,14 @@ class DeployTestStage implements Serializable {
 	def run() {
 		def version = this.version;
 
-		this.script.node('aliyun327-test') {
-			this.script.echo "login to aliyun327-test"
+        if (deployNode == null) {
+            def deployNode = "aliyun327";
+        else
+            def deployNode = this.deployNode;
+        }
+
+        this.script.node("${deployNode}-test") {
+            this.script.echo "login to ${deployNode}-test"
 
 	    	this.script.checkout this.script.scm
 
