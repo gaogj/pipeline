@@ -33,7 +33,8 @@ class DeployTestStage implements Serializable {
 
         if (deployNode == null) {
             def deployNode = "aliyun327";
-        else
+            }
+        else {
             def deployNode = this.deployNode;
         }
 
