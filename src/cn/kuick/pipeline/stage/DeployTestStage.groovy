@@ -32,6 +32,7 @@ class DeployTestStage implements Serializable {
 
 	def run() {
 		def version = this.version;
+		def deployNode = this.deployNode;
 
         if (deployNode == null) {
             def deployNode = "aliyun327";
