@@ -33,39 +33,24 @@ class DeployTestStage implements Serializable {
 	def run() {
 		def version = this.version;
 
-        if (deployNode == null) {
-
-            this.script.node("aliyun327-test")
-
-            this.script.echo "login to aliyun327-test"
-
-            this.script.checkout this.script.scm
-
-            this.script.sh "git reset --hard ${commitId}"
-
-            this.script.sh "release/docker/pull.sh ${version}"
-
-            this.script.sh "./release/docker/test/deploy.sh ${version}";
-
-            this.script.echo "deploy test success!"
+        if (deployNode == "aliyun354-test") {
+            this.script.node("aliyun354-test")
+            this.script.echo "login to aliyun354-test"
             }
 
         else {
-
-            this.script.node("aliyun354-test")
-            
-            this.script.echo "login to aliyun354-test"
-
-            this.script.checkout this.script.scm
-
-            this.script.sh "git reset --hard ${commitId}"
-
-            this.script.sh "release/docker/pull.sh ${version}"
-
-            this.script.sh "./release/docker/test/deploy.sh ${version}";
-
-            this.script.echo "deploy test success!"
+            this.script.node("aliyun327-test")
+            this.script.echo "login to aliyun327-test"
             }
 
+        this.script.checkout this.script.scm
+
+        this.script.sh "git reset --hard ${commitId}"
+
+        this.script.sh "release/docker/pull.sh ${version}"
+
+        this.script.sh "./release/docker/test/deploy.sh ${version}";
+
+        this.script.echo "deploy test success!"
 	    }
 }
