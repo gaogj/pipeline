@@ -47,7 +47,7 @@ class SonarQubeStage implements Serializable {
 
 	        if (projectType == "java") {
 
-                this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken} --debug"
+                this.script.sh "./gradlew sonarqube   -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken}"
                 }
 
             else if (projectType == "nodejs") {
