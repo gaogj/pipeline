@@ -58,7 +58,7 @@ class Test3ApiTestingStage implements Serializable {
 
                 if (serverName == "deal-openweixin") {
 
-                    this.script.sh "echo SERVER_NAME: $SERVER_NAME"
+                    this.script.sh "echo $SERVER_NAME！"
 
                     this.script.sh'#!/bin/bash \n' + './release/docker/nginx/deploy.sh && ./release/docker/test3/deploy.sh'
                     }
