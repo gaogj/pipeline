@@ -50,34 +50,29 @@ class Test3ApiTestingStage implements Serializable {
 	                credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
 
-	        def serverEnv = [];
+            this.script.sh"export SERVER_NAME=${serverName}"
 
-	        serverEnv.add("SERVER_NAME=$serverName")
+            this.script.echo "SERVER_NAME"
 
-	        this.script.withEnv(serverEnv) {
+            if (serverName == "deal-openweixin") {
 
-                if (serverName == "deal-openweixin") {
-
-                    this.script.sh "echo $SERVER_NAME！"
-
-                    this.script.sh'#!/bin/bash \n' + './release/docker/nginx/deploy.sh && ./release/docker/test3/deploy.sh'
-                    }
-
-    //            else if (projectType == "nodejs") {
-    //
-    //                this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken} Dsonar.projectKey=${serverName}-server  -Dsonar.sourceEncoding=UTF-8 -Dsonar.exclusions=libs/**  -Dsonar.sources=."
-    //
-    //                }
-
-                else {
-
-                    this.script.echo "Test3 api test pass!"
-
+                this.script.sh'#!/bin/bash \n' + './release/docker/nginx/deploy.sh && ./release/docker/test3/deploy.sh'
                 }
 
-                this.script.echo "Please check test report https://testreport.kuick.cn/"
+//            else if (projectType == "nodejs") {
+//
+//                this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken} Dsonar.projectKey=${serverName}-server  -Dsonar.sourceEncoding=UTF-8 -Dsonar.exclusions=libs/**  -Dsonar.sources=."
+//
+//                }
+
+            else {
+
+                this.script.echo "Test3 api test pass!"
 
             }
+
+            this.script.echo "Please check test report https://testreport.kuick.cn/"
+
 
             }
         }
