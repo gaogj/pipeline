@@ -52,7 +52,7 @@ class Test3ApiTestingStage implements Serializable {
 
 	        def serverEnv = [];
 
-	        serverEnv.add("SERVER_NAME=${serverName}")
+	        serverEnv.add("SERVER_NAME=$serverName")
 
 	        this.script.withEnv(serverEnv) {
 
