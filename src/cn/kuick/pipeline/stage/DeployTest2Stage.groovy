@@ -35,6 +35,7 @@ class DeployTest2Stage implements Serializable {
 		def version = this.version;
 		def deployNode = this.deployNode;
 		def docker = this.script.docker;
+		def serverName = this.serverName;
 
 		// 部署测试2环境
 		// We are pushing to a private secure Docker registry in this demo.
@@ -49,7 +50,7 @@ class DeployTest2Stage implements Serializable {
     
                 this.script.sh "git reset --hard ${commitId}"
 
-                this.script.sh "release/docker/test2/deploy.sh ${version}"
+                this.script.sh "release/docker/test2*/deploy.sh ${version}"
 
                 this.script.echo "deploy test2 success!"
 	        }
