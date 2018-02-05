@@ -50,9 +50,19 @@ class DeployTest2Stage implements Serializable {
     
                 this.script.sh "git reset --hard ${commitId}"
 
-                this.script.sh "release/docker/test2*/deploy.sh ${version}"
+                if (serverName == "kafka") {
+
+                this.script.sh "release/docker/${deployNode}-test2/deploy.sh ${version}"
 
                 this.script.echo "deploy test2 success!"
+
+                }
+
+                else {
+                    this.script.sh "release/docker/test2/deploy.sh ${version}"
+
+                    this.script.echo "deploy test2 success!"
+                }
 	        }
 	    }
 	}
