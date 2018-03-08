@@ -62,6 +62,15 @@ class DeployProdVPCStage implements Serializable {
 
 	        this.script.checkout this.script.scm
 
+            // We are pushing to a private secure Docker registry in this demo.
+            // 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
+            // This is used to authenticate the Docker client to the registry.
+            docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+                // 提供一个构建镜像稳定版本
+                this.script.sh "./release/docker/build.sh ${stable_version}";
+                this.script.sh "./release/docker/push.sh ${stable_version}";
+            }
+
 	        def serverEnv = [];
 
 	        this.script.dir("deploy-config") {
@@ -102,15 +111,6 @@ class DeployProdVPCStage implements Serializable {
 			    this.script.sh "git tag -f v${version} ${commitId}"
 
 			    this.script.sh " git push origin v${version}"
-
-				// We are pushing to a private secure Docker registry in this demo.
-				// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
-				// This is used to authenticate the Docker client to the registry.
-				docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
-					// 提供一个构建镜像稳定版本
-					this.script.sh "./release/docker/build.sh ${stable_version}";
-                    this.script.sh "./release/docker/push.sh ${stable_version}";
-				}
 
 	        }
 
