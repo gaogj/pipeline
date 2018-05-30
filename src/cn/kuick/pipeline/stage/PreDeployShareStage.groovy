@@ -31,8 +31,8 @@ class PreDeployShareStage implements Serializable {
 		def version = this.version;
 
 // test
-		def userId = build.getCause(Cause.UserIdCause).getUserId()
-		this.script.echo "userId:${userId}"
+		def userId = build.getCause(Cause.UserIdCause).getUserId();
+			this.script.echo "userId:${userId}"
 // test
 		this.script.node('aliyun327-test') {
 			this.script.echo "login to aliyun327-test"
