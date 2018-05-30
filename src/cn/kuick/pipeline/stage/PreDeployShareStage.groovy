@@ -19,24 +19,17 @@ class PreDeployShareStage implements Serializable {
 	}
 
 
-	def currentUser(String requester) {
-
-		def trigger_user = ''
-
+	def call(String name = 'human') {
+		// Any valid steps can be called from this code, just like in other
+		// Scripted Pipeline
+		def user_name
+		def user_id
 		wrap([$class: 'BuildUser']) {
-
-			trigger_user = env.BUILD_USER_ID
-
-			// decide trigger by github or not
-
-			// decide trigger by slack or not
-
-			// decide trigger by other jenkins job or not
-
-			echo "This job is triggered by ${trigger_user}..."
+			user_id = env.BUILD_USER_ID
+			user_name = env.BUILD_USER
+			//echo "USER: ${user_name}"
 		}
-
-		return trigger_user
+		return user_name
 	}
 
 	def start() {
