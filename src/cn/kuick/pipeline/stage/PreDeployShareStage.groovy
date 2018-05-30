@@ -21,10 +21,8 @@ class PreDeployShareStage implements Serializable {
 
 	def getUserId() {
 		def user
-		node {
 			wrap([$class: 'BuildUser']) {
 				user = env.BUILD_USER_ID
-			}
 		}
 		return user
 	}
