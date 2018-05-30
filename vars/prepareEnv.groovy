@@ -1,8 +1,5 @@
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
-def userId = build.getCause(Cause.UserIdCause).getUserId()
-	echo "userId:${userId}"
-
 def printPipelineEnv() {
 	echo "----------------------------------------------"
 	echo "------------------printPipelineEnv-start--------------"
@@ -68,7 +65,6 @@ def printGitLabEnv() {
 }
 
 def call(envCallback) {
-	this.userId();
 	this.printPipelineEnv();
 	this.printGitLabEnv();
 
