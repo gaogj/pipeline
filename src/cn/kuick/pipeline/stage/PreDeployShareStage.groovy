@@ -29,6 +29,7 @@ class PreDeployShareStage implements Serializable {
 			}
 		}
 		return user
+	}
 
 
 	def start() {
