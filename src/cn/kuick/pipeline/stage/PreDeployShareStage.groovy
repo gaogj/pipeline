@@ -12,7 +12,7 @@ class PreDeployShareStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
-	def currentUser= User.current();
+	def currentUser = User.current();
 
 	PreDeployShareStage(script, stageName, config) {
 		this.script = script;
