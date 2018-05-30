@@ -33,7 +33,6 @@ class PreDeployShareStage implements Serializable {
 		this.script.stage(this.stageName) {
 			this.run327();
 		    this.run345();
-			this.getUserId();
 
 		}
 	}
@@ -41,9 +40,12 @@ class PreDeployShareStage implements Serializable {
 
 	def run327() {
 		def version = this.version;
+		def userId = getUserId()
 
 		this.script.node('aliyun327-test') {
 			this.script.echo "login to aliyun327-test"
+
+			this.script.echo "'userId:' ${userId}"
 
 	    	this.script.checkout this.script.scm
 
