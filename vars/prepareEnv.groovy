@@ -3,8 +3,6 @@
 def userId = build.getCause(Cause.UserIdCause).getUserId()
 	echo "userId:${userId}"
 
-echo "BUILD_USER_ID:${BUILD_USER_ID}"
-
 def printPipelineEnv() {
 	echo "----------------------------------------------"
 	echo "------------------printPipelineEnv-start--------------"
@@ -70,6 +68,7 @@ def printGitLabEnv() {
 }
 
 def call(envCallback) {
+	this.userId();
 	this.printPipelineEnv();
 	this.printGitLabEnv();
 
