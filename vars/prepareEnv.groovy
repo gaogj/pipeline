@@ -1,5 +1,11 @@
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
+wrap([$class: 'BuildUser']) {
+	Username = env.BUILD_USER_ID
+}
+
+echo "buildUser:$Username"
+
 def printPipelineEnv() {
 	echo "----------------------------------------------"
 	echo "------------------printPipelineEnv-start--------------"
