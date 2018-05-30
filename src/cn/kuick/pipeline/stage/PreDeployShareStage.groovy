@@ -10,7 +10,6 @@ class PreDeployShareStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
-	}
 
 	PreDeployShareStage(script, stageName, config) {
 		this.script = script;
