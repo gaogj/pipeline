@@ -4,7 +4,7 @@ def printPipelineEnv() {
 	echo "----------------------------------------------"
 	echo "------------------printPipelineEnv-start--------------"
 
-	echo "USER_ID:${env.USER_ID}"
+	echo "USER_ID:${env.BUILD_USER_ID}"
 
 	echo "BRANCH_NAME:${env.BRANCH_NAME}"
 
