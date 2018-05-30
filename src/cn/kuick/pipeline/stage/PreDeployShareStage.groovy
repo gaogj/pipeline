@@ -3,8 +3,6 @@ package cn.kuick.pipeline.stage;
 import java.io.Serializable;
 import hudson.model.User;
 
-User.current()
-
 /**
  *	预部署shared
  */
@@ -14,6 +12,7 @@ class PreDeployShareStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def currentUser;
 
 	PreDeployShareStage(script, stageName, config) {
 		this.script = script;
@@ -21,6 +20,7 @@ class PreDeployShareStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
+		this.currentUser == User.current();
 	}
 
 	def start() {
@@ -35,6 +35,8 @@ class PreDeployShareStage implements Serializable {
 
 		this.script.node('aliyun327-test') {
 			this.script.echo "login to aliyun327-test"
+
+			this.script.echo "${currentUser}"
 
 	    	this.script.checkout this.script.scm
 
