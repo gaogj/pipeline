@@ -10,8 +10,6 @@ class PreDeployShareStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
-	def buildUser;
-	def buildUserId;
 
 	PreDeployShareStage(script, stageName, config) {
 		this.script = script;
@@ -21,21 +19,35 @@ class PreDeployShareStage implements Serializable {
 	}
 
 
+	def currentUser(String requester) {
+
+		def trigger_user = ''
+
+		wrap([$class: 'BuildUser']) {
+
+			trigger_user = env.BUILD_USER_ID
+
+			// decide trigger by github or not
+
+			// decide trigger by slack or not
+
+			// decide trigger by other jenkins job or not
+
+			echo "This job is triggered by ${trigger_user}..."
+		}
+
+		return trigger_user
+	}
+
 	def start() {
 		this.script.stage(this.stageName) {
 			this.run327();
 		    this.run345();
-			this._currentUser()
+			this.currentUser();
 
 		}
 	}
 
-	wrap([$class: 'BuildUser']) {
-		buildUser="${script.env.BUILD_USER}"
-		steps.echo "BUILD_USER: ${buildUser}"
-		buildUserId="${script.env.BUILD_USER_ID }"
-		steps.echo "BUILD_USER_ID : ${buildUserId}"
-	}
 
 	def run327() {
 		def version = this.version;
