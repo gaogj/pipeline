@@ -19,7 +19,7 @@ class PreDeployShareStage implements Serializable {
 	}
 
 
-	def call(String name = 'human') {
+	def currentUser(String name = 'human') {
 		// Any valid steps can be called from this code, just like in other
 		// Scripted Pipeline
 		def user_name
