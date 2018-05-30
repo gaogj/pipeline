@@ -29,7 +29,7 @@ class PreDeployShareStage implements Serializable {
 
 	def run327() {
 		def version = this.version;
-		def userId = env.BUILD_USER_ID;
+		def userId = this.script.env.BUILD_USER_ID;
 
 		this.script.node('aliyun327-test') {
 			this.script.echo "login to aliyun327-test"
