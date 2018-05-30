@@ -20,7 +20,7 @@ class PreDeployShareStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-		this.currentUser == User.current();
+		this.currentUser = User.current();
 	}
 
 	def start() {
