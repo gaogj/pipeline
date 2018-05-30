@@ -10,6 +10,8 @@ class PreDeployShareStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def buildUser;
+	def buildUserId;
 
 	PreDeployShareStage(script, stageName, config) {
 		this.script = script;
@@ -28,11 +30,11 @@ class PreDeployShareStage implements Serializable {
 		}
 	}
 
-	def _currentUser() {
-		wrap([$class: 'BuildUser']) {
-			// It seems like BUILD_USER_ID is typically an email address.
-			return env.BUILD_USER_ID.split("@")[0];
-		}
+	wrap([$class: 'BuildUser']) {
+		buildUser="${script.env.BUILD_USER}"
+		steps.echo "BUILD_USER: ${buildUser}"
+		buildUserId="${script.env.BUILD_USER_ID }"
+		steps.echo "BUILD_USER_ID : ${buildUserId}"
 	}
 
 	def run327() {
