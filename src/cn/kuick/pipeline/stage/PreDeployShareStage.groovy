@@ -1,7 +1,7 @@
 package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
-import hudson.model.User
+import hudson.model.User;
 
 User.current()
 
