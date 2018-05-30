@@ -19,24 +19,21 @@ class PreDeployShareStage implements Serializable {
 	}
 
 
-	def currentUser(String name = 'human') {
-		// Any valid steps can be called from this code, just like in other
-		// Scripted Pipeline
-		def user_name
-		def user_id
-		wrap([$class: 'BuildUser']) {
-			user_id = env.BUILD_USER_ID
-			user_name = env.BUILD_USER
-			//echo "USER: ${user_name}"
+	def getUserId() {
+		def user
+		node {
+			wrap([$class: 'BuildUser']) {
+				user = env.BUILD_USER_ID
+			}
 		}
-		return user_name
+		return user
 	}
 
 	def start() {
 		this.script.stage(this.stageName) {
 			this.run327();
 		    this.run345();
-			this.currentUser();
+			this.getUserId();
 
 		}
 	}
