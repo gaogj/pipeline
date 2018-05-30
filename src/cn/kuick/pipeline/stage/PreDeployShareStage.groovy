@@ -23,6 +23,15 @@ class PreDeployShareStage implements Serializable {
 		this.script.stage(this.stageName) {
 			this.run327();
 		    this.run345();
+			this._currentUser()
+
+		}
+	}
+
+	def _currentUser() {
+		wrap([$class: 'BuildUser']) {
+			// It seems like BUILD_USER_ID is typically an email address.
+			return env.BUILD_USER_ID.split("@")[0];
 		}
 	}
 
