@@ -19,14 +19,6 @@ class PreDeployShareStage implements Serializable {
 	}
 
 
-	def getUserId() {
-		def user
-			wrap([$class: 'BuildUser']) {
-				user = env.BUILD_USER_ID
-		}
-		return user
-	}
-
 	def start() {
 		this.script.stage(this.stageName) {
 			this.run327();
@@ -38,12 +30,9 @@ class PreDeployShareStage implements Serializable {
 
 	def run327() {
 		def version = this.version;
-		def userId = getUserId()
 
 		this.script.node('aliyun327-test') {
 			this.script.echo "login to aliyun327-test"
-
-			this.script.echo "'userId:' ${userId}"
 
 	    	this.script.checkout this.script.scm
 
