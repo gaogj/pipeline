@@ -36,7 +36,7 @@ class PreDeployShareStage implements Serializable {
 		this.script.node('aliyun327-test') {
 			this.script.echo "login to aliyun327-test"
 
-			this.script.echo "${currentUser}"
+			this.script.echo "'currentUser:'${currentUser}"
 
 	    	this.script.checkout this.script.scm
 
