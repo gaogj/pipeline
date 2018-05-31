@@ -126,7 +126,7 @@ def call(envCallback) {
 	}
     
 	// USER ID
-	env.USER_ID = getBuildUser();
+	env.USER_ID = this.getBuildUser();
 
 	this.printPipelineEnv();
 }
