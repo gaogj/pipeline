@@ -17,9 +17,7 @@ class DeployProdVPCStage implements Serializable {
 	def deployNode;
 	def commitId;
 	def userId = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause);
-
-	def userId = this.userId();
-
+	
 
 	DeployProdVPCStage(script, stageName, config) {
 		this.script = script;
