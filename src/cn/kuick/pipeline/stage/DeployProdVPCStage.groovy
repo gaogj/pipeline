@@ -112,13 +112,19 @@ class DeployProdVPCStage implements Serializable {
                 // Fix: docker部署时变量代码的版本与镜像版本不一致的问题
 	        	this.script.sh "git reset --hard ${commitId}"
 
-	        	// 部署prod
-	            this.script.sh "release/docker/prod/deploy.sh ${version}"
+	        	if (USER_ID == "kuick") {
 
-                // 自动打tag
-			    this.script.sh "git tag -f v${version} ${commitId}"
+					// 部署prod
+					this.script.sh "release/docker/prod/deploy.sh ${version}"
 
-			    this.script.sh " git push origin v${version}"
+					// 自动打tag
+					this.script.sh "git tag -f v${version} ${commitId}"
+
+					this.script.sh " git push origin v${version}
+					}
+					else {
+						this.script.echo "You have no authority to build production!!!"
+					}
 
 	        }
 
