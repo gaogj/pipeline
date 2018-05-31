@@ -16,6 +16,19 @@ class DeployProdVPCStage implements Serializable {
 	def deployNode;
 	def commitId;
 
+	@NonCPS
+	def getBuildUser() {
+		def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause);
+
+		if (cause != null) {
+			return cause.getUserId()
+		}
+
+		return "gitlab"
+	}
+
+	def userId = this.getBuildUser();
+	
 	DeployProdVPCStage(script, stageName, config) {
 		this.script = script;
 
@@ -49,22 +62,10 @@ class DeployProdVPCStage implements Serializable {
 		return this.script.readProperties([file: propFile])
 	}
 
-	@NonCPS
-	def getBuildUser() {
-		def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause);
-
-		if (cause != null) {
-			return cause.getUserId()
-		}
-
-		return "gitlab"
-	}
-
 	def run() {
 		def version = this.version;
 		def deployNode = this.deployNode;
 		def docker = this.script.docker;
-		userId = this.getBuildUser();
 		this.script.echo "${userId}"
 
 
