@@ -120,7 +120,7 @@ class DeployProdVPCStage implements Serializable {
 					// 自动打tag
 					this.script.sh "git tag -f v${version} ${commitId}"
 
-					this.script.sh " git push origin v${version}
+					this.script.sh " git push origin v${version}"
 					}
 					else {
 						this.script.echo "You have no authority to build production!!!"
