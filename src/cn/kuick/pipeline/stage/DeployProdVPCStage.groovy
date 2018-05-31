@@ -2,18 +2,9 @@ package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
 
-@NonCPS
-def getBuildUser() {
-	def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause);
+def userId = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause);
 
-	if (cause != null) {
-		return cause.getUserId()
-	}
-
-	return "gitlab"
-}
-
-userId = this.getBuildUser();
+userId = this.userId();
 
 echo "USER_ID:${userId}";
 
