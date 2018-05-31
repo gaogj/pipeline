@@ -2,11 +2,6 @@ package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
 
-def userId = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause);
-
-userId = this.userId();
-
-echo "USER_ID:${userId}";
 
 /**
  *	部署正式环境 + 自动打tag
@@ -21,6 +16,11 @@ class DeployProdVPCStage implements Serializable {
 	def version;
 	def deployNode;
 	def commitId;
+	def userId = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause);
+
+	def userId = this.userId();
+
+	echo "USER_ID:${userId}";
 
 	DeployProdVPCStage(script, stageName, config) {
 		this.script = script;
