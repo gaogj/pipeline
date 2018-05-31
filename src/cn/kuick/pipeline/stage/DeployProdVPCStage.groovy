@@ -29,6 +29,19 @@ class DeployProdVPCStage implements Serializable {
 		this.commitId = version[-6..-1];
 	}
 
+
+	@NonCPS
+	def getBuildUser() {
+		def cause = this.script.currentBuild.rawBuild.getCause(Cause.UserIdCause);
+
+		if (cause != null) {
+			return cause.getUserId()
+		}
+
+		return "gitlab"
+	}
+
+
 	def start() {
 		this.script.stage(this.stageName) {
 			/*
@@ -60,6 +73,8 @@ class DeployProdVPCStage implements Serializable {
 		// 部署正式环境
 		this.script.node("aliyun345-test") {
 	        this.script.echo "login to aliyun345-test"
+
+			this.script.echo "'getBuildUser':${getBuildUser}"
 
 	        this.script.checkout this.script.scm
 
