@@ -67,7 +67,13 @@ def printGitLabEnv() {
 
 @NonCPS
 def getBuildUser() {
-    return currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserId()
+    def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause);
+	
+	if (cause != null) {
+		return cause.getUserId()
+	} 
+
+	return "gitlab"
 }
 
 def call(envCallback) {
