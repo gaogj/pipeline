@@ -64,7 +64,7 @@ class DeployProdVPCStage implements Serializable {
 		def version = this.version;
 		def deployNode = this.deployNode;
 		def docker = this.script.docker;
-		def userId = this.getBuildUser();
+		userId = this.getBuildUser();
 		this.script.echo "${userId}"
 
 
