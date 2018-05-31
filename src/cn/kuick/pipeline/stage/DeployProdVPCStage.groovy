@@ -124,6 +124,7 @@ class DeployProdVPCStage implements Serializable {
 					}
 					else {
 						this.script.echo "You have no authority to build production!!!"
+						this.script.sh "echo 'You have no authority to build production!!!'; exit 1"
 					}
 
 	        }
