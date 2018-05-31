@@ -7,25 +7,26 @@ import java.io.Serializable;
  */
 class PreDeployShareStage implements Serializable {
 	def script;
-
 	def stageName;
 	def serverName;
 	def version;
 
 	PreDeployShareStage(script, stageName, config) {
 		this.script = script;
-
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
 	}
 
+
 	def start() {
 		this.script.stage(this.stageName) {
-		    this.run327();
+			this.run327();
 		    this.run345();
+
 		}
 	}
+
 
 	def run327() {
 		def version = this.version;
