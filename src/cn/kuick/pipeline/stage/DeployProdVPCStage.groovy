@@ -2,6 +2,20 @@ package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
 
+
+@NonCPS
+def getBuildUser() {
+	def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause);
+
+	if (cause != null) {
+		return cause.getUserId()
+	}
+
+	return "gitlab"
+}
+
+userId = this.getBuildUser();
+
 /**
  *	部署正式环境 + 自动打tag
  */
@@ -16,19 +30,7 @@ class DeployProdVPCStage implements Serializable {
 	def deployNode;
 	def commitId;
 
-	@NonCPS
-	def getBuildUser() {
-		def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause);
 
-		if (cause != null) {
-			return cause.getUserId()
-		}
-
-		return "gitlab"
-	}
-
-	def userId = this.getBuildUser();
-	
 	DeployProdVPCStage(script, stageName, config) {
 		this.script = script;
 
