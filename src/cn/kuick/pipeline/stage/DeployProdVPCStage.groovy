@@ -15,7 +15,7 @@ def getBuildUser() {
 
 userId = this.getBuildUser();
 
-echo "USER_ID:${userId}"
+echo "USER_ID:${userId}";
 
 /**
  *	部署正式环境 + 自动打tag
