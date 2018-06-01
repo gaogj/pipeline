@@ -7,7 +7,7 @@ import java.io.Serializable;
  *	部署正式环境 + 自动打tag
  */
 class DeployProdVPCStage implements Serializable {
-	static String DEPLOY_TOKEN = "cc123456v5";
+	static String DEPLOY_TOKEN = cc123456v5;
 
 	def script;
 
