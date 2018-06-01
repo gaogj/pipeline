@@ -46,7 +46,7 @@ class DeployProdVPCStage implements Serializable {
 			this.script.wrap([$class: 'BuildUser']) {
 				def userId = this.script.env.BUILD_USER_ID;
 
-					if (cause != null) {
+					if (userId != null) {
 						return  userId
 					}
 
