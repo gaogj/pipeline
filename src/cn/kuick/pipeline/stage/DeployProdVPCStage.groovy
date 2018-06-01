@@ -68,10 +68,11 @@ class DeployProdVPCStage implements Serializable {
 		def version = this.version;
 		def deployNode = this.deployNode;
 		def docker = this.script.docker;
-		def USER_ID =this.getBuildUser();
+		//def USER_ID = this.getBuildUser();
+		def USER_ID = this.script.echo"${BUILD_USER_ID}";
 
 
-		// 部署正式环境
+				// 部署正式环境
 		this.script.node("aliyun345-test") {
 	        this.script.echo "login to aliyun345-test"
 
