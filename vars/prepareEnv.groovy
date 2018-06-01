@@ -24,8 +24,6 @@ def printPipelineEnv() {
 
     echo "USER_ID:${env.USER_ID}"
 
-	echo "CUSER_ID:${env.CUSER_ID}"
-
 	echo "------------------printPipelineEnv-end----------------"
 	echo "----------------------------------------------"
 }
@@ -77,13 +75,6 @@ def getBuildUser() {
 
 	return "gitlab"
 }
-
-def getId() {
-	wrap([$class: 'BuildUser']) {
-		return "${BUILD_USER_ID}"
-	}
-}
-
 
 def call(envCallback) {
 	this.printPipelineEnv();
@@ -142,8 +133,6 @@ def call(envCallback) {
     
 	// USER ID
 	env.USER_ID = this.getBuildUser();
-
-	env.CUSER_ID = this.getId();
 
 	this.printPipelineEnv();
 }
