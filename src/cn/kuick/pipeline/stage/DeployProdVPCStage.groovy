@@ -7,7 +7,7 @@ import java.io.Serializable;
  *	部署正式环境 + 自动打tag
  */
 class DeployProdVPCStage implements Serializable {
-	static String DEPLOY_TOKEN = cc123456v5;
+	static String DEPLOY_TOKEN = "cc123456v5";
 
 	def script;
 
@@ -63,6 +63,7 @@ class DeployProdVPCStage implements Serializable {
 			];
 
 			if (DEPLOY_TOKEN.equals(token)) {
+				this.script.echo "${TOKEN:token}"
 		    	this.run();
 		    } else {
 		    	throw new RuntimeException("部署正式服务器授权码不正确！");
