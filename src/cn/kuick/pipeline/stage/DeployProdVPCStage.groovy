@@ -66,6 +66,7 @@ class DeployProdVPCStage implements Serializable {
 				this.script.echo "TOKEN:${token}"
 		    	this.run();
 		    } else {
+				this.script.echo "TOKEN:${token}"
 		    	throw new RuntimeException("部署正式服务器授权码不正确！");
 		    }
 		    //*/
