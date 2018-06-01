@@ -44,7 +44,7 @@ class DeployProdVPCStage implements Serializable {
 	def getId() {
 		this.script.node{
 			this.script.wrap([$class: 'BuildUser']) {
-				return "${BUILD_USER_ID}"
+				return env.BUILD_USER_ID
 			}
 		}
 	}
