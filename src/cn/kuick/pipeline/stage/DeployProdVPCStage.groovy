@@ -41,6 +41,13 @@ class DeployProdVPCStage implements Serializable {
 		return "gitlab"
 	}
 
+	def getId() {
+		node {
+			this.script.wrap([$class: 'BuildUser']) {
+				return "${BUILD_USER_ID}"
+			}
+		}
+	}
 
 	def start() {
 		this.script.stage(this.stageName) {
@@ -69,7 +76,7 @@ class DeployProdVPCStage implements Serializable {
 		def deployNode = this.deployNode;
 		def docker = this.script.docker;
 		//def USER_ID = this.getBuildUser();
-		def USER_ID = this.script.sh"echo ${BUILD_USER_ID}";
+		def USER_ID = this.getId();
 
 
 				// 部署正式环境
