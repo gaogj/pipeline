@@ -22,7 +22,7 @@ class UploadImageStage implements Serializable {
 
 	def start() {
 		this.script.stage(this.stageName) {
-		    this.script.node('aliyun345-test') {
+		    this.script.node('aliyun345-build') {
 		       	this.run();
 		    }
 		}
