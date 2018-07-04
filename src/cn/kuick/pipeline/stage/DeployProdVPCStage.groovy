@@ -86,8 +86,8 @@ class DeployProdVPCStage implements Serializable {
 
 
 				// 部署正式环境
-		this.script.node("aliyun345-test") {
-	        this.script.echo "login to aliyun345-test"
+		this.script.node("aliyun345-build") {
+	        this.script.echo "login to aliyun345-build"
 
 			this.script.echo "'USER_ID':${USER_ID}"
 

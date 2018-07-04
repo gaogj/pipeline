@@ -40,8 +40,8 @@ class DeployTest3Stage implements Serializable {
 		def deployNode = this.deployNode;
 
 		// 部署测试3环境
-		this.script.node("aliyun345-test") {
-	        this.script.echo "login to aliyun345-test"
+		this.script.node("aliyun345-build") {
+	        this.script.echo "login to aliyun345-build"
 
 	        this.script.checkout this.script.scm
 
