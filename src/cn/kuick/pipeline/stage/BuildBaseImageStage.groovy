@@ -47,7 +47,7 @@ class BuildBaseImageStage implements Serializable {
 		def name = this.serverName;
 		def docker = this.script.docker;
 
-		def baseImage = docker.build("cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
+		def baseImage = docker.build("cc/${name}-tester:base", '-f ./release/docker/testBase.docker . --no-cache');
 		baseImage.push();
 
 		return baseImage;
