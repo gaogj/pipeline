@@ -105,6 +105,14 @@ class DeployProdVPCStage implements Serializable {
 	            // application.properties
 	            def properties = this.readProperties("prod/aliyuncsvpc/application.properties");
 
+	            for(def entry : properties) {
+	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
+	            	def value = entry.value.trim();
+
+	            	def item = "${key}=${value}";
+	            	serverEnv.add(item)
+	            }
+
 				this.script.withEnv(serverEnv) {
 
 					if (deployNode == "jd-prod") {
@@ -119,15 +127,7 @@ class DeployProdVPCStage implements Serializable {
 						}
 					}
 				}
-
-	            for(def entry : properties) {
-	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
-	            	def value = entry.value.trim();
-
-	            	def item = "${key}=${value}";
-	            	serverEnv.add(item)
-	            }
-
+				
 	            // certs
 	            def PGRDIR = this.script.pwd();
 

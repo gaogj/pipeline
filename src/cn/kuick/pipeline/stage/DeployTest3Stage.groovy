@@ -57,6 +57,14 @@ class DeployTest3Stage implements Serializable {
 	            // application.properties
 	            def properties = this.readProperties("test3/aliyuncs/application.properties");
 
+	            for(def entry : properties) {
+	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
+	            	def value = entry.value.trim();
+
+	            	def item = "${key}=${value}";
+	            	serverEnv.add(item)
+	            }
+
 				// jd
 				this.script.withEnv(serverEnv) {
 
@@ -72,14 +80,6 @@ class DeployTest3Stage implements Serializable {
 						}
 					}
 				}
-
-	            for(def entry : properties) {
-	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
-	            	def value = entry.value.trim();
-
-	            	def item = "${key}=${value}";
-	            	serverEnv.add(item)
-	            }
 
 	            // certs
 	            def PGRDIR = this.script.pwd();
