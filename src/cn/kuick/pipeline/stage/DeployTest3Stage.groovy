@@ -57,6 +57,22 @@ class DeployTest3Stage implements Serializable {
 	            // application.properties
 	            def properties = this.readProperties("test3/aliyuncs/application.properties");
 
+				// jd
+				this.script.withEnv(serverEnv) {
+
+					if (deployNode == "jd-test3") {
+						this.script.node("jd-test3") {
+							this.script.echo "jd-test3"
+
+							this.script.checkout this.script.scm
+
+							this.script.sh "git reset --hard ${commitId}"
+
+							this.script.sh "./release/docker/test3/deploy.sh ${version}";
+						}
+					}
+				}
+
 	            for(def entry : properties) {
 	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
 	            	def value = entry.value.trim();
@@ -78,12 +94,6 @@ class DeployTest3Stage implements Serializable {
 				if (deployNode == "jd-test3") {
 					this.script.node("jd-test3") {
 						this.script.echo "jd-test3"
-
-						this.script.checkout this.script.scm
-
-						this.script.sh "git reset --hard ${commitId}"
-						
-						this.script.sh "./release/docker/test3/deploy.sh ${version}";
 					}
 
 				} else {
