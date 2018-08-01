@@ -79,10 +79,11 @@ class DeployTest3Stage implements Serializable {
 					this.script.node("jd-test3") {
 						this.script.echo "jd-test3"
 
-						this.script.sh "git reset --hard ${commitId}"
+						this.script.checkout this.script.scm
 
-						this.script.sh "./release/docker/test3/deploy.sh ${version}";
+						this.script.sh "git reset --hard ${commitId}"
 						
+						this.script.sh "./release/docker/test3/deploy.sh ${version}";
 					}
 
 				} else {
