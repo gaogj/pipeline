@@ -75,10 +75,23 @@ class DeployTest3Stage implements Serializable {
 
 	        this.script.withEnv(serverEnv) {
 
-	        	this.script.sh "git reset --hard ${commitId}"
+				if (deployNode == "jd-test3") {
+					this.script.node("jd-test3") {
+						this.script.echo "jd-test3"
 
-	            this.script.sh "release/docker/test3/deploy.sh ${version}"
-	        }
+						this.script.sh "git reset --hard ${commitId}"
+
+						this.script.sh "./release/docker/test3/deploy.sh ${version}";
+						
+					}
+
+				} else {
+
+					this.script.sh "git reset --hard ${commitId}"
+
+					this.script.sh "release/docker/test3/deploy.sh ${version}"
+				}
+			}
 
 	        this.script.echo "deploy test3 success!"
 	    }
