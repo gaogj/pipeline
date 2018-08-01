@@ -105,6 +105,21 @@ class DeployProdVPCStage implements Serializable {
 	            // application.properties
 	            def properties = this.readProperties("prod/aliyuncsvpc/application.properties");
 
+				this.script.withEnv(serverEnv) {
+
+					if (deployNode == "jd-prod") {
+						this.script.node("jd-prod") {
+							this.script.echo "jd-prod"
+
+							this.script.checkout this.script.scm
+
+							this.script.sh "git reset --hard ${commitId}"
+
+							this.script.sh "./release/docker/test3/deploy.sh ${version}";
+						}
+					}
+				}
+
 	            for(def entry : properties) {
 	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
 	            	def value = entry.value.trim();
@@ -128,16 +143,24 @@ class DeployProdVPCStage implements Serializable {
 
 	        	if (USER_ID == "kuick") {
 
-					// 部署prod
-					this.script.sh "release/docker/prod/deploy.sh ${version}"
+					if (deployNode == "jd-prod") {
+						this.script.node("jd-prod") {
+							this.script.echo "jd-prod"
+						}
 
-					// 自动打tag
-					this.script.sh "git tag -f v${version} ${commitId}"
+					} else {
 
-					this.script.sh " git push origin v${version}"
-					}
-					else {
+						// 部署prod
+						this.script.sh "release/docker/prod/deploy.sh ${version}"
+
+						// 自动打tag
+						this.script.sh "git tag -f v${version} ${commitId}"
+
+						this.script.sh " git push origin v${version}"
+						}
+				} else {
 						this.script.echo "You have no authority to build production!!!"
+
 						this.script.sh "echo 'You have no authority to build production!!!'; exit 1"
 					}
 
