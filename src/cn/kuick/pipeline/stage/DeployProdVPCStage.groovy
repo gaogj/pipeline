@@ -115,7 +115,7 @@ class DeployProdVPCStage implements Serializable {
 
 							this.script.sh "git reset --hard ${commitId}"
 
-							this.script.sh "./release/docker/test3/deploy.sh ${version}";
+							this.script.sh "./release/docker/prod/deploy.sh ${version}";
 						}
 					}
 				}
