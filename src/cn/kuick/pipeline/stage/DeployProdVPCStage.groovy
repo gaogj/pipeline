@@ -127,7 +127,7 @@ class DeployProdVPCStage implements Serializable {
 						}
 					}
 				}
-				
+
 	            // certs
 	            def PGRDIR = this.script.pwd();
 
@@ -141,7 +141,7 @@ class DeployProdVPCStage implements Serializable {
                 // Fix: docker部署时变量代码的版本与镜像版本不一致的问题
 	        	this.script.sh "git reset --hard ${commitId}"
 
-	        	if (USER_ID == "kuick") {
+	        	if (USER_ID == "kuick" || USER_ID == "kuick-devops") {
 
 					if (deployNode == "jd-prod") {
 						this.script.node("jd-prod") {
