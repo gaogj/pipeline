@@ -35,19 +35,14 @@ class AnalysisImageStage implements Serializable {
     def run() {
 //        def docker = this.script.docker;
         def name = this.serverName;
+        def imageName = "registry.kuick.cn/cc/${name}-server:base"
+        def clairServerIp = "10.0.9.195" // platform-node2-350
+        def localHGostIp = "10.0.12.233" // build-345
+        def reportPath = "./imageScannerReport/${name}-server.json"
 
-        this.script.sh "clair-scanner --ip='10.0.12.233' --report='/tmp/clair/${name}-server.json' registry.kuick.cn/cc/${name}-server:base"
+        def parameter = "--ip='${localHGostIp}' --clair='${clairServerIp}' --report=${reportPath} ${imageName} "
 
-        this.script.mail([
-                bcc: '',
-                body: "镜像漏洞扫描结果",
-                cc: 'devops@kuick.cn',
-                from: 'jenkins2@kuick.cn',
-                replyTo: '',
-                subject: "${env.gitlabSourceRepoName} 镜像漏洞扫描结果 " + buildId,
-                to: toMail,
-                attachmentsPattern: '/tmp/clair/${name}-server.json'
-        ]);
+        this.script.sh "clair-scanner ${parameter}"
 
     }
 }
