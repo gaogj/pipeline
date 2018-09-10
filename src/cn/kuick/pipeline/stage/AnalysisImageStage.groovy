@@ -46,12 +46,12 @@ class AnalysisImageStage implements Serializable {
 
         def buildId = this.script.env.BUILD_ID;
         def toMail = this.script.env.gitlabUserEmail;
-        def repoName = this.script.env.gitlabSourceRepoName
+        def repoName = this.script.env.gitlabSourceRepoName;
+
+        def parameter = "--ip='10.0.12.233' --clair='http://10.0.9.195:6060' --report=${reportPath} ${imageName} "
 
         if (clairUrl && buildNodeIP) {
-            def parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} "
-        }else {
-            def parameter = "--ip='10.0.12.233' --clair='http://10.0.9.195:6060' --report=${reportPath} ${imageName} "
+            parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} "
         }
 
         try {
@@ -93,4 +93,3 @@ class AnalysisImageStage implements Serializable {
         }
     }
 }
-
