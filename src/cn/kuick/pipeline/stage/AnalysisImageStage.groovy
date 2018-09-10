@@ -58,7 +58,7 @@ class AnalysisImageStage implements Serializable {
 
             this.script.sh "clair-scanner ${parameter}"
 
-            echo "start send success mail!"
+            this.script.echo "start send success mail!"
 
             this.script.mail([
                     bcc: '',
@@ -71,11 +71,11 @@ class AnalysisImageStage implements Serializable {
                     to: toMail
             ]);
 
-            echo "success mail send ok!"
+            this.script.echo "success mail send ok!"
 
         } catch(e){
 
-            echo "start send fail mail!"
+            this.script.echo "start send fail mail!"
 
             this.script.mail([
                     bcc: '',
@@ -83,11 +83,11 @@ class AnalysisImageStage implements Serializable {
                     cc: 'devops@kuick.cn',
                     from: 'jenkins2@kuick.cn',
                     replyTo: '',
-                    subject: "${repoName} 镜像漏洞扫描失败 at " + buildId,
+                    subject: "${repoName} 镜像漏洞扫描失败 At " + buildId,
                     to: toMail
             ]);
 
-            echo "fail mail send ok!"
+            this.script.echo "fail mail send ok!"
 
             throw e;
         }
