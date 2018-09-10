@@ -22,8 +22,8 @@ class AnalysisImageStage implements Serializable {
         this.stageName = stageName;
         this.serverName = config.name;
         this.version = config.version;
-        this.buildNodeIP = config.buildNodeIP
-        this.clairUrl = config.clairUrl
+        this.buildNodeIP = config.buildNodeIP;
+        this.clairUrl = config.clairUrl;
     }
 
     def start() {
@@ -37,26 +37,32 @@ class AnalysisImageStage implements Serializable {
     }
 
     def run() {
-//        def docker = this.script.docker;
-        def name = this.serverName;
-        def clairUrl = this.clairUrl
-        def buildNodeIP = this.buildNodeIP
+
+        def name = this.serverName
+        def clairUrl = this.clairUrl;
+        def buildNodeIP = this.buildNodeIP;
         def imageName = "registry.kuick.cn/cc/${name}-server:base"
         def reportPath = "./imageScanner-Report-${name}-server.json"
 
-        def parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} "
+        def buildId = this.script.env.BUILD_ID;
+        def toMail = this.script.env.gitlabUserEmail;
+        def repoName = this.script.env.gitlabSourceRepoName
+
+        if (clairUrl && buildNodeIP) {
+            def parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} "
+        }else {
+            def parameter = "--ip='10.0.12.233' --clair='http://10.0.9.195:6060' --report=${reportPath} ${imageName} "
+        }
 
         try {
+
             this.script.sh "clair-scanner ${parameter}"
 
-            def buildId = env.BUILD_ID;
-            def toMail = env.gitlabUserEmail;
-
-            echo "start send fail mail!"
+            echo "start send success mail!"
 
             this.script.mail([
                     bcc: '',
-                    body: "${env.gitlabSourceRepoName} 镜像扫描结果 At buildId(#${buildId})",
+                    body: "${repoName} 镜像扫描结果 At buildId(#${buildId})",
                     cc: 'devops@kuick.cn',
                     from: 'jenkins2@kuick.cn',
                     replyTo: '',
@@ -65,38 +71,26 @@ class AnalysisImageStage implements Serializable {
                     to: toMail
             ]);
 
-            echo "fail mail send ok!"
-
-            bearychatNotify("${env.gitlabSourceRepoName} Pull Request failed for buildId(#${buildId})");
-
-            throw e;
+            echo "success mail send ok!"
 
         } catch(e){
-            def buildId = env.BUILD_ID;
-            def toMail = env.gitlabUserEmail;
 
             echo "start send fail mail!"
 
             this.script.mail([
                     bcc: '',
-                    body: "${env.gitlabSourceRepoName} 镜像漏洞扫描失败 At buildId(#${buildId})",
+                    body: "${repoName} 镜像漏洞扫描失败 At buildId(#${buildId})",
                     cc: 'devops@kuick.cn',
                     from: 'jenkins2@kuick.cn',
                     replyTo: '',
-                    subject: "${env.gitlabSourceRepoName} 镜像漏洞扫描失败 at " + buildId,
+                    subject: "${repoName} 镜像漏洞扫描失败 at " + buildId,
                     to: toMail
             ]);
 
             echo "fail mail send ok!"
 
-            bearychatNotify("${env.gitlabSourceRepoName} Pull Request failed for buildId(#${buildId})");
-
             throw e;
-
-
         }
-
-
     }
 }
 
