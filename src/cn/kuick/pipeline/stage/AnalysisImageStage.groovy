@@ -13,6 +13,8 @@ class AnalysisImageStage implements Serializable {
     def stageName;
     def serverName;
     def version;
+    def clairUrl;
+    def buildNodeIP;
 
     AnalysisImageStage(script, stageName, config) {
         this.script = script;
@@ -20,6 +22,8 @@ class AnalysisImageStage implements Serializable {
         this.stageName = stageName;
         this.serverName = config.name;
         this.version = config.version;
+        this.buildNodeIP = config.buildNodeIP
+        this.clairUrl = config.clairUrl
     }
 
     def start() {
@@ -35,15 +39,14 @@ class AnalysisImageStage implements Serializable {
     def run() {
 //        def docker = this.script.docker;
         def name = this.serverName;
+        def clairUrl = this.clairUrl
+        def buildNodeIP = this.buildNodeIP
         def imageName = "registry.kuick.cn/cc/${name}-server:base"
-        def clairServerIp = "10.0.9.195" // platform-node2-350
-        def localHGostIp = "10.0.12.233" // build-345
-        def reportPath = "./imageScannerReport/${name}-server.json"
+        def reportPath = "./imageScanner-Report-${name}-server.json"
 
-        def parameter = "--ip='${localHGostIp}' --clair='${clairServerIp}' --report=${reportPath} ${imageName} "
+        def parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} "
 
         this.script.sh "clair-scanner ${parameter}"
-
     }
 }
 
