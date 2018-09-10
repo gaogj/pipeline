@@ -13,6 +13,8 @@ class AnalysisImageStage implements Serializable {
     def stageName;
     def serverName;
     def version;
+    def clairUrl;
+    def buildNodeIP;
 
     AnalysisImageStage(script, stageName, config) {
         this.script = script;
@@ -20,6 +22,8 @@ class AnalysisImageStage implements Serializable {
         this.stageName = stageName;
         this.serverName = config.name;
         this.version = config.version;
+        this.buildNodeIP = config.buildNodeIP
+        this.clairUrl = config.clairUrl
     }
 
     def start() {
@@ -35,14 +39,63 @@ class AnalysisImageStage implements Serializable {
     def run() {
 //        def docker = this.script.docker;
         def name = this.serverName;
+        def clairUrl = this.clairUrl
+        def buildNodeIP = this.buildNodeIP
         def imageName = "registry.kuick.cn/cc/${name}-server:base"
-        def clairServerIp = "10.0.9.195" // platform-node2-350
-        def localHGostIp = "10.0.12.233" // build-345
-        def reportPath = "./imageScannerReport/${name}-server.json"
+        def reportPath = "./imageScanner-Report-${name}-server.json"
 
-        def parameter = "--ip='${localHGostIp}' --clair='${clairServerIp}' --report=${reportPath} ${imageName} "
+        def parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} "
 
-        this.script.sh "clair-scanner ${parameter}"
+        try {
+            this.script.sh "clair-scanner ${parameter}"
+
+            def buildId = env.BUILD_ID;
+            def toMail = env.gitlabUserEmail;
+
+            echo "start send fail mail!"
+
+            this.script.mail([
+                    bcc: '',
+                    body: "${env.gitlabSourceRepoName} 镜像扫描结果 At buildId(#${buildId})",
+                    cc: 'devops@kuick.cn',
+                    from: 'jenkins2@kuick.cn',
+                    replyTo: '',
+                    subject: "附件为镜像漏洞扫描结果",
+                    attachmentsPattern: reportPath,
+                    to: toMail
+            ]);
+
+            echo "fail mail send ok!"
+
+            bearychatNotify("${env.gitlabSourceRepoName} Pull Request failed for buildId(#${buildId})");
+
+            throw e;
+
+        } catch(e){
+            def buildId = env.BUILD_ID;
+            def toMail = env.gitlabUserEmail;
+
+            echo "start send fail mail!"
+
+            this.script.mail([
+                    bcc: '',
+                    body: "${env.gitlabSourceRepoName} 镜像漏洞扫描失败 At buildId(#${buildId})",
+                    cc: 'devops@kuick.cn',
+                    from: 'jenkins2@kuick.cn',
+                    replyTo: '',
+                    subject: "${env.gitlabSourceRepoName} 镜像漏洞扫描失败 at " + buildId,
+                    to: toMail
+            ]);
+
+            echo "fail mail send ok!"
+
+            bearychatNotify("${env.gitlabSourceRepoName} Pull Request failed for buildId(#${buildId})");
+
+            throw e;
+
+
+        }
+
 
     }
 }
