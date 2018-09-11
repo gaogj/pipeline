@@ -87,7 +87,7 @@ class BuildBaseImageStage implements Serializable {
 					cc: 'devops@kuick.cn',
 					from: 'jenkins2@kuick.cn',
 					replyTo: '',
-					subject: "${name} 镜像扫描结果 At buildId(#${buildId})",
+					subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",
 					attachLog: true,
 					attachmentsPattern: reportPath,
 					to: toMail
@@ -105,7 +105,7 @@ class BuildBaseImageStage implements Serializable {
 					cc: 'devops@kuick.cn',
 					from: 'jenkins2@kuick.cn',
 					replyTo: '',
-					subject: "${name} 镜像漏洞扫描失败 At buildId(#${buildId})",
+					subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})",
 					to: toMail
 			]);
 
