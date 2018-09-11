@@ -46,7 +46,6 @@ class AnalysisImageStage implements Serializable {
 
         def buildId = this.script.env.BUILD_ID;
         def toMail = this.script.env.gitlabUserEmail;
-        def repoName = this.script.env.gitlabSourceRepoName;
 
         def parameter = "--ip='10.0.12.233' --clair='http://10.0.9.195:6060' --report=${reportPath} ${imageName} "
 
@@ -62,11 +61,12 @@ class AnalysisImageStage implements Serializable {
 
             this.script.mail([
                     bcc: '',
-                    body: "${repoName} 镜像扫描结果 At buildId(#${buildId})",
+                    body: "${imageName} 镜像扫描结果 At buildId(#${buildId})",
                     cc: 'devops@kuick.cn',
                     from: 'jenkins2@kuick.cn',
                     replyTo: '',
                     subject: "附件为镜像漏洞扫描结果",
+                    attachLog: true,
                     attachmentsPattern: reportPath,
                     to: toMail
             ]);
@@ -79,11 +79,11 @@ class AnalysisImageStage implements Serializable {
 
             this.script.mail([
                     bcc: '',
-                    body: "${repoName} 镜像漏洞扫描失败 At buildId(#${buildId})",
+                    body: "${imageName} 镜像漏洞扫描失败 At buildId(#${buildId})",
                     cc: 'devops@kuick.cn',
                     from: 'jenkins2@kuick.cn',
                     replyTo: '',
-                    subject: "${repoName} 镜像漏洞扫描失败 At " + buildId,
+                    subject: "${imageName} 镜像漏洞扫描失败 At " + buildId,
                     to: toMail
             ]);
 
