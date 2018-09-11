@@ -13,6 +13,8 @@ class BuildBaseImageStage implements Serializable {
 	def serverName;
 	def version;
 	def testBase;
+	def clairUrl;
+	def buildNodeIP;
 
 	BuildBaseImageStage(script, stageName, config) {
 		this.script = script;
@@ -21,6 +23,8 @@ class BuildBaseImageStage implements Serializable {
 		this.serverName = config.name;
 		this.version = config.version;
 		this.testBase = config.testBase;
+		this.buildNodeIP = config.buildNodeIP;
+		this.clairUrl = config.clairUrl;
 	}
 
 	def start() {
@@ -53,6 +57,64 @@ class BuildBaseImageStage implements Serializable {
 		return baseImage;
 	}
 
+
+	def analysisImage() {
+
+		def name = this.serverName;
+		def clairUrl = this.clairUrl;
+		def buildNodeIP = this.buildNodeIP;
+		def imageName = "registry.kuick.cn/cc/${name}-server:base"
+		def reportPath = "./imageScanner-Report-${name}-server.json"
+
+		def buildId = this.script.env.BUILD_ID;
+		def toMail = this.script.env.gitlabUserEmail;
+
+		def parameter = "--ip='10.0.12.233' --clair='http://10.0.9.195:6060' --report=${reportPath} ${imageName} "
+
+		if (clairUrl && buildNodeIP) {
+			parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} "
+		}
+
+		try {
+
+			this.script.sh "clair-scanner ${parameter}"
+
+			this.script.echo "start send success mail!"
+
+			this.script.mail([
+					bcc: '',
+					body: "${imageName} 镜像扫描结果 At buildId(#${buildId})",
+					cc: 'devops@kuick.cn',
+					from: 'jenkins2@kuick.cn',
+					replyTo: '',
+					subject: "附件为镜像漏洞扫描结果",
+					attachLog: true,
+					attachmentsPattern: reportPath,
+					to: toMail
+			]);
+
+			this.script.echo "success mail send ok!"
+
+		} catch(e){
+
+			this.script.echo "start send fail mail!"
+
+			this.script.mail([
+					bcc: '',
+					body: "${imageName} 镜像漏洞扫描失败 At buildId(#${buildId})",
+					cc: 'devops@kuick.cn',
+					from: 'jenkins2@kuick.cn',
+					replyTo: '',
+					subject: "${imageName} 镜像漏洞扫描失败 At " + buildId,
+					to: toMail
+			]);
+
+			this.script.echo "fail mail send ok!"
+
+			throw e;
+		}
+	}
+
 	def run() {
 		def docker = this.script.docker;
 
@@ -65,6 +127,8 @@ class BuildBaseImageStage implements Serializable {
 
 			// Build Base Image
 			this.buildBase();
+			this.analysisImage();
+
 
 			// Build TestBase image
 			if (testBase != "N") {
