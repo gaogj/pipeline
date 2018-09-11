@@ -101,7 +101,7 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.mail([
 					bcc: '',
-					body: "${name} 镜像漏洞扫描失败",
+					body: "${imageName} 镜像漏洞扫描失败",
 					cc: 'devops@kuick.cn',
 					from: 'jenkins2@kuick.cn',
 					replyTo: '',
