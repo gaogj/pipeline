@@ -83,11 +83,11 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.mail([
 					bcc: '',
-					body: "${imageName} 镜像扫描结果 At buildId(#${buildId})",
+					body: "附件为镜像漏洞扫描结果",
 					cc: 'devops@kuick.cn',
 					from: 'jenkins2@kuick.cn',
 					replyTo: '',
-					subject: "附件为镜像漏洞扫描结果",
+					subject: "${name} 镜像扫描结果 At buildId(#${buildId})",
 					attachLog: true,
 					attachmentsPattern: reportPath,
 					to: toMail
@@ -101,11 +101,11 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.mail([
 					bcc: '',
-					body: "${imageName} 镜像漏洞扫描失败 At buildId(#${buildId})",
+					body: "${name} 镜像漏洞扫描失败 At ",
 					cc: 'devops@kuick.cn',
 					from: 'jenkins2@kuick.cn',
 					replyTo: '',
-					subject: "${imageName} 镜像漏洞扫描失败 At " + buildId,
+					subject: "${name} 镜像漏洞扫描失败 At buildId(#${buildId})",
 					to: toMail
 			]);
 
