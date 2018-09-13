@@ -41,9 +41,10 @@ class DeployTest2Stage implements Serializable {
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
-		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+		this.script.node("${deployNode}-test2") {
+			
+			docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 
-            this.script.node("${deployNode}-test2") {
                 this.script.echo "login to ${deployNode}-test2"
 
                 this.script.checkout this.script.scm

@@ -69,10 +69,10 @@ class BuildBaseImageStage implements Serializable {
 		def buildId = this.script.env.BUILD_ID;
 		def toMail = this.script.env.gitlabUserEmail;
 
-		def parameter = "--ip='10.0.12.233' --clair='http://10.0.9.195:6060' --report=${reportPath} ${imageName} "
+		def parameter = "--ip='10.0.12.233' --clair='http://10.0.9.195:6060' --report=${reportPath} ${imageName} --threshold='Defcon1'"
 
 		if (clairUrl && buildNodeIP) {
-			parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} "
+			parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} ${imageName} --threshold='Defcon1'"
 		}
 
 		try {
