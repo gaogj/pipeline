@@ -38,11 +38,12 @@ class UITestStage implements Serializable {
 			this.script.dir("ui-test") {
 	            this.script.git([
 	                url: "https://git.oschina.net/kuick-cn/kuick-deal-web-test.git", 
-	                branch: "master",
+	                branch: "develop",
 	                credentialsId: 'kuick_deploy'
 	            ]);
 
-	            this.script.sh "make ui-test";
+//	            this.script.sh "npm i -g macaca-cli@2.0.6 macaca-electron";
+//	            this.script.sh "make test-pc";
 	        }
 
 			this.script.echo "test success!"

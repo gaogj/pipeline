@@ -34,18 +34,37 @@ class DeployTest2Stage implements Serializable {
 	def run() {
 		def version = this.version;
 		def deployNode = this.deployNode;
+		def docker = this.script.docker;
+		def serverName = this.serverName;
 
 		// 部署测试2环境
+		// We are pushing to a private secure Docker registry in this demo.
+		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
+		// This is used to authenticate the Docker client to the registry.
 		this.script.node("${deployNode}-test2") {
-	        this.script.echo "login to ${deployNode}-test2"
+			
+			docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 
-	        this.script.checkout this.script.scm
+                this.script.echo "login to ${deployNode}-test2"
 
-	    	this.script.sh "git reset --hard ${commitId}"
+                this.script.checkout this.script.scm
+    
+                this.script.sh "git reset --hard ${commitId}"
 
-	        this.script.sh "release/docker/test2/deploy.sh ${version}"
+                if (serverName == "kafka" || serverName == "kafka2" || serverName == "zookeeper") {
 
-	        this.script.echo "deploy test2 success!"
+                this.script.sh "release/docker/${deployNode}-test2/deploy.sh ${version}"
+
+                this.script.echo "deploy test2 success!"
+
+                }
+
+                else {
+                    this.script.sh "release/docker/test2/deploy.sh ${version}"
+
+                    this.script.echo "deploy test2 success!"
+                }
+	        }
 	    }
 	}
 }

@@ -40,8 +40,8 @@ class DeployTest3Stage implements Serializable {
 		def deployNode = this.deployNode;
 
 		// 部署测试3环境
-		this.script.node("aliyun345-test") {
-	        this.script.echo "login to aliyun345-test"
+		this.script.node("aliyun345-build") {
+	        this.script.echo "login to aliyun345-build"
 
 	        this.script.checkout this.script.scm
 
@@ -65,6 +65,22 @@ class DeployTest3Stage implements Serializable {
 	            	serverEnv.add(item)
 	            }
 
+				// jd
+				this.script.withEnv(serverEnv) {
+
+					if (deployNode == "jd-test3") {
+						this.script.node("jd-test3") {
+							this.script.echo "jd-test3"
+
+							this.script.checkout this.script.scm
+
+							this.script.sh "git reset --hard ${commitId}"
+
+							this.script.sh "./release/docker/test3/deploy.sh ${version}";
+						}
+					}
+				}
+
 	            // certs
 	            def PGRDIR = this.script.pwd();
 
@@ -75,10 +91,18 @@ class DeployTest3Stage implements Serializable {
 
 	        this.script.withEnv(serverEnv) {
 
-	        	this.script.sh "git reset --hard ${commitId}"
+				if (deployNode == "jd-test3") {
+					this.script.node("jd-test3") {
+						this.script.echo "jd-test3"
+					}
 
-	            this.script.sh "release/docker/test3/deploy.sh ${version}"
-	        }
+				} else {
+
+					this.script.sh "git reset --hard ${commitId}"
+
+					this.script.sh "release/docker/test3/deploy.sh ${version}"
+				}
+			}
 
 	        this.script.echo "deploy test3 success!"
 	    }

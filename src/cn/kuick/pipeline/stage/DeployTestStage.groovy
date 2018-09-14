@@ -12,6 +12,7 @@ class DeployTestStage implements Serializable {
 	def serverName;
 	def version;
 	def commitId;
+	def deployNode;
 
 	DeployTestStage(script, stageName, config) {
 		this.script = script;
@@ -19,6 +20,7 @@ class DeployTestStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
+		this.deployNode = config.deployNode;
 		this.commitId = version[-6..-1];
 	}
 
@@ -31,18 +33,38 @@ class DeployTestStage implements Serializable {
 	def run() {
 		def version = this.version;
 
-		this.script.node('aliyun327-test') {
-			this.script.echo "login to aliyun327-test"
+        if (deployNode == null || deployNode == "aliyun327") {
+            this.script.node("aliyun327-test") {
+                this.script.echo "login to aliyun327-test"
 
-	    	this.script.checkout this.script.scm
+                this.script.checkout this.script.scm
 
-	    	this.script.sh "git reset --hard ${commitId}"
+                this.script.sh "git reset --hard ${commitId}"
 
-	    	this.script.sh "release/docker/pull.sh ${version}"
-	    	
-			this.script.sh "./release/docker/test/deploy.sh ${version}";
+                this.script.sh "release/docker/pull.sh ${version}"
 
-			this.script.echo "deploy test success!"
+                this.script.sh "./release/docker/test/deploy.sh ${version}";
+
+                this.script.echo "deploy test success!"
+                }
+
+            }
+
+        else {
+            this.script.node("aliyun354-test") {
+                this.script.echo "login to aliyun354-test"
+
+                this.script.checkout this.script.scm
+
+                this.script.sh "git reset --hard ${commitId}"
+
+                this.script.sh "release/docker/pull.sh ${version}"
+
+                this.script.sh "./release/docker/test/deploy.sh ${version}";
+
+                this.script.echo "deploy test success!"
+                }
+            }
+
 	    }
-	}
 }

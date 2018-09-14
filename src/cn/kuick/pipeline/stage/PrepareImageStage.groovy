@@ -22,7 +22,7 @@ class PrepareImageStage implements Serializable {
 
 	def start() {
 		this.script.stage(this.stageName) {
-		    this.script.node('aliyun345-test') {
+		    this.script.node('aliyun345-build') {
 		    	this.script.checkout this.script.scm
 
 		        this.run();
@@ -38,7 +38,8 @@ class PrepareImageStage implements Serializable {
 		try {
 			baseImage.pull();
 		} catch(e) {
-			baseImage = docker.build("registry.kuick.cn/cc/${name}-server:base", '.');
+		    // 存储在本地是 cc/deal-rabbitpre-server-server 上传到 registry.kuick.cn server 会自动加上 https://registry.kuick.cn
+			baseImage = docker.build("cc/${name}-server:base", '.');
 			baseImage.push();
 		}
 
@@ -53,7 +54,7 @@ class PrepareImageStage implements Serializable {
 		try {
 			baseImage.pull();
 		} catch(e) {
-			baseImage = docker.build("registry.kuick.cn/cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
+			baseImage = docker.build("cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
 			baseImage.push();
 		}
 

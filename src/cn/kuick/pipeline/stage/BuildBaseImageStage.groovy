@@ -1,6 +1,7 @@
 package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
+import java.io.File;
 
 /**
  *	生成基础镜像
@@ -11,6 +12,9 @@ class BuildBaseImageStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
+	def testBase;
+	def clairUrl;
+	def buildNodeIP;
 
 	BuildBaseImageStage(script, stageName, config) {
 		this.script = script;
@@ -18,11 +22,14 @@ class BuildBaseImageStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
+		this.testBase = config.testBase;
+		this.buildNodeIP = config.buildNodeIP;
+		this.clairUrl = config.clairUrl;
 	}
 
 	def start() {
 		this.script.stage(this.stageName) {
-		    this.script.node('aliyun345-test') {
+		    this.script.node('aliyun345-build') {
 		    	this.script.checkout this.script.scm
 
 		        this.run();
@@ -33,8 +40,8 @@ class BuildBaseImageStage implements Serializable {
 	def buildBase() {
 		def name = this.serverName;
 		def docker = this.script.docker;
-
-		def baseImage = docker.build("registry.kuick.cn/cc/${name}-server:base", '.');
+        // 存储在本地是 cc/deal-rabbitpre-server-server 上传到 registry.kuick.cn server 会自动加上 https://registry.kuick.cn
+		def baseImage = docker.build("cc/${name}-server:base", '.');
 		baseImage.push();
 
 		return baseImage;
@@ -44,15 +51,72 @@ class BuildBaseImageStage implements Serializable {
 		def name = this.serverName;
 		def docker = this.script.docker;
 
-		def baseImage = docker.build("registry.kuick.cn/cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
+		def baseImage = docker.build("cc/${name}-tester:base", '-f ./release/docker/testBase.docker .');
 		baseImage.push();
 
 		return baseImage;
 	}
 
+
+	def analysisImage() {
+
+		def name = this.serverName;
+		def clairUrl = this.clairUrl;
+		def buildNodeIP = this.buildNodeIP;
+		def imageName = "registry.kuick.cn/cc/${name}-server:base"
+		def reportPath = "./imageScanner-Report-${name}-server.json"
+
+		def buildId = this.script.env.BUILD_ID;
+		def toMail = this.script.env.gitlabUserEmail;
+
+		def parameter = "--ip='10.0.12.233' --clair='http://10.0.9.195:6060' --report=${reportPath} --threshold='Defcon1' ${imageName}"
+
+		if (clairUrl && buildNodeIP) {
+			parameter = "--ip='${buildNodeIP}' --clair='${clairUrl}' --report=${reportPath} --threshold='Defcon1' ${imageName}"
+		}
+
+		try {
+
+			this.script.sh "clair-scanner ${parameter}"
+
+			this.script.echo "start send success mail!"
+
+			this.script.mail([
+					bcc: '',
+					body: "附件为镜像漏洞扫描结果 At ${imageName}",
+					cc: 'devops@kuick.cn',
+					from: 'jenkins2@kuick.cn',
+					replyTo: '',
+					subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",
+					attachLog: true,
+					attachmentsPattern: reportPath,
+					to: toMail
+			]);
+
+			this.script.echo "success mail send ok!"
+
+		} catch(e){
+
+			this.script.echo "start send fail mail!"
+
+			this.script.mail([
+					bcc: '',
+					body: "${imageName} 镜像漏洞扫描失败",
+					cc: 'devops@kuick.cn',
+					from: 'jenkins2@kuick.cn',
+					replyTo: '',
+					subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})",
+					to: toMail
+			]);
+
+			this.script.echo "fail mail send ok!"
+
+			throw e;
+		}
+	}
+
 	def run() {
 		def docker = this.script.docker;
-		def TestBaseImageExists = new File('release/docker/testBase.docker').exists()
 
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
@@ -63,14 +127,15 @@ class BuildBaseImageStage implements Serializable {
 
 			// Build Base Image
 			this.buildBase();
+			this.analysisImage();
+
 
 			// Build TestBase image
-            this.script.sh "pwd"
-			if (TestBaseImageExists) {
+			if (testBase != "N") {
 			    this.buildTestBase()
 			    }
 			else {
-                this.script.echo "Passed Build TestBase image!!!"
+                this.script.echo "Skiped Build TestBase image!!!"
                 }
 		}
 	}

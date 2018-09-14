@@ -22,6 +22,8 @@ def printPipelineEnv() {
 	echo "CHANGE_AUTHOR_EMAIL:${env.CHANGE_AUTHOR_EMAIL}"
 	echo "CHANGE_TARGET:${env.CHANGE_TARGET}"
 
+    echo "USER_ID:${env.USER_ID}"
+
 	echo "------------------printPipelineEnv-end----------------"
 	echo "----------------------------------------------"
 }
@@ -61,6 +63,17 @@ def printGitLabEnv() {
 
 	echo "------------------printGitLabEnv-end----------------"
 	echo "----------------------------------------------"
+}
+
+@NonCPS
+def getBuildUser() {
+    def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause);
+	
+	if (cause != null) {
+		return cause.getUserId()
+	} 
+
+	return "gitlab"
 }
 
 def call(envCallback) {
@@ -112,6 +125,14 @@ def call(envCallback) {
 	if (env.gitlabTargetBranch != null) {
 		env.CHANGE_TARGET = env.gitlabTargetBranch;
 	}
+
+	// CHANGE_TARGET
+	if (env.gitlabTargetBranch != null) {
+		env.CHANGE_TARGET = env.gitlabTargetBranch;
+	}
+    
+	// USER ID
+	env.USER_ID = this.getBuildUser();
 
 	this.printPipelineEnv();
 }
