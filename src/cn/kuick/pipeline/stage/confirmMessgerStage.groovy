@@ -5,22 +5,18 @@ import java.io.Serializable;
 /**
  *	生成镜像
  */
-class BuildImageStage implements Serializable {
+class confirmMessgerStage implements Serializable {
 	def script;
 
 	def stageName;
 
-	def timeNum;
-	// def timeUnit;
-
 	def tips;
 
-	BuildImageStage(script, stageName, config) {
+	confirmMessgerStage(script, stageName, config) {
 		this.script = script;
 
 		this.stageName = stageName;
-		this.timeout = config.timeout;
-		// this.timeoutUnit = config.timeoutUnit;
+
 		this.tips = config.tips;
 	}
 
@@ -33,9 +29,21 @@ class BuildImageStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def docker = this.script.docker;
-		def timeout = this.timeout
-		def timeoutUnit = 'MINUTES'
-		def tips = this.tips
+
+		// 超时时间默认24小时
+		def timeout = 24;
+		def timeoutUnit = 'HOURS';
+
+		def tips = this.tips;
+
+		if (!tips) {
+			this.script.echo "ERROR：tips不可为空"
+			this.script.sh "exit 1"
+		}
+
+		if (config.timeout) {
+			timeout = config.timeout
+		}
 
 		if (config.timeoutUnit) {
 			timeoutUnit = config.timeoutUnit
