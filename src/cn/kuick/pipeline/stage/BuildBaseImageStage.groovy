@@ -29,9 +29,6 @@ class BuildBaseImageStage implements Serializable {
 
 	def start() {
 		this.script.stage(this.stageName) {
-			this.script.options {
-				timeout(time: 1, unit: 'HOURS')
-			}
 		    this.script.node('aliyun345-build') {
 		    	this.script.checkout this.script.scm
 
