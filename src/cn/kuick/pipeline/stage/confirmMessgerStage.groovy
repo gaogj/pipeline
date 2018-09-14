@@ -9,6 +9,7 @@ class confirmMessgerStage implements Serializable {
 	def script;
 
 	def stageName;
+	def version;
 
 	def tips;
 
@@ -16,6 +17,7 @@ class confirmMessgerStage implements Serializable {
 		this.script = script;
 
 		this.stageName = stageName;
+		this.version = config.version;
 
 		this.tips = config.tips;
 	}
@@ -37,7 +39,7 @@ class confirmMessgerStage implements Serializable {
 		def tips = this.tips;
 
 		if (!tips) {
-			this.script.echo "ERROR：tips不可为空"
+			println("ERROR：tips不可为空")
 			this.script.sh "exit 1"
 		}
 
