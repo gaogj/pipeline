@@ -10,7 +10,10 @@ class confirmMessgerStage implements Serializable {
 
 	def stageName;
 	def version;
+	def config;
 
+	def timeout;
+	def timeoutUnit;
 	def tips;
 
 	confirmMessgerStage(script, stageName, config) {
@@ -18,8 +21,10 @@ class confirmMessgerStage implements Serializable {
 
 		this.stageName = stageName;
 		this.version = config.version;
-
+		this.timeout = config.timeout
+		this.timeoutUnit = config.timeoutUnit
 		this.tips = config.tips;
+
 	}
 
 	def start() {
@@ -43,12 +48,12 @@ class confirmMessgerStage implements Serializable {
 			this.script.sh "exit 1"
 		}
 
-		if (config.timeout) {
-			timeout = config.timeout
+		if (this.timeout) {
+			timeout = this.timeout
 		}
 
-		if (config.timeoutUnit) {
-			timeoutUnit = config.timeoutUnit
+		if (this.timeoutUnit) {
+			timeoutUnit = this.timeoutUnit
 		}
 
 		this.script.options {
