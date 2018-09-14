@@ -56,9 +56,9 @@ class confirmMessgerStage implements Serializable {
 			timeoutUnit = this.timeoutUnit
 		}
 
-		this.script.options {
-			timeout(time: timeout, unit: timeoutUnit)
-		}
+		// this.script.options {
+		// 	timeout(time: timeout, unit: timeoutUnit)
+		// }
 
 		this.script.input message: tips
 	}
