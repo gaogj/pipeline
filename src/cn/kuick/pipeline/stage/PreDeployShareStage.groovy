@@ -68,7 +68,7 @@ class PreDeployShareStage implements Serializable {
 
 	        this.script.dir("shared") {
 	            this.script.git([
-                    url: "https://git.kuick.cn/servers/shared.git"",
+                    url: "https://git.kuick.cn/servers/shared.git",
                     branch: "develop",
                     credentialsId: 'kuick_git_auto_deploy_pwd'
 	            ]);
