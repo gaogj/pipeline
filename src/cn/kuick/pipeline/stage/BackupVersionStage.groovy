@@ -37,6 +37,7 @@ class BackupVersionStage implements Serializable {
 		    this.script.sh "./shared/scripts/backupVersion.sh ${lastVersion} ${serverName}";
 		    this.script.echo "Backup version ${lastVersion} success!"
 	    }
+	}
 
 }
 
