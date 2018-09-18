@@ -48,6 +48,11 @@ class RollbackStage implements Serializable {
 	        def serverEnv = [];
 
 	        this.script.dir("deploy-config") {
+	        	this.script.git([
+	                url: "https://git.kuick.cn/deploys/deploy-config.git",
+	                branch: "master",
+	                credentialsId: 'kuick_git_auto_deploy_pwd'
+	            ]);
 
 	            // application.properties
 	            def properties = this.readProperties("prod/aliyuncsvpc/application.properties");
