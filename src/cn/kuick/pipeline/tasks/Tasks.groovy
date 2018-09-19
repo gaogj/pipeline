@@ -1,8 +1,8 @@
-package cn.kuick.pipeline;
+package cn.kuick.pipeline.tasks;
 
 import java.io.Serializable;
 
-import stage.*
+import cn.kuick.pipeline.stage.PreDeployShareStage
 // import cn.kuick.pipeline.stage.UITestStage
 // import cn.kuick.pipeline.stage.SonarQubeStage
 // import cn.kuick.pipeline.stage.BuildImageStage
