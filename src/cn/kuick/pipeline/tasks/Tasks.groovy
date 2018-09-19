@@ -2,7 +2,7 @@ package cn.kuick.pipeline.tasks;
 
 import java.io.Serializable;
 
-import cn.kuick.pipeline.stage.PreDeployShareStage
+import static cn.kuick.pipeline.stage.PreDeployShareStage
 // import cn.kuick.pipeline.stage.UITestStage
 // import cn.kuick.pipeline.stage.SonarQubeStage
 // import cn.kuick.pipeline.stage.BuildImageStage
