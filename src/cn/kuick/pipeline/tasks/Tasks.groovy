@@ -19,7 +19,7 @@ import cn.kuick.pipeline.stage.SmokeTestingStage
 /**
  *	部署测试2环境
  */
-class tasks implements Serializable {
+class Tasks implements Serializable {
 	def script;
 	def config
 
@@ -29,7 +29,7 @@ class tasks implements Serializable {
 	def deployNode;\
 	def commitId;
 
-	tasks(script, config) {
+	Tasks(script, config) {
 		this.script = script;
 		this.config = config
 	}
