@@ -98,7 +98,7 @@ class tasks implements Serializable {
 			this.config.tips = '该服务是否可以部署测试2?'
 		    this.config.timeout = 12
 		    this.config.timeoutUnit = 'HOURS'
-		    def ConfirmMessger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
+		    def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
 		    ConfirmMessger.start()
 
 			def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
@@ -111,7 +111,7 @@ class tasks implements Serializable {
 		    this.config.tips = 'QA测试是否通过??'
 		    this.config.timeout = 12
 		    this.config.timeoutUnit = 'HOURS'
-		    def ConfirmMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
+		    def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
 		    ConfirmMessger.start()
 		}
 
@@ -123,8 +123,8 @@ class tasks implements Serializable {
 		this.config.tips = '该服务是否可以部署测试3?'
 	    this.config.timeout = 24
 	    this.config.timeoutUnit = 'HOURS'
-	    def ConfirmMessger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
-	    ConfirmMessger.start()
+	    def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
+	    DeployToTest3Messger.start()
 	    //
 	    def DeployTest3 = new DeployTest3Stage(this.script,'部署测试3服务器',this.config)
 	    DeployTest3.start()
@@ -139,8 +139,8 @@ class tasks implements Serializable {
 		this.config.tips = '验收测试是否通过?'
 	    this.config.timeout = 12
 	    this.config.timeoutUnit = 'HOURS'
-	    def ConfirmMessger = new ConfirmMessgerStage(this.script,'验收测试',this.config)
-	    ConfirmMessger.start()
+	    def QATestMessger = new ConfirmMessgerStage(this.script,'验收测试',this.config)
+	    QATestMessger.start()
 	    //
 	}
 	//
@@ -149,8 +149,8 @@ class tasks implements Serializable {
 	   	this.config.tips = '该服务是否可以上线?'
 	    this.config.timeout = 24
 	    this.config.timeoutUnit = 'HOURS'
-	    def ConfirmMessger = new ConfirmMessgerStage(this.script,'确认上线',this.config)
-	    ConfirmMessger.start()
+	    def DeployProdMessger = new ConfirmMessgerStage(this.script,'确认上线',this.config)
+	    DeployProdMessger.start()
 	    //
 	    def DeployProd = new DeployProdStage(this.script,'部署测试3服务器',this.config)
 	    DeployProd.start()
