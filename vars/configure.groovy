@@ -24,12 +24,12 @@ def call(body) {
     		switch(branch) {
 
     			case 'master':
-	    			def runTask = new tasks(this,config);
+	    			def runTask = new Tasks(this,config);
 	    			runTask.buildTest()
     				break;
 
     			case 'develop':
-    				def runTask = new tasks(this,config);
+    				def runTask = new Tasks(this,config);
 	    			runTask.buildTest()
     				break;
     				break
@@ -44,7 +44,7 @@ def call(body) {
     	case 'PUSH':
     		switch(branch) {
     			case 'master':
-	    			def runTask = new tasks(this,config);
+	    			def runTask = new Tasks(this,config);
 	    			runTask.buildTest()
 	    			runTask.DeployToTest(true);  //跳过部署测试环境
 	    			runTask.DeployToTest3()
@@ -52,7 +52,7 @@ def call(body) {
     				break;
 
     			case 'develop':
-    				def runTask = new tasks(this,config);
+    				def runTask = new Tasks(this,config);
 	    			runTask.buildTest()
 	    			runTask.DeployToTest()
 	    			runTask.DeployToTest3()
@@ -65,7 +65,7 @@ def call(body) {
     			}
 
     	case 'FIX_FLOW':
-    		def runTask = new tasks(this,config);
+    		def runTask = new Tasks(this,config);
 	    	runTask.buildTest()
 	    	runTask.DeployToTest(true);  //跳过部署测试环境
 	    	runTask.DeployToTest3()
@@ -73,7 +73,7 @@ def call(body) {
     		break;
 
    		case 'WHOLE_FLOW':
-   			def runTask = new tasks(this,config);
+   			def runTask = new Tasks(this,config);
 	    	runTask.buildTest()
 	    	runTask.DeployToTest()
 	    	runTask.DeployToTest3()
