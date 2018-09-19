@@ -1,4 +1,4 @@
-package cn.kuick.pipeline.tasks;
+package cn.kuick.pipeline;
 
 import java.io.Serializable;
 
