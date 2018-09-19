@@ -4,7 +4,7 @@
  */
 
 // See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
-import cn.kuick.pipeline.tasks.tasks
+import cn.kuick.pipeline.tasks.Tasks
 
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
