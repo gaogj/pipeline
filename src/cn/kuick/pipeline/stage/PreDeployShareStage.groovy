@@ -23,7 +23,6 @@ class PreDeployShareStage implements Serializable {
 		this.script.stage(this.stageName) {
 			this.run327();
 		    this.run345();
-
 		}
 	}
 

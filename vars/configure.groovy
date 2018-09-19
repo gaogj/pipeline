@@ -1,52 +1,87 @@
-/**
- * 类型匹配
- */
-def actionTypeMatch(type, rules) {
-	if ("*" == rules || "all" == rules) {
-		return true;
-	}
-
-	rules = rules.replace("*", "(.*)");
-	rules = rules.replace("?", "(.?)");
-
-	return type.matches(rules);
-}
 
 /**
- * 分支匹配
+ * 匹配Steps
  */
-def branchMatch(branch, rules) {
-	if ("*" == rules || "all" == rules) {
-		return true;
+
+// See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
+import cn.kuick.pipeline.tasks.tasks
+
+// The call(body) method in any file in workflowLibs.git/vars is exposed as a
+// method with the same name as the file.
+def call(body) {
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+
+    def actionType = "${env.CHANGE_TYPE}";
+    def branch = "${env.CHANGE_TARGET}";
+
+    switch(actionType) {
+    	// 匹配合并代码动作
+    	case 'MERGE':
+    		// 匹配分支
+    		switch(branch) {
+
+    			case 'master':
+	    			def runTask = new tasks(this,config);
+	    			runTask.buildTest()
+    				break;
+
+    			case 'develop':
+    				def runTask = new tasks(this,config);
+	    			runTask.buildTest()
+    				break;
+    				break
+    			default:
+    				sh "echo 分支匹配失败"
+    				sh "exit 1"
+    				break
+    		}
+    		break;
+
+    	// 匹配推送代码动作
+    	case 'PUSH':
+    		switch(branch) {
+    			case 'master':
+	    			def runTask = new tasks(this,config);
+	    			runTask.buildTest()
+	    			runTask.DeployToTest(true);  //跳过部署测试环境
+	    			runTask.DeployToTest3()
+	    			runTask.DeployToProd()
+    				break;
+
+    			case 'develop':
+    				def runTask = new tasks(this,config);
+	    			runTask.buildTest()
+	    			runTask.DeployToTest()
+	    			runTask.DeployToTest3()
+	    			runTask.DeployToProd()
+    				break;
+    			default:
+    				sh "echo 分支匹配失败"
+    				sh "exit 1"
+    				break
+    			}
+
+    	case 'FIX_FLOW':
+    		def runTask = new tasks(this,config);
+	    	runTask.buildTest()
+	    	runTask.DeployToTest(true);  //跳过部署测试环境
+	    	runTask.DeployToTest3()
+	    	runTask.DeployToProd()
+    		break;
+
+   		case 'WHOLE_FLOW':
+   			def runTask = new tasks(this,config);
+	    	runTask.buildTest()
+	    	runTask.DeployToTest()
+	    	runTask.DeployToTest3()
+	    	runTask.DeployToProd()
+    		break;
+    	default:
+    		sh "echo 动作匹配失败"
+    		sh "exit 1"
+    		break
+		}
 	}
-
-	rules = rules.replace("*", "(.*)");
-	rules = rules.replace("?", "(.?)");
-
-	return branch.matches(rules);
-}
-
-/**
- * 配置分支规则
- */
-def call(actionTypeRules, branchRules, body) {
-	echo "----------------------------------------------"
-	echo "-----------------configure-start--------------"
-
-	def actionType = "${env.CHANGE_TYPE}";
-	def branch = "${env.CHANGE_TARGET}";
-
-	echo "current actionType: ${actionType}"
-	echo "current Branch: ${branch}"
-
-	echo "actionTypeRules: ${actionTypeRules}"
-	echo "branchRules: ${branchRules}"
-
-	if (actionTypeMatch(actionType, actionTypeRules) 
-		&& branchMatch(branch, branchRules)) {
-		body()
-	}
-
-	echo "----------------------------------------------"
-	echo "-----------------configure-start--------------"
-}

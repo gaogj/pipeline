@@ -3,9 +3,9 @@ package cn.kuick.pipeline.stage;
 import java.io.Serializable;
 
 /**
- *	生成镜像
+ *	确认消息
  */
-class confirmMessgerStage implements Serializable {
+class ConfirmMessgerStage implements Serializable {
 	def script;
 
 	def stageName;
@@ -16,7 +16,7 @@ class confirmMessgerStage implements Serializable {
 	def timeoutUnit;
 	def tips;
 
-	confirmMessgerStage(script, stageName, config) {
+	ConfirmMessgerStage(script, stageName, config) {
 		this.script = script;
 
 		this.stageName = stageName;
@@ -37,16 +37,13 @@ class confirmMessgerStage implements Serializable {
 		def version = this.version;
 		def docker = this.script.docker;
 
+		def tips = this.tips;
+
+		assert tips : "ERROR：tips不可为空";
+
 		// 超时时间默认24小时
 		def timeout = 24;
 		def timeoutUnit = 'HOURS';
-
-		def tips = this.tips;
-
-		if (!tips) {
-			println("ERROR：tips不可为空")
-			this.script.sh "exit 1"
-		}
 
 		if (this.timeout) {
 			timeout = this.timeout
@@ -55,13 +52,9 @@ class confirmMessgerStage implements Serializable {
 		if (this.timeoutUnit) {
 			timeoutUnit = this.timeoutUnit
 		}
+
 		this.script.timeout(time: timeout, unit: timeoutUnit){
 			this.script.input message: tips
 		}
-		// this.script.options {
-		// 	timeout(time: timeout, unit: timeoutUnit)
-		// }
-
-		
 	}
 }
