@@ -14,7 +14,7 @@ public class Tasks implements Serializable {
     def stageName;
     def serverName;
     def version;
-    def deployNode;\
+    def deployNode;
     def commitId;
 
     Tasks(script, config) {
