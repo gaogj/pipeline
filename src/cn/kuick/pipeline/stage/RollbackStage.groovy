@@ -40,8 +40,8 @@ class RollbackStage implements Serializable {
 		def deployNode = this.deployNode;
 
 		// 回滚服务
-		this.script.node("aliyun327-test") {
-	        this.script.echo "login to aliyun327-test"
+		this.script.node("aliyun345-build") {
+	        this.script.echo "login to aliyun345-build"
 
 	        this.script.checkout this.script.scm
 

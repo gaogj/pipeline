@@ -29,14 +29,16 @@ class BackupVersionStage implements Serializable {
 
 	def run345() {
 
-		this.script.node('aliyun345-test') {
-			this.script.echo "login to aliyun345-test"
+		this.script.node('aliyun345-build') {
+			this.script.echo "login to aliyun345-build"
 			this.script.checkout this.script.scm
 
 		    // 备份
-		    this.script.sh "pwd && cat /etc/hostname"
-		    this.script.sh "./shared/scripts/backupVersion.sh ${lastVersion} ${serverName}";
-		    this.script.echo "Backup version ${lastVersion} success!"
+		    docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+			    this.script.sh "pwd && cat /etc/hostname"
+			    this.script.sh "./shared/scripts/backupVersion.sh ${lastVersion} ${serverName}";
+			    this.script.echo "Backup version ${lastVersion} success!"
+			}
 	    }
 	}
 
