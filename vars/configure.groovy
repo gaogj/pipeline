@@ -205,6 +205,7 @@ class Tasks implements Serializable {
         AutoMerge.start()
 
         }
+
     def Rebase(){
 
         def PreDeployShare = new PreDeployShareStage(this.script,'预部署依赖仓库',this.config);
@@ -214,7 +215,6 @@ class Tasks implements Serializable {
         BuildBaseImage.start()
         }
     }
-}
 
 
 // jenkinsfile 默认调用
