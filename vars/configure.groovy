@@ -234,7 +234,7 @@ def call(body) {
 
    		case 'WHOLE_FLOW':
    			// def runTask = new Tasks(this,config);
-	    	runTask.buildTest(false)
+	    	runTask.buildTest(true)
 	    	runTask.DeployToTest(false)
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
