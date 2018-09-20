@@ -35,6 +35,7 @@ class Tasks implements Serializable {
 
     // 对代码进行测试并构建
     def buildTest(upload) {
+        //
         def PreDeployShare = new PreDeployShareStage(this.script,'预部署依赖仓库',this.config);
         PreDeployShare.start();
         //
@@ -66,7 +67,7 @@ class Tasks implements Serializable {
     }
 
     def DeployToTest(skip) {
-
+        //
         if (skip == true) {
             // 跳过以下步骤，保持视图完整
             this.script.stage("部署测试服务器") {
