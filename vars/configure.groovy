@@ -16,6 +16,9 @@ import cn.kuick.pipeline.stage.DeployTest3Stage
 import cn.kuick.pipeline.stage.DeployProdStage
 import cn.kuick.pipeline.stage.Test3ApiTestingStage
 import cn.kuick.pipeline.stage.SmokeTestingStage
+import cn.kuick.pipeline.stage.PostDeployAutoChangeLogStage
+import cn.kuick.pipeline.stage.PostDeployAutoMergeStage
+
 
 class Tasks implements Serializable {
 
