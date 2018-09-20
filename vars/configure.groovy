@@ -17,7 +17,7 @@ import cn.kuick.pipeline.stage.DeployProdStage
 import cn.kuick.pipeline.stage.Test3ApiTestingStage
 import cn.kuick.pipeline.stage.SmokeTestingStage
 
-class Tasks {
+class Tasks implements Serializable {
 
     def script;
     def config
