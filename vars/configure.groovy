@@ -133,7 +133,7 @@ class Tasks implements Serializable {
         Test3ApiTesting.start()
         //
         this.script.stage('回归测试') {
-            echo "Skipped"
+            this.script.echo "Skipped"
         }
         //
         this.config.tips = '验收测试是否通过?'
