@@ -16,12 +16,11 @@ class DeployTestStage implements Serializable {
 
 	DeployTestStage(script, stageName, config) {
 		this.script = script;
-		this.script.echo config
 		this.stageName = stageName;
-		this.serverName = config.name;
-		this.version = config.version;
-		this.deployNode = config.deployNode;
-		this.commitId = version[-6..-1];
+		// this.serverName = config.name;
+		// this.version = config.version;
+		// this.deployNode = config.deployNode;
+		// this.commitId = version[-6..-1];
 	}
 
 	def start() {
@@ -50,7 +49,6 @@ class DeployTestStage implements Serializable {
 
                 this.script.echo "deploy test success!"
                 }
-
             }
 
         else {
@@ -68,6 +66,5 @@ class DeployTestStage implements Serializable {
                 this.script.echo "deploy test success!"
                 }
             }
-
 	    }
 }
