@@ -42,7 +42,7 @@ class DeployTestStage implements Serializable {
 
                 this.script.sh "git reset --hard ${commitId}"
 
-                this.script.sh "release/docker/pull.sh ${version}"
+                this.script.sh "./release/docker/pull.sh ${version}"
 
                 this.script.sh "./release/docker/test/deploy.sh ${version}";
 
@@ -58,7 +58,7 @@ class DeployTestStage implements Serializable {
 
                 this.script.sh "git reset --hard ${commitId}"
 
-                this.script.sh "release/docker/pull.sh ${version}"
+                this.script.sh "./release/docker/pull.sh ${version}"
 
                 this.script.sh "./release/docker/test/deploy.sh ${version}";
 
