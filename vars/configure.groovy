@@ -78,9 +78,7 @@ class Tasks implements Serializable {
             this.script.stage("部署测试服务器") {
                 this.script.echo 'Skipped'
                 }
-            }
-
-        }else{
+        } else {
             //
             def DeployTest = new DeployTestStage(this.script,'部署测试服务器',this.config)
             DeployTest.start();
