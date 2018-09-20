@@ -194,6 +194,7 @@ def call(body) {
     // }
     
     def runTask = new Tasks(this,config)
+    
     switch(actionType) {
     	// 匹配合并代码动作
     	case 'MERGE':
