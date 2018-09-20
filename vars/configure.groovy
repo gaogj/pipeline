@@ -99,7 +99,7 @@ class Tasks implements Serializable {
             this.config.timeout = 12
             this.config.timeoutUnit = 'HOURS'
             def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
-            ConfirmMessger.start()
+            DeployTest2Messger.start()
 
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
             DeployTest2.start()
@@ -112,7 +112,7 @@ class Tasks implements Serializable {
             this.config.timeout = 12
             this.config.timeoutUnit = 'HOURS'
             def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
-            ConfirmMessger.start()
+            QATestMessger.start()
         }
 
     }
