@@ -7,7 +7,7 @@
 // import cn.kuick.pipeline.Tasks
 import cn.kuick.pipeline.stage.*
 
-class Tasks implements Serializable {
+public class Tasks implements Serializable {
     def script;
     def config
 
@@ -149,6 +149,7 @@ class Tasks implements Serializable {
     }
 }
 
+
 def call(body) {
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
@@ -165,7 +166,7 @@ def call(body) {
     		switch(branch) {
 
     			case 'master':
-	    			def runTask = new Tasks(this,config);
+	    			def runTask = new Tasks(this,config)
 	    			runTask.buildTest()
     				break;
 
