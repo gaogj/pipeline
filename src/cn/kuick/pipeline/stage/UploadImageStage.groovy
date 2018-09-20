@@ -39,7 +39,7 @@ class UploadImageStage implements Serializable {
 			// 上传镜像
 			this.script.sh "./release/docker/push.sh ${version}";
 
-			this.script.sh "pwd && echo ${HOSTNAME}"
+			this.script.sh "pwd && cat /etc/hostname"
 		}
 	}
 }
