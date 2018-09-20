@@ -7,7 +7,9 @@
 // import cn.kuick.pipeline.Tasks
 import cn.kuick.pipeline.stage.*
 
-class Tasks implements Serializable {
+// class Tasks implements Serializable {
+class Tasks{
+
     def script;
     def config
 
@@ -20,7 +22,7 @@ class Tasks implements Serializable {
     Tasks(script, config) {
         this.script = script;
         this.config = config
-    }
+        }
 
     // 对代码进行测试并构建
     def buildTest(upload) {
@@ -179,6 +181,10 @@ def call(body) {
 
     def person = new Person(name: 'test')
     println(person.name)
+
+    def runTask = new Tasks(this,config)
+    println(runTask.config)
+
  //    switch(actionType) {
  //    	// 匹配合并代码动作
  //    	case 'MERGE':
