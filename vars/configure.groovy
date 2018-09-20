@@ -90,9 +90,9 @@ class Tasks implements Serializable {
             }
 
         }else{
-        //
+            //
             def DeployTest = new DeployTestStage(this.script,'部署测试服务器',this.config)
-            DeployTest.start()
+            DeployTest.start();
 
             this.config.tips = '该服务是否可以部署测试2?'
             this.config.timeout = 12
@@ -260,7 +260,7 @@ def call(body) {
    		case 'WHOLE_FLOW':
    			// def runTask = new Tasks(this,config);
 	    	runTask.buildTest(true)
-	    	runTask.DeployToTest()
+	    	runTask.DeployToTest(false)
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
     		break;
