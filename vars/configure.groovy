@@ -160,18 +160,6 @@ class Tasks implements Serializable {
     }
 }
 
-// public class Person {
-//     private String name;
-//     Person(String name) {
-//         this.name = name
-//     }
-//     public String getName() {
-//         return name
-//     }
-//     public void setName(String name) {
-//         this.name = name
-//     }
-// }
 
 // In Groovy
 class Person {
@@ -187,20 +175,6 @@ def call(body) {
 
     def actionType = "${env.CHANGE_TYPE}";
     def branch = "${env.CHANGE_TARGET}";
-
-    // def person = new Person(name: 'test')
-    // println(person.name)
-
-    // def runTask = new Tasks(this,config)
-    // switch(actionType){
-    //     case 'WHOLE_FLOW':
-    //         println(runTask.config)
-    //         break
-    //     default:
-    //         sh "echo 分支匹配失败"
-    //         sh "exit 1"
-    //         break
-    // }
     
     def runTask = new Tasks(this,config)
     
