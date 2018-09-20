@@ -4,8 +4,6 @@
  */
 
 // See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
-// import cn.kuick.pipeline.Tasks
-// import cn.kuick.pipeline.stage.*
 import cn.kuick.pipeline.stage.PreDeployShareStage
 import cn.kuick.pipeline.stage.UITestStage
 import cn.kuick.pipeline.stage.SonarQubeStage
@@ -18,11 +16,6 @@ import cn.kuick.pipeline.stage.DeployTest3Stage
 import cn.kuick.pipeline.stage.DeployProdStage
 import cn.kuick.pipeline.stage.Test3ApiTestingStage
 import cn.kuick.pipeline.stage.SmokeTestingStage
-// import cn.kuick.pipeline.stage.PreDeployShareStage
-// import cn.kuick.pipeline.stage.UITestStage
-
-
-
 
 class Tasks{
 
