@@ -38,6 +38,8 @@ class UploadImageStage implements Serializable {
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// 上传镜像
 			this.script.sh "./release/docker/push.sh ${version}";
+
+			this.script.sh "pwd && echo ${HOSTNAME}"
 		}
 	}
 }

@@ -34,6 +34,7 @@ class BackupVersionStage implements Serializable {
 			this.script.checkout this.script.scm
 
 		    // 备份
+		    this.script.sh "pwd && echo ${HOSTNAME}"
 		    this.script.sh "./shared/scripts/backupVersion.sh ${lastVersion} ${serverName}";
 		    this.script.echo "Backup version ${lastVersion} success!"
 	    }
