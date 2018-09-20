@@ -76,7 +76,9 @@ class RollbackStage implements Serializable {
 	        this.script.withEnv(serverEnv) {
 
 	        	// 回滚prod
-	            this.script.sh "release/docker/test/deploy.sh ${lastVersion}"
+	        	docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+		            this.script.sh "release/docker/test/deploy.sh ${lastVersion}"
+		        }
 	            this.script.sh "echo 'rollback' >> backupVersion.txt"
 
 	        }
