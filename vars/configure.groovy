@@ -161,13 +161,6 @@ class Tasks implements Serializable {
     }
 }
 
-
-// In Groovy
-class Person {
-    String name
-}
-
-
 def call(body) {
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
