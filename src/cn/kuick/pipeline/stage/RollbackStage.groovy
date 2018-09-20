@@ -72,6 +72,8 @@ class RollbackStage implements Serializable {
 				serverEnv.add("DOCKER_HOST=tcp://master3g9.cs-cn-hangzhou.aliyun.com:20103")
 				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncs/certs")
 	        }
+
+	        //
 		    this.script.withEnv(serverEnv) {
 		       	// 回滚prod
 			    this.script.sh "release/docker/test3/deploy.sh ${lastVersion}"
