@@ -34,7 +34,7 @@ class Tasks implements Serializable {
         }
 
     // 对代码进行测试并构建
-    def buildTest(upload) {
+    def BuildTest(upload) {
         //
         def PreDeployShare = new PreDeployShareStage(this.script,'预部署依赖仓库',this.config);
         PreDeployShare.start();
@@ -159,8 +159,26 @@ class Tasks implements Serializable {
         SmokeTesting.start()
         //
     }
+
+    def Follow(){
+
+        def AutoChangeLog = new PostDeployAutoChangeLogStage(this.script,'自动生成Changelog',this.config)
+        AutoChangeLog.start()
+
+        this.config.tips = '是否合并develop分支到master分支?'
+        this.config.timeout = 24
+        this.config.timeoutUnit = 'HOURS'
+        def MergeMessger = new ConfirmMessgerStage(this.script,'确认合并分支',this.config)
+        MergeMessger.start()
+
+        def AutoMerge = new PostDeployAutoMergeStage(this.script,'自动生成Changelog',this.config)
+        AutoMerge.start()
+
+    }
 }
 
+
+// jenkinsfile 默认调用
 def call(body) {
     def config = [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
@@ -178,12 +196,12 @@ def call(body) {
     		// 匹配分支
     		switch(branch) {
     			case 'master':
-	    			runTask.buildTest()
+	    			runTask.BuildTest()
     				break;
 
     			case 'develop':
     				// def runTask = new Tasks(this,config);
-	    			runTask.buildTest()
+	    			runTask.BuildTest()
     				break;
     				break
     			default:
@@ -198,18 +216,20 @@ def call(body) {
     		switch(branch) {
     			case 'master':
 	    			// def runTask = new Tasks(this,config);
-	    			runTask.buildTest()
+	    			runTask.BuildTest()
 	    			runTask.DeployToTest(true);  //跳过部署测试环境
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
+                    runTask.Follow()
     				break;
 
     			case 'develop':
     				// def runTask = new Tasks(this,config);
-	    			runTask.buildTest()
+	    			runTask.BuildTest()
 	    			runTask.DeployToTest()
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
+                    runTask.Follow()
     				break;
     			default:
     				sh "echo 分支匹配失败"
@@ -219,7 +239,7 @@ def call(body) {
 
     	case 'FIX_FLOW':
     		// def runTask = new Tasks(this,config);
-	    	runTask.buildTest()
+	    	runTask.BuildTest()
 	    	runTask.DeployToTest(true);  //跳过部署测试环境
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
@@ -227,7 +247,7 @@ def call(body) {
 
    		case 'WHOLE_FLOW':
    			// def runTask = new Tasks(this,config);
-	    	runTask.buildTest(true)
+	    	runTask.BuildTest(true)
 	    	runTask.DeployToTest(false)
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()

@@ -43,7 +43,6 @@ class SmokeTestingStage implements Serializable {
 			this.script.sh "git reset --hard ${commitId}"
 			this.script.sh "./release/docker/build.sh ${stable_version}";
 			this.script.sh "./release/docker/push.sh ${stable_version}";
-
 		}
 	}
 }
