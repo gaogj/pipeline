@@ -29,8 +29,8 @@ class BackupVersionStage implements Serializable {
 
 	def run345() {
 
-		this.script.node('aliyun327-test') {
-			this.script.echo "login to aliyun327-test"
+		this.script.node('aliyun345-test') {
+			this.script.echo "login to aliyun345-test"
 			this.script.checkout this.script.scm
 
 		    // 备份
