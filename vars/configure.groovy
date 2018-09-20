@@ -250,7 +250,7 @@ def call(body) {
 
    		case 'WHOLE_FLOW':
    			// def runTask = new Tasks(this,config);
-	    	runTask.buildTest()
+	    	runTask.buildTest(){}
 	    	runTask.DeployToTest()
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
