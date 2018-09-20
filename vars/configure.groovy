@@ -178,9 +178,7 @@ def call(body) {
     def branch = "${env.CHANGE_TARGET}";
     
     def runTask = new Tasks(this,config)
-    
-    echo config.name
-    echo 'config.name'
+
     switch(actionType) {
     	// 匹配合并代码动作
     	case 'MERGE':

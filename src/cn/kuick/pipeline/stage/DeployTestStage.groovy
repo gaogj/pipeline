@@ -17,10 +17,10 @@ class DeployTestStage implements Serializable {
 	DeployTestStage(script, stageName, config) {
 		this.script = script;
 		this.stageName = stageName;
-		// this.serverName = config.name;
-		// this.version = config.version;
-		// this.deployNode = config.deployNode;
-		// this.commitId = version[-6..-1];
+		this.serverName = config.name;
+		this.version = config.version;
+		this.deployNode = config.deployNode;
+		this.commitId = version[-6..-1];
 	}
 
 	def start() {
