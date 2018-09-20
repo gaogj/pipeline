@@ -183,7 +183,16 @@ def call(body) {
     println(person.name)
 
     def runTask = new Tasks(this,config)
-    println(runTask.config)
+    switch(actionType){
+        case 'WHOLE_FLOW':
+            println(runTask.config)
+            break
+        default:
+            sh "echo 分支匹配失败"
+            sh "exit 1"
+            break
+    }
+    
 
  //    switch(actionType) {
  //    	// 匹配合并代码动作
