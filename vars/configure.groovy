@@ -5,10 +5,9 @@
 
 // See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
 // import cn.kuick.pipeline.Tasks
-import cn.kuick.pipeline.stage.*
+// import cn.kuick.pipeline.stage.*
 import cn.kuick.pipeline.stage.PreDeployShareStage
 
-// class Tasks implements Serializable {
 class Tasks{
 
     def script;
