@@ -17,7 +17,7 @@ import cn.kuick.pipeline.stage.DeployProdStage
 import cn.kuick.pipeline.stage.Test3ApiTestingStage
 import cn.kuick.pipeline.stage.SmokeTestingStage
 
-class Tasks{
+class Tasks {
 
     def script;
     def config
@@ -35,20 +35,20 @@ class Tasks{
 
     // 对代码进行测试并构建
     def buildTest(upload) {
-        PreDeployShare = new PreDeployShareStage(this.script,'预部署依赖仓库',this.config);
+        def PreDeployShare = new PreDeployShareStage(this.script,'预部署依赖仓库',this.config);
         PreDeployShare.start();
         //
         this.script.stage("生成基础镜像") {
             echo 'Skipped build base image! If you want rebase image, please run REBASE!'
         }
         //
-        UITest = new UITestStage(this.script,'单元测试',this.config);
+        def UITest = new UITestStage(this.script,'单元测试',this.config);
         UITest.start();
         //
-        SonarQube = new SonarQubeStage(this.script,'代码分析',this.config);
+        def SonarQube = new SonarQubeStage(this.script,'代码分析',this.config);
         SonarQube.start();
         //
-        BuildImage = new BuildImageStage(this.script,'构建镜像',this.config);
+        def BuildImage = new BuildImageStage(this.script,'构建镜像',this.config);
         BuildImage.start()
         //
         if (upload) {
