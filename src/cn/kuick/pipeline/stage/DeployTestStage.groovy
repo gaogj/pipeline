@@ -25,7 +25,6 @@ class DeployTestStage implements Serializable {
 
 	def start() {
 		this.script.stage(this.stageName) {
-			this.script.echo "this.stageName"
 			this.script.echo this.deployNode
 			this.script.echo this.version
 		    this.run();
