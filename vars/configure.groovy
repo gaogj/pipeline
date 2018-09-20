@@ -7,7 +7,7 @@
 // import cn.kuick.pipeline.Tasks
 import cn.kuick.pipeline.stage.*
 
-public class Tasks implements Serializable {
+class Tasks implements Serializable {
     def script;
     def config
 
@@ -149,6 +149,24 @@ public class Tasks implements Serializable {
     }
 }
 
+public class Person {
+    private String name;
+    Person(String name) {
+        this.name = name
+    }
+    public String getName() {
+        return name
+    }
+    public void setName(String name) {
+        this.name = name
+    }
+}
+
+// In Groovy
+class Person {
+    String name
+}
+
 
 def call(body) {
     def config = [:]
@@ -159,71 +177,73 @@ def call(body) {
     def actionType = "${env.CHANGE_TYPE}";
     def branch = "${env.CHANGE_TARGET}";
 
-    switch(actionType) {
-    	// 匹配合并代码动作
-    	case 'MERGE':
-    		// 匹配分支
-    		switch(branch) {
+    def person = new Person(name: 'test')
+    println(person.name)
+ //    switch(actionType) {
+ //    	// 匹配合并代码动作
+ //    	case 'MERGE':
+ //    		// 匹配分支
+ //    		switch(branch) {
 
-    			case 'master':
-	    			def runTask = new Tasks(this,config)
-	    			runTask.buildTest()
-    				break;
+ //    			case 'master':
+	//     			def runTask = new Tasks(this,config)
+	//     			runTask.buildTest()
+ //    				break;
 
-    			case 'develop':
-    				def runTask = new Tasks(this,config);
-	    			runTask.buildTest()
-    				break;
-    				break
-    			default:
-    				sh "echo 分支匹配失败"
-    				sh "exit 1"
-    				break
-    		}
-    		break;
+ //    			case 'develop':
+ //    				def runTask = new Tasks(this,config);
+	//     			runTask.buildTest()
+ //    				break;
+ //    				break
+ //    			default:
+ //    				sh "echo 分支匹配失败"
+ //    				sh "exit 1"
+ //    				break
+ //    		}
+ //    		break;
 
-    	// 匹配推送代码动作
-    	case 'PUSH':
-    		switch(branch) {
-    			case 'master':
-	    			def runTask = new Tasks(this,config);
-	    			runTask.buildTest()
-	    			runTask.DeployToTest(true);  //跳过部署测试环境
-	    			runTask.DeployToTest3()
-	    			runTask.DeployToProd()
-    				break;
+ //    	// 匹配推送代码动作
+ //    	case 'PUSH':
+ //    		switch(branch) {
+ //    			case 'master':
+	//     			def runTask = new Tasks(this,config);
+	//     			runTask.buildTest()
+	//     			runTask.DeployToTest(true);  //跳过部署测试环境
+	//     			runTask.DeployToTest3()
+	//     			runTask.DeployToProd()
+ //    				break;
 
-    			case 'develop':
-    				def runTask = new Tasks(this,config);
-	    			runTask.buildTest()
-	    			runTask.DeployToTest()
-	    			runTask.DeployToTest3()
-	    			runTask.DeployToProd()
-    				break;
-    			default:
-    				sh "echo 分支匹配失败"
-    				sh "exit 1"
-    				break
-    			}
+ //    			case 'develop':
+ //    				def runTask = new Tasks(this,config);
+	//     			runTask.buildTest()
+	//     			runTask.DeployToTest()
+	//     			runTask.DeployToTest3()
+	//     			runTask.DeployToProd()
+ //    				break;
+ //    			default:
+ //    				sh "echo 分支匹配失败"
+ //    				sh "exit 1"
+ //    				break
+ //    			}
 
-    	case 'FIX_FLOW':
-    		def runTask = new Tasks(this,config);
-	    	runTask.buildTest()
-	    	runTask.DeployToTest(true);  //跳过部署测试环境
-	    	runTask.DeployToTest3()
-	    	runTask.DeployToProd()
-    		break;
+ //    	case 'FIX_FLOW':
+ //    		def runTask = new Tasks(this,config);
+	//     	runTask.buildTest()
+	//     	runTask.DeployToTest(true);  //跳过部署测试环境
+	//     	runTask.DeployToTest3()
+	//     	runTask.DeployToProd()
+ //    		break;
 
-   		case 'WHOLE_FLOW':
-   			def runTask = new Tasks(this,config);
-	    	runTask.buildTest()
-	    	runTask.DeployToTest()
-	    	runTask.DeployToTest3()
-	    	runTask.DeployToProd()
-    		break;
-    	default:
-    		sh "echo 动作匹配失败"
-    		sh "exit 1"
-    		break
-		}
-	}
+ //   		case 'WHOLE_FLOW':
+ //   			def runTask = new Tasks(this,config);
+	//     	runTask.buildTest()
+	//     	runTask.DeployToTest()
+	//     	runTask.DeployToTest3()
+	//     	runTask.DeployToProd()
+ //    		break;
+ //    	default:
+ //    		sh "echo 动作匹配失败"
+ //    		sh "exit 1"
+ //    		break
+	// }
+}
