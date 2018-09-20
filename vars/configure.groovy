@@ -60,7 +60,7 @@ class Tasks implements Serializable {
             }
         }
         //
-        addGitLabMRComment comment: '测试完成!'
+        this.script.addGitLabMRComment comment: '测试完成!'
 
         //TODO send email
     }
