@@ -39,7 +39,7 @@ class Tasks {
         PreDeployShare.start();
         //
         this.script.stage("生成基础镜像") {
-            echo 'Skipped build base image! If you want rebase image, please run REBASE!'
+            this.script.echo 'Skipped build base image! If you want rebase image, please run REBASE!'
         }
         //
         def UITest = new UITestStage(this.script,'单元测试',this.config);
@@ -56,7 +56,7 @@ class Tasks {
             UploadImage.start()
         }else{
             this.script.stage("上传镜像") {
-                echo 'Skipped'
+                this.script.echo 'Skipped'
             }
         }
         //
@@ -70,23 +70,23 @@ class Tasks {
         if (skip == true) {
             // 跳过以下步骤，保持视图完整
             this.script.stage("部署测试服务器") {
-                echo 'Skipped'
+                this.script.echo 'Skipped'
             }
 
             this.script.stage("确认部署测试2") {
-                echo 'Skipped'
+                this.script.echo 'Skipped'
             }
 
             this.script.stage("部署测试2服务器") {
-                echo 'Skipped'
+                this.script.echo 'Skipped'
             }
 
             this.script.stage("测试2 API接口测试")  {
-                echo 'Skipped'
+                this.script.echo 'Skipped'
             }
 
             this.script.stage("QA测试") {
-                echo 'Skipped'
+                this.script.echo 'Skipped'
             }
 
         }else{
@@ -104,7 +104,7 @@ class Tasks {
             DeployTest2.start()
 
             this.script.stage("测试2 API接口测试") {
-                echo 'Skipped'
+                this.script.echo 'Skipped'
             }
 
             this.config.tips = 'QA测试是否通过??'
