@@ -7,6 +7,22 @@
 // import cn.kuick.pipeline.Tasks
 // import cn.kuick.pipeline.stage.*
 import cn.kuick.pipeline.stage.PreDeployShareStage
+import cn.kuick.pipeline.stage.UITestStage
+import cn.kuick.pipeline.stage.SonarQubeStage
+import cn.kuick.pipeline.stage.BuildImageStage
+import cn.kuick.pipeline.stage.UploadImageStage
+import cn.kuick.pipeline.stage.ConfirmMessgerStage
+import cn.kuick.pipeline.stage.DeployTestStage
+import cn.kuick.pipeline.stage.DeployTest2Stage
+import cn.kuick.pipeline.stage.DeployTest3Stage
+import cn.kuick.pipeline.stage.DeployProdStage
+import cn.kuick.pipeline.stage.Test3ApiTestingStage
+import cn.kuick.pipeline.stage.SmokeTestingStage
+// import cn.kuick.pipeline.stage.PreDeployShareStage
+// import cn.kuick.pipeline.stage.UITestStage
+
+
+
 
 class Tasks{
 
