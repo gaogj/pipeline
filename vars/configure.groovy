@@ -240,8 +240,8 @@ def call(body) {
     			case 'master':
 	    			// def runTask = new Tasks(this,config);
 	    			runTask.BuildTest()
-	    			runTask.DeployToTest1(true);  //跳过部署测试环境
-                    runTask.DeployToTest2(true);  //跳过部署测试环境
+	    			runTask.DeployToTest1();  //跳过部署测试环境
+                    runTask.DeployToTest2();  //跳过部署测试环境
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
