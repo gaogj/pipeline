@@ -61,7 +61,7 @@ class Tasks implements Serializable {
         UploadImage.start()
         }
         //
-        this.script.addGitLabMRComment comment: '测试完成!'
+        this.script.addGitLabMRComment comment: 'Test SUCCESS!'
 
         //TODO send email
     }
