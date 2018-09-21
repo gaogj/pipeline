@@ -82,14 +82,14 @@ class Tasks implements Serializable {
             //
             def DeployTest = new DeployTestStage(this.script,'部署测试服务器',this.config)
             DeployTest.start();
-        }
-
+            }
     }
 
 
-        def DeployToTest2(skip) {
+        def DeployToTest2() {
         //
-        if (skip) {
+        if (this.script.env.CHANGE_TYPE == "DEPLOY_TEST3" || this.script.env.CHANGE_TYPE == "FIX_FLOW" ) {
+            //如果是测试3和FIX_FLOW 则跳过，保持视图完整
             this.script.stage("确认部署测试2") {
                 this.script.echo 'Skipped'
             }
@@ -107,78 +107,53 @@ class Tasks implements Serializable {
             }
 
         }else{
-            //
-            if (this.script.env.CHANGE_TYPE != "DEPLOY_TEST2"){
-            //如果是直接部署test2跳过提示
-                this.config.tips = '该服务是否可以部署测试2?'
-                this.config.timeout = 12
-                this.config.timeoutUnit = 'HOURS'
-                def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
-                DeployTest2Messger.start()
-            }else{
-                // 跳过以下步骤，保持视图完整
-                this.script.stage("确认部署测试2") {
-                    this.script.echo 'Skip the confirmation'
-                }
-            }
+            this.config.tips = '该服务是否可以部署测试2?'
+            this.config.timeout = 12
+            this.config.timeoutUnit = 'HOURS'
+            def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
+            DeployTest2Messger.start()
 
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
             DeployTest2.start()
 
-            if (this.script.env.CHANGE_TYPE != "DEPLOY_TEST2"){
-                //如果是直接部署test2跳过提示
-                this.script.stage("测试2 API接口测试") {
+            this.script.stage("测试2 API接口测试") {
                     this.script.echo 'Skipped'
-                }
-
-                this.config.tips = 'QA测试是否通过??'
-                this.config.timeout = 12
-                this.config.timeoutUnit = 'HOURS'
-                def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
-                QATestMessger.start()
             }
-        }
 
-    }
-
-
-    def DeployToTest3(skip) {
-        //
-        if (this.script.env.CHANGE_TYPE != "DEPLOY_TEST3"){
-        //如果是直接部署test3 跳过提示
-            this.config.tips = '该服务是否可以部署测试3?'
-            this.config.timeout = 24
+            this.config.tips = 'QA测试是否通过??'
+            this.config.timeout = 12
             this.config.timeoutUnit = 'HOURS'
-            def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
-            DeployToTest3Messger.start()
-        } else{
-            // 跳过以下步骤，保持视图完整
-            this.script.stage("确认部署测试3") {
-                this.script.echo 'Skip the confirmation'
+            def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
+            QATestMessger.start()
             }
         }
-        //
+
+
+    def DeployToTest3() {
+        this.config.tips = '该服务是否可以部署测试3?'
+        this.config.timeout = 24
+        this.config.timeoutUnit = 'HOURS'
+        def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
+        DeployToTest3Messger.start()
+
         def DeployTest3 = new DeployTest3Stage(this.script,'部署测试3服务器',this.config)
         DeployTest3.start()
 
         def Test3ApiTesting = new Test3ApiTestingStage(this.script,'测试3 API接口测试',this.config)
         Test3ApiTesting.start()
-        
-        if (this.script.env.CHANGE_TYPE != "DEPLOY_TEST3"){
-        //如果是直接部署test3 跳过提示
-            this.script.stage('回归测试') {
-                this.script.echo "Skipped"
-            }
-            //
-            this.config.tips = '验收测试是否通过?'
-            this.config.timeout = 12
-            this.config.timeoutUnit = 'HOURS'
-            def QATestMessger = new ConfirmMessgerStage(this.script,'验收测试',this.config)
-            QATestMessger.start()
-            }
-        //
+
+        this.script.stage('回归测试') {
+            this.script.echo "Skipped"
         }
-    //
+
+        this.config.tips = '验收测试是否通过?'
+        this.config.timeout = 12
+        this.config.timeoutUnit = 'HOURS'
+        def QATestMessger = new ConfirmMessgerStage(this.script,'验收测试',this.config)
+        QATestMessger.start()
+
+        }
+
     def DeployToProd() {
         //
         if (this.script.env.CHANGE_TYPE != "DEPLOY_PROD"){
@@ -213,7 +188,6 @@ class Tasks implements Serializable {
 
         def AutoMerge = new PostDeployAutoMergeStage(this.script,'自动生成Changelog',this.config)
         AutoMerge.start()
-
         }
 
     def Rebase(){
