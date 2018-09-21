@@ -88,6 +88,7 @@ class Tasks implements Serializable {
 
 
         def DeployToTest2(skip) {
+        this.script.echo this.script.env.CHANGE_TARGET
         //
         if (skip) {
             this.script.stage("确认部署测试2") {
