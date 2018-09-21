@@ -39,7 +39,7 @@ class Tasks implements Serializable {
         }
 
     // 对代码进行测试并构建
-    def BuildTest(upload) {
+    def BuildTest() {
         //
         def PreDeployShare = new PreDeployShareStage(this.script,'预部署依赖仓库',this.config);
         PreDeployShare.start();
@@ -57,13 +57,8 @@ class Tasks implements Serializable {
         def BuildImage = new BuildImageStage(this.script,'构建镜像',this.config);
         BuildImage.start()
         //
-        if (upload) {
-            def UploadImage = new UploadImageStage(this.script,'上传镜像',this.config);
-            UploadImage.start()
-        }else{
-            this.script.stage("上传镜像") {
-                this.script.echo 'Skipped'
-            }
+        def UploadImage = new UploadImageStage(this.script,'上传镜像',this.config);
+        UploadImage.start()
         }
         //
         this.script.addGitLabMRComment comment: '测试完成!'
@@ -155,24 +150,17 @@ class Tasks implements Serializable {
         }
 
     def DeployToProd() {
-        //
-        if (this.script.env.CHANGE_TYPE != "DEPLOY_PROD"){
-        //如果是直接部署生产则跳过提示
-            this.config.tips = '该服务是否可以上线?'
-            this.config.timeout = 24
-            this.config.timeoutUnit = 'HOURS'
-            def DeployProdMessger = new ConfirmMessgerStage(this.script,'确认上线',this.config)
-            DeployProdMessger.start()
-        }
-        def DeployProd = new DeployProdStage(this.script,'部署测试3服务器',this.config)
+        this.config.tips = '该服务是否可以上线?'
+        this.config.timeout = 24
+        this.config.timeoutUnit = 'HOURS'
+        def DeployProdMessger = new ConfirmMessgerStage(this.script,'确认上线',this.config)
+        DeployProdMessger.start()
+
+        def DeployProd = new DeployProdStage(this.script,'部署生产服务器',this.config)
         DeployProd.start()
 
-        if (this.script.env.CHANGE_TYPE != "DEPLOY_PROD"){
-        //如果是直接部署生产则跳过提示
-            def SmokeTesting = new SmokeTestingStage(this.script,'冒烟测试',this.config)
-            SmokeTesting.start()
-            }
-        //
+        def SmokeTesting = new SmokeTestingStage(this.script,'冒烟测试',this.config)
+        SmokeTesting.start()
         }
 
     def Follow(){
@@ -226,7 +214,6 @@ def call(body) {
     				// def runTask = new Tasks(this,config);
 	    			runTask.BuildTest()
     				break;
-    				break
     			default:
     				sh "echo 分支匹配失败"
     				sh "exit 1"
