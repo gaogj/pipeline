@@ -87,7 +87,7 @@ class Tasks implements Serializable {
     }
 
 
-        def DeployToTest2() {
+        def DeployToTest2(skip) {
         //
         if (skip) {
             this.script.stage("确认部署测试2") {
@@ -137,7 +137,7 @@ class Tasks implements Serializable {
     }
 
 
-    def DeployToTest3() {
+    def DeployToTest3(skip) {
         //
         if (this.script.env.CHANGE_TARGET != "DEPLOY_TEST3"){
         //如果是直接部署test3 跳过提示
