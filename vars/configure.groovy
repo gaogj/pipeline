@@ -60,11 +60,6 @@ class Tasks implements Serializable {
         def UploadImage = new UploadImageStage(this.script,'上传镜像',this.config);
         UploadImage.start()
         }
-        //
-        // this.script.addGitLabMRComment comment: 'Test SUCCESS!'
-
-        //TODO send email
-    }
 
     def DeployToTest1() {
         //
