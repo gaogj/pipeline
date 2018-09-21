@@ -298,15 +298,19 @@ def call(body) {
     		break;
 
         case 'DEPLOY_TEST':
+            runTask.BuildTest(true)
             runTask.DeployToTest1()
             break
         case 'DEPLOY_TEST2':
+            runTask.BuildTest(true)
             runTask.DeployToTest2()
             break
         case 'DEPLOY_TEST3':
+            runTask.BuildTest(true)
             runTask.DeployToTest3()
             break
         case 'DEPLOY_PROD':
+            runTask.BuildTest(true)
             runTask.DeployToProd()
             break
         case 'REBASE':
