@@ -71,9 +71,9 @@ class Tasks implements Serializable {
         //TODO send email
     }
 
-    def DeployToTest1(skip) {
+    def DeployToTest1() {
         //
-        if (skip) {
+        if (this.script.env.CHANGE_TYPE == "DEPLOY_TEST3" || this.script.env.CHANGE_TYPE == "FIX_FLOW" || this.script.env.CHANGE_TYPE == "DEPLOY_TEST2") {
             // 跳过以下步骤，保持视图完整
             this.script.stage("部署测试服务器") {
                 this.script.echo 'Skipped'
@@ -265,36 +265,43 @@ def call(body) {
     	case 'FIX_FLOW':
     		// def runTask = new Tasks(this,config);
 	    	runTask.BuildTest()
-
-	    	runTask.DeployToTest1(true);  //跳过部署测试环境
-            runTask.DeployToTest2(true);  //跳过部署测试环境
+	    	runTask.DeployToTest1();  //跳过部署测试环境
+            runTask.DeployToTest2();  //跳过部署测试环境
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
+            runTask.Follow()
     		break;
 
    		case 'WHOLE_FLOW':
    			// def runTask = new Tasks(this,config);
-	    	runTask.BuildTest(true)
-	    	runTask.DeployToTest1(false)
-            runTask.DeployToTest2(false)
+	    	runTask.BuildTest()
+	    	runTask.DeployToTest1()
+            runTask.DeployToTest2()
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
+            runTask.Follow()
     		break;
 
         case 'DEPLOY_TEST':
-            runTask.BuildTest(true)
+            runTask.BuildTest()
             runTask.DeployToTest1()
             break
         case 'DEPLOY_TEST2':
-            runTask.BuildTest(true)
+            runTask.BuildTest()
+            runTask.DeployToTest1()
             runTask.DeployToTest2()
             break
         case 'DEPLOY_TEST3':
-            runTask.BuildTest(true)
+            runTask.BuildTest()
+            runTask.DeployToTest1()
+            runTask.DeployToTest2()
             runTask.DeployToTest3()
             break
         case 'DEPLOY_PROD':
-            runTask.BuildTest(true)
+            runTask.BuildTest()
+            runTask.DeployToTest1()
+            runTask.DeployToTest2()
+            runTask.DeployToTest3()
             runTask.DeployToProd()
             break
         case 'REBASE':
