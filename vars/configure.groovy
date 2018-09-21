@@ -88,7 +88,6 @@ class Tasks implements Serializable {
 
 
         def DeployToTest2(skip) {
-        this.script.echo this.script.env.CHANGE_TARGET
         //
         if (skip) {
             this.script.stage("确认部署测试2") {
@@ -109,7 +108,7 @@ class Tasks implements Serializable {
 
         }else{
             //
-            if (this.script.env.CHANGE_TARGET != "DEPLOY_TEST2"){
+            if (this.script.env.CHANGE_TYPE != "DEPLOY_TEST2"){
             //如果是直接部署test2跳过提示
                 this.config.tips = '该服务是否可以部署测试2?'
                 this.config.timeout = 12
@@ -121,7 +120,7 @@ class Tasks implements Serializable {
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
             DeployTest2.start()
 
-            if (this.script.env.CHANGE_TARGET != "DEPLOY_TEST2"){
+            if (this.script.env.CHANGE_TYPE != "DEPLOY_TEST2"){
                 //如果是直接部署test2跳过提示
                 this.script.stage("测试2 API接口测试") {
                     this.script.echo 'Skipped'
@@ -140,7 +139,7 @@ class Tasks implements Serializable {
 
     def DeployToTest3(skip) {
         //
-        if (this.script.env.CHANGE_TARGET != "DEPLOY_TEST3"){
+        if (this.script.env.CHANGE_TYPE != "DEPLOY_TEST3"){
         //如果是直接部署test3 跳过提示
             this.config.tips = '该服务是否可以部署测试3?'
             this.config.timeout = 24
@@ -155,7 +154,7 @@ class Tasks implements Serializable {
         def Test3ApiTesting = new Test3ApiTestingStage(this.script,'测试3 API接口测试',this.config)
         Test3ApiTesting.start()
         
-        if (this.script.env.CHANGE_TARGET != "DEPLOY_TEST3"){
+        if (this.script.env.CHANGE_TYPE != "DEPLOY_TEST3"){
         //如果是直接部署test3 跳过提示
             this.script.stage('回归测试') {
                 this.script.echo "Skipped"
@@ -172,7 +171,7 @@ class Tasks implements Serializable {
     //
     def DeployToProd() {
         //
-        if (this.script.env.CHANGE_TARGET != "DEPLOY_PROD"){
+        if (this.script.env.CHANGE_TYPE != "DEPLOY_PROD"){
         //如果是直接部署生产则跳过提示
             this.config.tips = '该服务是否可以上线?'
             this.config.timeout = 24
@@ -183,7 +182,7 @@ class Tasks implements Serializable {
         def DeployProd = new DeployProdStage(this.script,'部署测试3服务器',this.config)
         DeployProd.start()
 
-        if (this.script.env.CHANGE_TARGET != "DEPLOY_PROD"){
+        if (this.script.env.CHANGE_TYPE != "DEPLOY_PROD"){
         //如果是直接部署生产则跳过提示
             def SmokeTesting = new SmokeTestingStage(this.script,'冒烟测试',this.config)
             SmokeTesting.start()
