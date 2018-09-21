@@ -115,6 +115,11 @@ class Tasks implements Serializable {
                 this.config.timeoutUnit = 'HOURS'
                 def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
                 DeployTest2Messger.start()
+            }else{
+                // 跳过以下步骤，保持视图完整
+                this.script.stage("确认部署测试2") {
+                    this.script.echo 'Skip the confirmation'
+                }
             }
 
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
@@ -146,6 +151,11 @@ class Tasks implements Serializable {
             this.config.timeoutUnit = 'HOURS'
             def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
             DeployToTest3Messger.start()
+        } else{
+            // 跳过以下步骤，保持视图完整
+            this.script.stage("确认部署测试3") {
+                this.script.echo 'Skip the confirmation'
+            }
         }
         //
         def DeployTest3 = new DeployTest3Stage(this.script,'部署测试3服务器',this.config)
