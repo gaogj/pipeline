@@ -194,15 +194,19 @@ def call(body) {
     		// 匹配分支
     		switch(branch) {
     			case 'master':
-    			     runTask.DeployToTest3()
+                    runTask.BuildTest()
+    			    runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
-	    			runTask.BuildTest()
     				break;
 
     			case 'develop':
-    			    
-	    			runTask.BuildTest()
+                    runTask.BuildTest()
+                    runTask.DeployToTest1()
+                    runTask.DeployToTest2()
+                    runTask.DeployToTest3()
+                    runTask.DeployToProd()
+                    runTask.Follow()
     				break;
     			default:
     				sh "echo 分支匹配失败"

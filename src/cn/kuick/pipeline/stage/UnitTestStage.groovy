@@ -42,7 +42,6 @@ class UnitTestStage implements Serializable {
 		if (this.config.useUnitTest) {
 			docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 				// 覆盖率测试
-				this.script.sh "rm -rf ./shared && cp -R ../shared ./"
 				this.script.sh "./shared/scripts/unitTest.sh";
 				this.script.junit 'build/test-results/test/*.xml'
 				// 检查单元测试结果,不匹配则标记job不稳定
