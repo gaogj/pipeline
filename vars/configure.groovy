@@ -88,8 +88,10 @@ class Tasks implements Serializable {
             }
         }else{
             this.config.tips = '该服务是否可以部署测试2?'
-            this.config.timeout = 12
-            this.config.timeoutUnit = 'HOURS'
+            if (this.config.timeout == false || this.config.timeoutUnit == false) {
+                this.config.timeout = 24
+                this.config.timeoutUnit = 'HOURS'
+            }
             def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
             DeployTest2Messger.start()
 
@@ -101,8 +103,10 @@ class Tasks implements Serializable {
             }
 
             this.config.tips = 'QA测试是否通过??'
-            this.config.timeout = 12
-            this.config.timeoutUnit = 'HOURS'
+            if (this.config.timeout == false || this.config.timeoutUnit == false) {
+                this.config.timeout = 24
+                this.config.timeoutUnit = 'HOURS'
+            }
             def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
             QATestMessger.start()
             }
@@ -112,8 +116,10 @@ class Tasks implements Serializable {
     def DeployToTest3() {
         // 部署测试3
         this.config.tips = '该服务是否可以部署测试3?'
-        this.config.timeout = 24
-        this.config.timeoutUnit = 'HOURS'
+        if (this.config.timeout == false || this.config.timeoutUnit == false) {
+            this.config.timeout = 24
+            this.config.timeoutUnit = 'HOURS'
+        }
         def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
         DeployToTest3Messger.start()
 
@@ -128,8 +134,10 @@ class Tasks implements Serializable {
         }
 
         this.config.tips = '验收测试是否通过?'
-        this.config.timeout = 12
-        this.config.timeoutUnit = 'HOURS'
+        if (this.config.timeout == false || this.config.timeoutUnit == false) {
+            this.config.timeout = 24
+            this.config.timeoutUnit = 'HOURS'
+        }
         def QATestMessger = new ConfirmMessgerStage(this.script,'验收测试',this.config)
         QATestMessger.start()
 
@@ -137,9 +145,11 @@ class Tasks implements Serializable {
 
     def DeployToProd() {
         // 部署生产环境
+        if (this.config.timeout == false || this.config.timeoutUnit == false) {
+            this.config.timeout = 24
+            this.config.timeoutUnit = 'HOURS'
+        }
         this.config.tips = '该服务是否可以上线?'
-        this.config.timeout = 24
-        this.config.timeoutUnit = 'HOURS'
         def DeployProdMessger = new ConfirmMessgerStage(this.script,'确认上线',this.config)
         DeployProdMessger.start()
 
@@ -156,8 +166,10 @@ class Tasks implements Serializable {
         AutoChangeLog.start()
 
         this.config.tips = '是否合并develop分支到master分支?'
-        this.config.timeout = 24
-        this.config.timeoutUnit = 'HOURS'
+        if (this.config.timeout == false || this.config.timeoutUnit == false) {
+            this.config.timeout = 24
+            this.config.timeoutUnit = 'HOURS'
+        }
         def MergeMessger = new ConfirmMessgerStage(this.script,'确认合并分支',this.config)
         MergeMessger.start()
 
