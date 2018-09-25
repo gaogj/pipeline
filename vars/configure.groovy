@@ -72,7 +72,7 @@ class Tasks implements Serializable {
     }
 
 
-        def DeployToTest2() {
+    def DeployToTest2() {
         // 部署测试2
         if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
             //如果是测试3和FIX_FLOW 则跳过，保持视图完整
@@ -217,8 +217,8 @@ def call(body) {
     		switch(branch) {
     			case 'master':
 	    			runTask.BuildTest()
-	    			runTask.DeployToTest1();  //跳过部署测试环境
-                    runTask.DeployToTest2();  //跳过部署测试环境
+	    			runTask.DeployToTest1();  
+                    runTask.DeployToTest2(); 
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
@@ -240,8 +240,8 @@ def call(body) {
 
     	case 'FIX_FLOW':
 	    	runTask.BuildTest()
-	    	runTask.DeployToTest1();  //跳过部署测试环境
-            runTask.DeployToTest2();  //跳过部署测试环境
+	    	runTask.DeployToTest1(); 
+            runTask.DeployToTest2(); 
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
             runTask.Follow()
