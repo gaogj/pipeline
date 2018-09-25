@@ -19,7 +19,7 @@ import cn.kuick.pipeline.stage.SmokeTestingStage
 import cn.kuick.pipeline.stage.PostDeployAutoChangeLogStage
 import cn.kuick.pipeline.stage.PostDeployAutoMergeStage
 import cn.kuick.pipeline.stage.BuildBaseImageStage
-
+import cn.kuick.pipeline.stage.UnitTestStage
 
 class Tasks implements Serializable {
 
@@ -43,8 +43,8 @@ class Tasks implements Serializable {
             this.script.echo 'Skipped build base image! If you want rebase image, please run REBASE!'
         }
         //
-        def UITest = new UITestStage(this.script,'单元测试',this.config);
-        UITest.start();
+        def UnitTest = new UnitTestStage(this.script,'单元测试',this.config);
+        UnitTest.start();
         //
         def SonarQube = new SonarQubeStage(this.script,'代码分析',this.config);
         SonarQube.start();
@@ -277,7 +277,7 @@ def call(body) {
             runTask.BuildTest()
             runTask.DeployToTest1()
             runTask.DeployToTest2()
-            runTask.DeployToTest3()s
+            runTask.DeployToTest3()
             runTask.DeployToProd()
             break
 
