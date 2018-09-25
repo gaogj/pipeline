@@ -92,7 +92,7 @@ class Tasks implements Serializable {
         }else{
             this.config.tips = '该服务是否可以部署测试2?'
             if (this.config.timeout == '' || this.config.timeout == null) {
-                this.config.timeout = 24
+                this.config.timeout = 12
             }
             if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
                 this.config.timeoutUnit = 'HOURS'
