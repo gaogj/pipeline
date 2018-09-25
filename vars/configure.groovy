@@ -21,17 +21,16 @@ import cn.kuick.pipeline.stage.PostDeployAutoMergeStage
 import cn.kuick.pipeline.stage.BuildBaseImageStage
 
 
-
 class Tasks implements Serializable {
 
     def script;
     def config
     def changeType
 
-    Tasks(script, config) {
+    Tasks(script, config, changeType) {
         this.script = script;
         this.config = config
-        this.changeType = this.changeType
+        this.changeType = changeType
         }
 
     // 代码测试构建
@@ -188,12 +187,12 @@ def call(body) {
     body.delegate = config
     body()
 
-    def actionType = "${env.CHANGE_TYPE}";
+    def changeType = "${env.CHANGE_TYPE}";
     def branch = "${env.CHANGE_TARGET}";
     
-    def runTask = new Tasks(this,config)
+    def runTask = new Tasks(this,config,changeType)
 
-    switch(actionType) {
+    switch(changeType) {
     	// 匹配合并代码动作
     	case 'MERGE':
     		// 匹配分支
@@ -278,7 +277,7 @@ def call(body) {
             runTask.BuildTest()
             runTask.DeployToTest1()
             runTask.DeployToTest2()
-            runTask.DeployToTest3()
+            runTask.DeployToTest3()s
             runTask.DeployToProd()
             break
 

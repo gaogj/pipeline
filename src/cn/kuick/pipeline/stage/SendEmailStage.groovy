@@ -23,7 +23,7 @@ class SendEmailStage implements Serializable {
 	}
 
 	def run() {
-        mail([
+        this.script.mail([
             bcc: '',
             body: this.config.body,
             cc: 'devops@kuick.cn',
@@ -32,6 +32,5 @@ class SendEmailStage implements Serializable {
             subject: this.config.subject,
             to: this.config.toMail
         ]);
-
 	}
 }

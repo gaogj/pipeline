@@ -44,7 +44,6 @@ class UnitTestStage implements Serializable {
 				// 覆盖率测试
 				this.script.sh "./shared/scripts/unitTest.sh";
 				this.script.junit 'build/test-results/test/*.xml'
-				
 				// 检查单元测试结果,不匹配则标记job不稳定
 				this.script.jacoco changeBuildStatus: true, maximumLineCoverage: '90',minimumLineCoverage: '89'
 				// 如果pipeline被标记不稳定则终止构建
