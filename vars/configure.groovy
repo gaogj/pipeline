@@ -26,19 +26,15 @@ class Tasks implements Serializable {
 
     def script;
     def config
-
-    def stageName;
-    def serverName;
-    def version;
-    def deployNode;
-    def commitId;
+    def changeType
 
     Tasks(script, config) {
         this.script = script;
         this.config = config
+        this.changeType = this.changeType
         }
 
-    // 对代码进行测试并构建
+    // 代码测试构建
     def BuildTest() {
         //
         def PreDeployShare = new PreDeployShareStage(this.script,'预部署依赖仓库',this.config);
@@ -62,8 +58,8 @@ class Tasks implements Serializable {
         }
 
     def DeployToTest1() {
-        //
-        if (this.script.env.CHANGE_TYPE == "DEPLOY_TEST3" || this.script.env.CHANGE_TYPE == "FIX_FLOW" || this.script.env.CHANGE_TYPE == "DEPLOY_TEST2") {
+        //部署测试环境
+        if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" || this.changeType == "DEPLOY_TEST2") {
             // 跳过以下步骤，保持视图完整
             this.script.stage("部署测试服务器") {
                 this.script.echo 'Skipped'
@@ -77,8 +73,8 @@ class Tasks implements Serializable {
 
 
         def DeployToTest2() {
-        //
-        if (this.script.env.CHANGE_TYPE == "DEPLOY_TEST3" || this.script.env.CHANGE_TYPE == "FIX_FLOW" ) {
+        // 部署测试2
+        if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
             //如果是测试3和FIX_FLOW 则跳过，保持视图完整
             this.script.stage("确认部署测试2") {
                 this.script.echo 'Skipped'
@@ -95,7 +91,6 @@ class Tasks implements Serializable {
             this.script.stage("QA测试") {
                 this.script.echo 'Skipped'
             }
-
         }else{
             this.config.tips = '该服务是否可以部署测试2?'
             this.config.timeout = 12
@@ -120,6 +115,7 @@ class Tasks implements Serializable {
 
 
     def DeployToTest3() {
+        // 部署测试3
         this.config.tips = '该服务是否可以部署测试3?'
         this.config.timeout = 24
         this.config.timeoutUnit = 'HOURS'
@@ -145,6 +141,7 @@ class Tasks implements Serializable {
         }
 
     def DeployToProd() {
+        // 部署生产环境
         this.config.tips = '该服务是否可以上线?'
         this.config.timeout = 24
         this.config.timeoutUnit = 'HOURS'
@@ -159,7 +156,7 @@ class Tasks implements Serializable {
         }
 
     def Follow(){
-
+        // 部署后操作
         def AutoChangeLog = new PostDeployAutoChangeLogStage(this.script,'自动生成Changelog',this.config)
         AutoChangeLog.start()
 
@@ -174,7 +171,7 @@ class Tasks implements Serializable {
         }
 
     def Rebase(){
-
+        // 重新构建基础镜像
         def PreDeployShare = new PreDeployShareStage(this.script,'预部署依赖仓库',this.config);
         PreDeployShare.start();
 
@@ -206,7 +203,6 @@ def call(body) {
     				break;
 
     			case 'develop':
-    				// def runTask = new Tasks(this,config);
 	    			runTask.BuildTest()
     				break;
     			default:
@@ -220,7 +216,6 @@ def call(body) {
     	case 'PUSH':
     		switch(branch) {
     			case 'master':
-	    			// def runTask = new Tasks(this,config);
 	    			runTask.BuildTest()
 	    			runTask.DeployToTest1();  //跳过部署测试环境
                     runTask.DeployToTest2();  //跳过部署测试环境
@@ -230,7 +225,6 @@ def call(body) {
     				break;
 
     			case 'develop':
-    				// def runTask = new Tasks(this,config);
 	    			runTask.BuildTest()
 	    			runTask.DeployToTest1()
                     runTask.DeployToTest2()
@@ -245,7 +239,6 @@ def call(body) {
     			}
 
     	case 'FIX_FLOW':
-    		// def runTask = new Tasks(this,config);
 	    	runTask.BuildTest()
 	    	runTask.DeployToTest1();  //跳过部署测试环境
             runTask.DeployToTest2();  //跳过部署测试环境
@@ -255,7 +248,6 @@ def call(body) {
     		break;
 
    		case 'WHOLE_FLOW':
-   			// def runTask = new Tasks(this,config);
 	    	runTask.BuildTest()
 	    	runTask.DeployToTest1()
             runTask.DeployToTest2()
@@ -268,17 +260,20 @@ def call(body) {
             runTask.BuildTest()
             runTask.DeployToTest1()
             break
+
         case 'DEPLOY_TEST2':
             runTask.BuildTest()
             runTask.DeployToTest1()
             runTask.DeployToTest2()
             break
+
         case 'DEPLOY_TEST3':
             runTask.BuildTest()
             runTask.DeployToTest1()
             runTask.DeployToTest2()
             runTask.DeployToTest3()
             break
+
         case 'DEPLOY_PROD':
             runTask.BuildTest()
             runTask.DeployToTest1()
@@ -286,9 +281,11 @@ def call(body) {
             runTask.DeployToTest3()
             runTask.DeployToProd()
             break
+
         case 'REBASE':
             runTask.Rebase()
             break
+
     	default:
     		sh "echo 动作匹配失败"
     		sh "exit 1"
