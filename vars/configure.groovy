@@ -1,4 +1,3 @@
-
 /**
  * 匹配Steps
  */
@@ -51,9 +50,6 @@ class Tasks implements Serializable {
         //
         def BuildImage = new BuildImageStage(this.script,'构建镜像',this.config);
         BuildImage.start()
-        //
-        def UploadImage = new UploadImageStage(this.script,'上传镜像',this.config);
-        UploadImage.start()
         }
 
     def DeployToTest1() {
@@ -198,10 +194,14 @@ def call(body) {
     		// 匹配分支
     		switch(branch) {
     			case 'master':
+    			     runTask.DeployToTest3()
+	    			runTask.DeployToProd()
+                    runTask.Follow()
 	    			runTask.BuildTest()
     				break;
 
     			case 'develop':
+    			    
 	    			runTask.BuildTest()
     				break;
     			default:
@@ -216,8 +216,6 @@ def call(body) {
     		switch(branch) {
     			case 'master':
 	    			runTask.BuildTest()
-	    			runTask.DeployToTest1();  
-                    runTask.DeployToTest2(); 
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
