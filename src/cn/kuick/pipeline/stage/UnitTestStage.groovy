@@ -42,7 +42,7 @@ class UnitTestStage implements Serializable {
 		if (this.config.useUnitTest) {
 			docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 				// 覆盖率测试
-				this.script.sh "./shared/scripts/unitTest.sh";
+				this.script.sh "pwd && ./shared/scripts/unitTest.sh";
 				this.script.junit 'build/test-results/test/*.xml'
 				// 检查单元测试结果,不匹配则标记job不稳定
 				this.script.jacoco changeBuildStatus: true, maximumLineCoverage: '90',minimumLineCoverage: '89'
