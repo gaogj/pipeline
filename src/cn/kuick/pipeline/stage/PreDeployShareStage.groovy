@@ -71,7 +71,6 @@ class PreDeployShareStage implements Serializable {
                     branch: "develop",
                     credentialsId: 'kuick_deploy'
 	            ]);
-
             }
 
             // need mv it to ./release/docker/predeploy.sh
