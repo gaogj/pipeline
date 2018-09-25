@@ -45,7 +45,7 @@ class UnitTestStage implements Serializable {
 				this.script.sh "pwd && ./shared/scripts/unitTest.sh";
 				this.script.junit 'build/test-results/test/*.xml'
 				// 检查单元测试结果,不匹配则标记job不稳定
-				this.script.jacoco changeBuildStatus: true, maximumLineCoverage: '90',minimumLineCoverage: '80'
+				this.script.jacoco changeBuildStatus: true, maximumLineCoverage: '80',minimumLineCoverage: '70'
 				// 如果pipeline被标记不稳定则终止构建
 				if (this.script.currentBuild.result != 'SUCCESS') {
 					this.script.echo "单元测试未通过" 
