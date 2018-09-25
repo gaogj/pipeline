@@ -50,6 +50,9 @@ class Tasks implements Serializable {
         //
         def BuildImage = new BuildImageStage(this.script,'构建镜像',this.config);
         BuildImage.start()
+        //
+        def UploadImage = new UploadImageStage(this.script,'上传镜像',this.config);
+        UploadImage.start();
         }
 
     def DeployToTest1() {
