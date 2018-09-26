@@ -81,7 +81,7 @@ class Tasks implements Serializable {
                 this.script.echo 'Skipped'
             }
 
-            this.script.stage("测试2 API接口测试")  {
+            this.script.stage("测试2API接口测试")  {
                 this.script.echo 'Skipped'
             }
 
@@ -96,13 +96,19 @@ class Tasks implements Serializable {
             if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
                 this.config.timeoutUnit = 'HOURS'
             }
-            def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
-            DeployTest2Messger.start()
+            if (this.changeType == "DEPLOY_TEST2") {
+	            this.script.stage("确认部署测试2") {
+	            this.script.echo 'Skipped'
+	            }
+	        }else{
+	        	def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
+	            DeployTest2Messger.start()
+	        }
 
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
             DeployTest2.start()
 
-            this.script.stage("测试2 API接口测试") {
+            this.script.stage("测试2API接口测试") {
                     this.script.echo 'Skipped'
             }
 
@@ -115,9 +121,6 @@ class Tasks implements Serializable {
             }
             def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
             QATestMessger.start()
-
-            def UploadImage = new UploadImageStage(this.script,'QA测试',this.config)
-            UploadImage.start()
             }
         }
 
@@ -131,8 +134,13 @@ class Tasks implements Serializable {
         if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
             this.config.timeoutUnit = 'HOURS'
         }
-        def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
-        DeployToTest3Messger.start()
+        if (this.changeType == "DEPLOY_TEST3") {
+        	this.script.stage("确认部署测试3") {
+	    	this.script.echo 'Skipped'
+        }else{
+        	def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
+        	DeployToTest3Messger.start()
+        }
 
         def DeployTest3 = new DeployTest3Stage(this.script,'部署测试3服务器',this.config)
         DeployTest3.start()
