@@ -97,13 +97,13 @@ class Tasks implements Serializable {
                 this.config.timeoutUnit = 'HOURS'
             }
             if (this.changeType == "DEPLOY_TEST2") {
-	            this.script.stage("确认部署测试2") {
-	            this.script.echo 'Skipped'
-	            }
-	        }else{
-	        	def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
-	            DeployTest2Messger.start()
-	        }
+		            this.script.stage("确认部署测试2") {
+		            this.script.echo 'Skipped'
+		            }
+		        }else{
+		        	def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
+		            DeployTest2Messger.start()
+		        }
 
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
             DeployTest2.start()
@@ -135,12 +135,14 @@ class Tasks implements Serializable {
             this.config.timeoutUnit = 'HOURS'
         }
         if (this.changeType == "DEPLOY_TEST3") {
-        	this.script.stage("确认部署测试3") {
-	    	this.script.echo 'Skipped'
-        }else{
-        	def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
-        	DeployToTest3Messger.start()
-        }
+	        	this.script.stage("确认部署测试3") {
+		    	this.script.echo 'Skipped'
+		    	}
+	        }else{
+	        	def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
+	        	DeployToTest3Messger.start()
+	      }
+	    
 
         def DeployTest3 = new DeployTest3Stage(this.script,'部署测试3服务器',this.config)
         DeployTest3.start()
