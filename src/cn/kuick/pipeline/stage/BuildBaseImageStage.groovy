@@ -8,21 +8,23 @@ import java.io.File;
  */
 class BuildBaseImageStage implements Serializable {
 	def script;
+	def config;
 
 	def stageName;
 	def serverName;
 	def version;
-	def testBase;
+	def projectType;
 	def clairUrl;
 	def buildNodeIP;
 
 	BuildBaseImageStage(script, stageName, config) {
 		this.script = script;
+		this.config = config
 
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-		this.testBase = config.testBase;
+		this.projectType = config.projectType;
 		this.buildNodeIP = config.buildNodeIP;
 		this.clairUrl = config.clairUrl;
 	}
@@ -60,11 +62,12 @@ class BuildBaseImageStage implements Serializable {
 
 	def analysisImage() {
 
-		def name = this.serverName;
-		def clairUrl = this.clairUrl;
-		def buildNodeIP = this.buildNodeIP;
+		def name = this.serverName
+		def clairUrl = this.clairUrl
+		def buildNodeIP = this.buildNodeIP
 		def imageName = "registry.kuick.cn/cc/${name}-server:base"
-		def reportPath = "./imageScanner-Report-${name}-server.json"
+		def reportPath = "./clair-report.json"
+		// def reportPath = "./imageScanner-Report-${name}-server.json"
 
 		def buildId = this.script.env.BUILD_ID;
 		def toMail = this.script.env.gitlabUserEmail;
@@ -81,17 +84,7 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.echo "start send success mail!"
 
-			this.script.mail([
-					bcc: '',
-					body: "附件为镜像漏洞扫描结果 At ${imageName}",
-					cc: 'devops@kuick.cn',
-					from: 'jenkins2@kuick.cn',
-					replyTo: '',
-					subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",
-					attachLog: true,
-					attachmentsPattern: reportPath,
-					to: toMail
-			]);
+			this.script.emailext body: "附件为镜像漏洞扫描结果 At ${imageName}", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",attachmentsPattern: reportPath,to: toMail,cc: 'devops@kuick.cn'
 
 			this.script.echo "success mail send ok!"
 
@@ -99,16 +92,8 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.echo "start send fail mail!"
 
-			this.script.mail([
-					bcc: '',
-					body: "${imageName} 镜像漏洞扫描失败",
-					cc: 'devops@kuick.cn',
-					from: 'jenkins2@kuick.cn',
-					replyTo: '',
-					subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})",
-					to: toMail
-			]);
-
+			this.script.emailext body:  "${imageName} 镜像漏洞扫描失败", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})",attachmentsPattern: reportPath, to: toMail, cc: 'devops@kuick.cn'
+	    
 			this.script.echo "fail mail send ok!"
 
 			throw e;
@@ -131,7 +116,7 @@ class BuildBaseImageStage implements Serializable {
 
 
 			// Build TestBase image
-			if (testBase != "N") {
+			if (this.config.projectType == "java") {
 			    this.buildTestBase()
 			    }
 			else {
