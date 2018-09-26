@@ -12,7 +12,7 @@ class BuildBaseImageStage implements Serializable {
 	def stageName;
 	def serverName;
 	def version;
-	def testBase;
+	def projectType;
 	def clairUrl;
 	def buildNodeIP;
 
@@ -22,7 +22,7 @@ class BuildBaseImageStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-		this.testBase = config.testBase;
+		this.projectType = config.projectType;
 		this.buildNodeIP = config.buildNodeIP;
 		this.clairUrl = config.clairUrl;
 	}
@@ -82,10 +82,7 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.echo "start send success mail!"
 
-			this.script.emailext body: "附件为镜像漏洞扫描结果 At ${imageName}",
-			recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
-			subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",
-	        attachmentsPattern: reportPath,
+			this.script.emailext body: "附件为镜像漏洞扫描结果 At ${imageName}", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",attachmentsPattern: reportPath,
 	        to: toMail,
 	        cc: 'devops@kuick.cn'
 
@@ -95,8 +92,7 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.echo "start send fail mail!"
 
-			this.script.emailext body:  "${imageName} 镜像漏洞扫描失败", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
-			subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})",
+			this.script.emailext body:  "${imageName} 镜像漏洞扫描失败", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})",
 	        attachmentsPattern: reportPath,
 	        to: toMail,
 	        cc: 'devops@kuick.cn'
@@ -123,7 +119,7 @@ class BuildBaseImageStage implements Serializable {
 
 
 			// Build TestBase image
-			if (testBase != "N") {
+			if (projectType == "java") {
 			    this.buildTestBase()
 			    }
 			else {
