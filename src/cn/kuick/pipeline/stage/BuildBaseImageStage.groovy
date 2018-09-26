@@ -97,14 +97,13 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.echo "start send fail mail!"
 
-			this.script.emailext {
-			body:  "${imageName} 镜像漏洞扫描失败",
+			this.script.emailext body:  "${imageName} 镜像漏洞扫描失败",
 			recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
 			subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})",
 	        attachmentsPattern: reportPath,
 	        to: toMail,
 	        cc: 'devops@kuick.cn'
-	    	}
+	    	
 			this.script.echo "fail mail send ok!"
 
 			throw e;
