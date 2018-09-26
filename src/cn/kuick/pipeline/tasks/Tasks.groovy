@@ -121,9 +121,6 @@ class Tasks implements Serializable {
             }
             def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
             QATestMessger.start()
-
-            def UploadImage = new UploadImageStage(this.script,'QA测试',this.config)
-            UploadImage.start()
             }
         }
 
