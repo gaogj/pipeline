@@ -1,52 +1,124 @@
 /**
- * 类型匹配
+ * 匹配Steps
  */
-def actionTypeMatch(type, rules) {
-	if ("*" == rules || "all" == rules) {
-		return true;
+
+// See https://github.com/jenkinsci/workflow-cps-global-lib-plugin
+import cn.kuick.pipeline.tasks.Tasks
+
+// jenkinsfile 默认调用
+def call(body) {
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+
+    def changeType = "${env.CHANGE_TYPE}";
+    def branch = "${env.CHANGE_TARGET}";
+    
+    def runTask = new Tasks(this,config,changeType)
+
+    switch(changeType) {
+    	// 匹配合并代码动作
+    	case 'MERGE':
+    		// 匹配分支
+    		switch(branch) {
+    			case 'master':
+                    runTask.BuildTest()
+    			    runTask.DeployToTest3()
+	    			runTask.DeployToProd()
+                    runTask.Follow()
+    				break;
+
+    			case 'develop':
+                    runTask.BuildTest()
+                    runTask.DeployToTest1()
+                    runTask.DeployToTest2()
+                    runTask.DeployToTest3()
+                    runTask.DeployToProd()
+                    runTask.Follow()
+    				break;
+    			default:
+    				sh "echo 分支匹配失败"
+    				sh "exit 1"
+    				break
+    		}
+    		break;
+
+    	// 匹配推送代码动作
+    	case 'PUSH':
+    		switch(branch) {
+    			case 'master':
+	    			runTask.BuildTest()
+	    			runTask.DeployToTest3()
+	    			runTask.DeployToProd()
+                    runTask.Follow()
+    				break;
+
+    			case 'develop':
+	    			runTask.BuildTest()
+	    			runTask.DeployToTest1()
+                    runTask.DeployToTest2()
+	    			runTask.DeployToTest3()
+	    			runTask.DeployToProd()
+                    runTask.Follow()
+    				break;
+    			default:
+    				sh "echo 分支匹配失败"
+    				sh "exit 1"
+    				break
+    			}
+
+    	case 'FIX_FLOW':
+	    	runTask.BuildTest()
+	    	runTask.DeployToTest1(); 
+            runTask.DeployToTest2(); 
+	    	runTask.DeployToTest3()
+	    	runTask.DeployToProd()
+            runTask.Follow()
+    		break;
+
+   		case 'WHOLE_FLOW':
+	    	runTask.BuildTest()
+	    	runTask.DeployToTest1()
+            runTask.DeployToTest2()
+	    	runTask.DeployToTest3()
+	    	runTask.DeployToProd()
+            runTask.Follow()
+    		break;
+
+        case 'DEPLOY_TEST':
+            runTask.BuildTest()
+            runTask.DeployToTest1()
+            break
+
+        case 'DEPLOY_TEST2':
+            runTask.BuildTest()
+            runTask.DeployToTest1()
+            runTask.DeployToTest2()
+            break
+
+        case 'DEPLOY_TEST3':
+            runTask.BuildTest()
+            runTask.DeployToTest1()
+            runTask.DeployToTest2()
+            runTask.DeployToTest3()
+            break
+
+        case 'DEPLOY_PROD':
+            runTask.BuildTest()
+            runTask.DeployToTest1()
+            runTask.DeployToTest2()
+            runTask.DeployToTest3()
+            runTask.DeployToProd()
+            break
+
+        case 'REBASE':
+            runTask.Rebase()
+            break
+
+    	default:
+    		sh "echo 动作匹配失败"
+    		sh "exit 1"
+    		break
 	}
-
-	rules = rules.replace("*", "(.*)");
-	rules = rules.replace("?", "(.?)");
-
-	return type.matches(rules);
-}
-
-/**
- * 分支匹配
- */
-def branchMatch(branch, rules) {
-	if ("*" == rules || "all" == rules) {
-		return true;
-	}
-
-	rules = rules.replace("*", "(.*)");
-	rules = rules.replace("?", "(.?)");
-
-	return branch.matches(rules);
-}
-
-/**
- * 配置分支规则
- */
-def call(actionTypeRules, branchRules, body) {
-	echo "----------------------------------------------"
-	echo "-----------------configure-start--------------"
-
-	def actionType = "${env.CHANGE_TYPE}";
-	def branch = "${env.CHANGE_TARGET}";
-
-	echo "current actionType: ${actionType}"
-	echo "current Branch: ${branch}"
-
-	echo "actionTypeRules: ${actionTypeRules}"
-	echo "branchRules: ${branchRules}"
-
-	if (actionTypeMatch(actionType, actionTypeRules) 
-		&& branchMatch(branch, branchRules)) {
-		body()
-	}
-
-	echo "----------------------------------------------"
-	echo "-----------------configure-start--------------"
 }

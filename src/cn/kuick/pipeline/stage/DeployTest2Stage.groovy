@@ -21,7 +21,7 @@ class DeployTest2Stage implements Serializable {
 
 		this.serverName = config.name;
 		this.version = config.version;
-		this.deployNode = config.deployNode;
+		this.deployNode = config.deployT2Node;
 		this.commitId = version[-6..-1];
 	}
 
