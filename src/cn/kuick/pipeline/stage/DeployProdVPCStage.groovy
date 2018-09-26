@@ -113,6 +113,7 @@ class DeployProdVPCStage implements Serializable {
 	            	serverEnv.add(item)
 	            }
 
+	            // 对接客户使用的京东的服务器。现已不用
 				this.script.withEnv(serverEnv) {
 
 					if (deployNode == "jd-prod") {

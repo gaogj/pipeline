@@ -25,6 +25,31 @@ class RollbackStage implements Serializable {
 		this.deployNode = config.deployNode;
 	}
 
+	@NonCPS
+	def getBuildUser() {
+		def cause = this.script.currentBuild.rawBuild.getCause(Cause.UserIdCause);
+
+		if (cause != null) {
+			return cause.getUserId()
+		}
+
+		return "gitlab"
+	}
+
+	def getId() {
+		this.script.node{
+			this.script.wrap([$class: 'BuildUser']) {
+				def userId = this.script.env.BUILD_USER_ID;
+
+					if (userId != null) {
+						return  userId
+					}
+
+					return "kuick"
+			}
+		}
+	}
+
 	def start() {
 		this.script.stage(this.stageName) {
 		    this.run();
@@ -38,10 +63,14 @@ class RollbackStage implements Serializable {
 	def run() {
 		def lastVersion = this.lastVersion;
 		def deployNode = this.deployNode;
+		def docker = this.script.docker;
+		def USER_ID = this.getId();
 
 		// 回滚服务
-		this.script.node("aliyun327-test") {
-	        this.script.echo "login to aliyun327-test"
+		this.script.node("aliyun345-build") {
+	        this.script.echo "login to aliyun345-build"
+
+	        this.script.echo "'USER_ID':${USER_ID}"
 
 	        this.script.checkout this.script.scm
 
@@ -73,11 +102,21 @@ class RollbackStage implements Serializable {
 				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncs/certs")
 	        }
 
-	        this.script.withEnv(serverEnv) {
+	        //
+		    this.script.withEnv(serverEnv) {
 
-	        	// 回滚prod
-	            this.script.sh "release/docker/test/deploy.sh ${lastVersion}"
-	            this.script.sh "echo 'rollback' >> backupVersion.txt"
+                // Fix: docker部署时变量代码的版本与镜像版本不一致的问题
+	        	this.script.sh "git reset --hard ${commitId}"
+
+	        	if (USER_ID == "kuick" || USER_ID == "kuick-devops") {
+					// 回滚prod
+					this.script.sh "release/docker/prod/deploy.sh ${lastVersion}"
+					this.script.sh "echo 'rollback' >> backupVersion.txt"
+				} else {
+					this.script.echo "You have no authority to build production!!!"
+
+					this.script.sh "echo 'You have no authority to build production!!!'; exit 1"
+					}
 
 	        }
 
