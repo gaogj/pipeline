@@ -41,7 +41,7 @@ class Tasks implements Serializable {
             this.script.echo 'Skipped build base image! If you want rebase image, please run REBASE!'
         }
         //
-        if (projectType == "java") {
+        if (this.config.projectType == "java") {
             def UnitTest = new UnitTestStage(this.script,'单元测试',this.config);
             UnitTest.start();
         }else{
