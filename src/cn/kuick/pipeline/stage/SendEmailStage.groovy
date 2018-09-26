@@ -6,31 +6,23 @@ import java.io.Serializable;
  *	确认消息
  */
 class SendEmailStage implements Serializable {
-	def script;
-	def stageName;
 	def config;
+	def body
+	def subject
+	def toMail
 
-	SendEmailStage(script, stageName, config) {
-		this.script = script;
-		this.stageName = stageName;
+	SendEmailStage(body, subject, toMail) {
 		this.config = config
+		this.body = body
+		this.subject = subject
+		this.toMail = toMail
 	}
 
 	def start() {
-		this.script.stage(this.stageName) {
-		    this.run();
-		}
-	}
-
-	def run() {
-        this.script.mail([
-            bcc: '',
-            body: this.config.body,
-            cc: 'devops@kuick.cn',
-            from: 'jenkins2@kuick.cn',
-            replyTo: '',
-            subject: this.config.subject,
-            to: this.config.toMail
-        ]);
+        this.script.emailext 
+        body: this.body, 
+        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
+        subject: this.subject, 
+        to: this.toMail
 	}
 }
