@@ -14,7 +14,6 @@ class RollbackStage implements Serializable {
 	def serverName;
 	def lastVersion;
 	def deployNode;
-	def commitId;
 
 	RollbackStage(script, stageName, config) {
 		this.script = script;
@@ -105,12 +104,9 @@ class RollbackStage implements Serializable {
 	        //
 		    this.script.withEnv(serverEnv) {
 
-                // Fix: docker部署时变量代码的版本与镜像版本不一致的问题
-	        	this.script.sh "git reset --hard ${commitId}"
-
 	        	if (USER_ID == "kuick" || USER_ID == "kuick-devops") {
 					// 回滚prod
-					this.script.sh "release/docker/prod/deploy.sh ${lastVersion}"
+					this.script.sh "release/docker/prod/deploy.sh ${lastVersion} ${serverName}"
 					this.script.sh "echo 'rollback' >> backupVersion.txt"
 				} else {
 					this.script.echo "You have no authority to build production!!!"
