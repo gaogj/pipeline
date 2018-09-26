@@ -8,6 +8,7 @@ import java.io.File;
  */
 class BuildBaseImageStage implements Serializable {
 	def script;
+	def config;
 
 	def stageName;
 	def serverName;
@@ -18,6 +19,7 @@ class BuildBaseImageStage implements Serializable {
 
 	BuildBaseImageStage(script, stageName, config) {
 		this.script = script;
+		this.config = config
 
 		this.stageName = stageName;
 		this.serverName = config.name;
@@ -114,7 +116,7 @@ class BuildBaseImageStage implements Serializable {
 
 
 			// Build TestBase image
-			if (projectType == "java") {
+			if (this.config.projectType == "java") {
 			    this.buildTestBase()
 			    }
 			else {
