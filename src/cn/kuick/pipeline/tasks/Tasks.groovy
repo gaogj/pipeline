@@ -81,7 +81,7 @@ class Tasks implements Serializable {
                 this.script.echo 'Skipped'
             }
 
-            this.script.stage("测试2 API接口测试")  {
+            this.script.stage("测试2API接口测试")  {
                 this.script.echo 'Skipped'
             }
 
@@ -102,7 +102,7 @@ class Tasks implements Serializable {
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
             DeployTest2.start()
 
-            this.script.stage("测试2 API接口测试") {
+            this.script.stage("测试2API接口测试") {
                     this.script.echo 'Skipped'
             }
 
