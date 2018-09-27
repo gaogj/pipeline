@@ -12,6 +12,7 @@ class PostDeployAutoMergeStage implements Serializable {
 	def serverName;
 	def version;
 	def commitId;
+	def tmpbranch;
 	def branch;
 
 	PostDeployAutoMergeStage(script, stageName, config) {

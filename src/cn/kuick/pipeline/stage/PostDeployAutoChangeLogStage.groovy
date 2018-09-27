@@ -12,6 +12,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
 	def serverName;
 	def version;
 	def commitId;
+	def tmpbranch;
 	def branch;
 	def changeLog;
 
