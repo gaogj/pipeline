@@ -24,7 +24,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
 		this.version = config.version;
 		this.commitId = version[-6..-1];
 		this.tmpbranch = config.branch;
-		this.branch = tmpbranch[7:];
+		this.branch = tmpbranch[7..];
 		this.changeLog = config.changeLog;
 
 	}
