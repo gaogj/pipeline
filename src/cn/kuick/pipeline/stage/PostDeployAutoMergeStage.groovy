@@ -24,6 +24,7 @@ class PostDeployAutoMergeStage implements Serializable {
 		this.commitId = version[-6..-1];
 		this.tmpbranch = config.branch;
 		this.branch = tmpbranch[7..-1];
+	    this.script.echo "branch is ${branch}"
 
 	}
 
