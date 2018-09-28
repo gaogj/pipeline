@@ -27,6 +27,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
 		this.tmpbranch = config.branch;
 		this.branch = tmpbranch[7..-1];
 		this.changeLog = config.changeLog;
+		this.script.echo "unmodify branch is ${tmpbranch}"
 	    this.script.echo "branch is ${branch}"
 
 	}
