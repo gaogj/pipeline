@@ -12,6 +12,7 @@ class PostDeployAutoChangeLogStage implements Serializable {
 	def serverName;
 	def version;
 	def commitId;
+	def tmpbranch;
 	def branch;
 	def changeLog;
 
@@ -23,8 +24,11 @@ class PostDeployAutoChangeLogStage implements Serializable {
 		this.serverName = config.name;
 		this.version = config.version;
 		this.commitId = version[-6..-1];
-		this.branch = config.branch;
+		this.tmpbranch = config.branch;
+		this.branch = tmpbranch[7..-1];
 		this.changeLog = config.changeLog;
+		this.script.echo "unmodify branch is ${tmpbranch}"
+	    this.script.echo "branch is ${branch}"
 
 	}
 
@@ -45,10 +49,13 @@ class PostDeployAutoChangeLogStage implements Serializable {
 
 	        this.script.sh "git fetch"
 
+	        this.script.echo "branch is ${branch}"
+
 	        this.script.sh "git checkout -B ${branch} --track origin/${branch} "
 
             // Update changelog
             if (changeLog == "Y") {
+		        this.script.echo "branch is ${branch}"
 
                 this.script.sh "npm install --registry=https://registry.npm.taobao.org"
 

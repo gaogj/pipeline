@@ -12,6 +12,7 @@ class PostDeployAutoMergeStage implements Serializable {
 	def serverName;
 	def version;
 	def commitId;
+	def tmpbranch;
 	def branch;
 
 	PostDeployAutoMergeStage(script, stageName, config) {
@@ -21,7 +22,10 @@ class PostDeployAutoMergeStage implements Serializable {
 		this.serverName = config.name;
 		this.version = config.version;
 		this.commitId = version[-6..-1];
-		this.branch = config.branch;
+		this.tmpbranch = config.branch;
+		this.branch = tmpbranch[7..-1];
+	    this.script.echo "branch is ${branch}"
+
 	}
 
 	def start() {
