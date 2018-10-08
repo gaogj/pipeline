@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  *	冒烟测试 + 稳定标签
  */
-class SmokeTestingStage implements Serializable {
+class StableTagStage implements Serializable {
 	def script;
 
 	def stageName;
@@ -13,7 +13,7 @@ class SmokeTestingStage implements Serializable {
 	def version;
 	def commitId;
 
-	SmokeTestingStage(script, stageName, config) {
+	StableTagStage(script, stageName, config) {
 		this.script = script;
 
 		this.stageName = stageName;
