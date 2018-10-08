@@ -35,6 +35,7 @@ class DeployTestStage implements Serializable {
 
 	def run() {
 		def version = this.version;
+		def agentNumber = this.agentNumber;
 		if (deployNode == "aliyun311"){
 			this.script.node("aliyun311-pts"){
 				this.script.echo "login to aliyun311-pts"
