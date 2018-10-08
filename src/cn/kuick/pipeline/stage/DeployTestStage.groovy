@@ -39,8 +39,8 @@ class DeployTestStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def number = Integer.parseInt(this.number)
-		number in String
-		number in Integer
+		println number in String
+		println number in Integer
 		this.script.echo " ${number}"
 		if (deployNode == "aliyun311"){
 			this.script.node("aliyun311-pts"){
