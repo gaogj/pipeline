@@ -40,7 +40,7 @@ class StableTagStage implements Serializable {
 		// This is used to authenticate the Docker client to the registry.
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// 提供一个构建镜像稳定版本
-			def imageName = 'registry.kuick.cn' + '/cc/' + 'this.serverName' + '-server' + ':' + this.version
+			def imageName = 'registry.kuick.cn' + '/cc/' + this.serverName + '-server' + ':' + this.version
 			docker.image(imageName).push(stable_version)
 		}
 	}
