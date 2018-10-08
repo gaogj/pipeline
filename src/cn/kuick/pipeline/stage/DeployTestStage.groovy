@@ -46,7 +46,7 @@ class DeployTestStage implements Serializable {
 			this.script.node("aliyun311-pts"){
 				this.script.echo "login to aliyun311-pts"
 				this.script.checkout this.script.scm
-				this.script.sh "./release/docker/agent/deploy.sh ${version} ${number}"
+				this.script.sh "./release/docker/agent/deploy.sh ${version} $((${number} + 0))"
                 this.script.echo "deploy agent success!"
 			}
 		}
