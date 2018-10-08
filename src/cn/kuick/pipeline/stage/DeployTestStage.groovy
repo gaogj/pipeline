@@ -39,14 +39,14 @@ class DeployTestStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def number = Integer.parseInt(this.number)
-		println number in String
+		System.out.println(number in String)
 		println number in Integer
 		this.script.echo " ${number}"
 		if (deployNode == "aliyun311"){
 			this.script.node("aliyun311-pts"){
 				this.script.echo "login to aliyun311-pts"
 				this.script.checkout this.script.scm
-				this.script.sh "./release/docker/agent/deploy.sh ${version} $((${number} + 0))"
+				this.script.sh "./release/docker/agent/deploy.sh ${version} ${number}"
                 this.script.echo "deploy agent success!"
 			}
 		}
