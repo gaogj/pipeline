@@ -33,8 +33,16 @@ class DeployTestStage implements Serializable {
 
 	def run() {
 		def version = this.version;
+		if (deployTestNode == "aliyun311-pts"){
+			this.script.node("aliyun311-pts"){
+				this.script.echo "login to aliyun311-pts"
+				this.script.checkout this.script.scm
+				this.script.sh "./release/docker/agent/deploy.sh ${version} ${agentNumber}"
+                this.script.echo "deploy agent success!"
+			}
+		}
 
-        if (deployNode == null || deployNode == "aliyun327") {
+        else if (deployNode == null || deployNode == "aliyun327") {
             this.script.node("aliyun327-test") {
                 this.script.echo "login to aliyun327-test"
 
