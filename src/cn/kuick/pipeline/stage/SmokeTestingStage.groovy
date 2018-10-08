@@ -35,14 +35,16 @@ class SmokeTestingStage implements Serializable {
 		def version = this.version;
 		def docker = this.script.docker;
 
+		this.script.sh "冒烟测试通过"
+
 		// We are pushing to a private secure Docker registry in this demo.
 		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
 		// This is used to authenticate the Docker client to the registry.
-		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
-			// 提供一个构建镜像稳定版本
-			this.script.sh "git reset --hard ${commitId}"
-			this.script.sh "./release/docker/build.sh ${stable_version}";
-			this.script.sh "./release/docker/push.sh ${stable_version}";
+		// docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+		// 	// 提供一个构建镜像稳定版本
+		// 	this.script.sh "git reset --hard ${commitId}"
+		// 	this.script.sh "./release/docker/build.sh ${stable_version}";
+		// 	this.script.sh "./release/docker/push.sh ${stable_version}";
 		}
 	}
 }
