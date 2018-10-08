@@ -13,7 +13,7 @@ class DeployTestStage implements Serializable {
 	def version;
 	def commitId;
 	def deployNode;
-	def agentNumber;
+	def number;
 
 	DeployTestStage(script, stageName, config) {
 		this.script = script;
