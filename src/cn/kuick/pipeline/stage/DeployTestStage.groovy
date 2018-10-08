@@ -29,6 +29,7 @@ class DeployTestStage implements Serializable {
 		this.script.stage(this.stageName) {
 			this.script.echo this.deployNode
 			this.script.echo this.version
+			this.number = config.number;
 		    this.run();
 		}
 	}
