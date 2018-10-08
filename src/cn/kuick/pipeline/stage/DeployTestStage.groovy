@@ -33,7 +33,7 @@ class DeployTestStage implements Serializable {
 
 	def run() {
 		def version = this.version;
-		if (deployTestNode == "aliyun311-pts"){
+		if (deployTestNode == "aliyun311"){
 			this.script.node("aliyun311-pts"){
 				this.script.echo "login to aliyun311-pts"
 				this.script.checkout this.script.scm
