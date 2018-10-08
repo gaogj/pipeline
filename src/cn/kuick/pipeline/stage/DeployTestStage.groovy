@@ -21,7 +21,7 @@ class DeployTestStage implements Serializable {
 		this.serverName = config.name;
 		this.version = config.version;
 		this.deployNode = config.deployNode;
-		this.agentNumber = config.agentNumber;
+		this.number = config.number;
 		this.commitId = version[-6..-1];
 	}
 
@@ -35,12 +35,12 @@ class DeployTestStage implements Serializable {
 
 	def run() {
 		def version = this.version;
-		def agentNumber = this.agentNumber;
+		def number = this.number;
 		if (deployNode == "aliyun311"){
 			this.script.node("aliyun311-pts"){
 				this.script.echo "login to aliyun311-pts"
 				this.script.checkout this.script.scm
-				this.script.sh "./release/docker/agent/deploy.sh ${version} ${agentNumber}"
+				this.script.sh "./release/docker/agent/deploy.sh ${version} ${number}"
                 this.script.echo "deploy agent success!"
 			}
 		}
