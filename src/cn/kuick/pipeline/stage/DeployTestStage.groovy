@@ -23,13 +23,15 @@ class DeployTestStage implements Serializable {
 		this.deployNode = config.deployNode;
 		this.number = config.number;
 		this.commitId = version[-6..-1];
+		this.script.echo " ${number}"
 	}
 
 	def start() {
 		this.script.stage(this.stageName) {
 			this.script.echo this.deployNode
 			this.script.echo this.version
-			this.number = config.number;
+			this.script.echo this.number
+			this.script.echo " ${number}"
 		    this.run();
 		}
 	}
@@ -37,6 +39,7 @@ class DeployTestStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def number = this.number;
+		this.script.echo " ${number}"
 		if (deployNode == "aliyun311"){
 			this.script.node("aliyun311-pts"){
 				this.script.echo "login to aliyun311-pts"
