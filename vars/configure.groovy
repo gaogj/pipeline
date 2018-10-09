@@ -114,7 +114,7 @@ def call(body) {
 
         case 'DEPLOY_PTS':
             runTask.BuildTest()
-            runTask.BuildPts()
+            runTask.DeployToPts()
             break
 
         case 'REBASE':
