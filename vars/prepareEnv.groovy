@@ -1,7 +1,6 @@
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
 def printPipelineEnv() {
-	sh 'env'
 	echo "----------------------------------------------"
 	echo "------------------printPipelineEnv-start--------------"
 
