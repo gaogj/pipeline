@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  *	部署测试环境
  */
-class DeployTestStage implements Serializable {
+class DeployPtsStage implements Serializable {
 	def script;
 
 	def stageName;
@@ -15,7 +15,7 @@ class DeployTestStage implements Serializable {
 	def deployNode;
 	def number;
 
-	DeployTestStage(script, stageName, config) {
+	DeployPtsStage(script, stageName, config) {
 		this.script = script;
 		this.stageName = stageName;
 		this.serverName = config.name;
