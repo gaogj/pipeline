@@ -37,9 +37,9 @@ class DeployPtsStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def number = this.number
-		if (deployNode == "aliyun311"){
-			this.script.node("aliyun311-pts"){
-				this.script.echo "login to aliyun311-pts"
+		if (deployNode == "pts-node"){
+			this.script.node("pts-node"){
+				this.script.echo "login to pts-node"
 				this.script.checkout this.script.scm
 				this.script.sh "bash ./release/docker/agent/deploy.sh ${version} ${number}"
                 this.script.echo "deploy agent success!"
