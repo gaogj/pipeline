@@ -36,7 +36,6 @@ class DeployTestStage implements Serializable {
 
         if (deployNode == null || deployNode == "aliyun327") {
             this.script.node("aliyun327-test") {
-            	this.script.sh 'env'
                 this.script.echo "login to aliyun327-test"
 
                 this.script.checkout this.script.scm
@@ -53,7 +52,6 @@ class DeployTestStage implements Serializable {
 
         else {
             this.script.node("aliyun354-test") {
-            	this.script.sh 'env'
                 this.script.echo "login to aliyun354-test"
 
                 this.script.checkout this.script.scm
