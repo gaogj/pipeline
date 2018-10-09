@@ -18,6 +18,7 @@ import cn.kuick.pipeline.stage.PostDeployAutoChangeLogStage
 import cn.kuick.pipeline.stage.PostDeployAutoMergeStage
 import cn.kuick.pipeline.stage.BuildBaseImageStage
 import cn.kuick.pipeline.stage.UnitTestStage
+import cn.kuick.pipeline.stage.StableTagStage
 
 class Tasks implements Serializable {
 
@@ -189,8 +190,14 @@ class Tasks implements Serializable {
         def DeployProd = new DeployProdStage(this.script,'部署生产服务器',this.config)
         DeployProd.start()
 
-        def SmokeTesting = new SmokeTestingStage(this.script,'冒烟测试',this.config)
-        SmokeTesting.start()
+        this.script.stage("冒烟测试") {
+            this.script.echo '跳过冒烟测试'
+        }
+
+        def StableTag = new StableTagStage(this.script,'构建稳定版本镜像',this.config)
+        StableTag.start()
+        // def SmokeTesting = new SmokeTestingStage(this.script,'冒烟测试',this.config)
+        // SmokeTesting.start()
         }
 
     def Follow(){

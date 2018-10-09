@@ -45,6 +45,11 @@ class DeployProdStage implements Serializable {
 		}
 	}
 
+	def accessControl(){
+
+	}
+
+
 	def readProperties(propFile) {
 		return this.script.readProperties([file: propFile])
 	}
