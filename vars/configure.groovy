@@ -112,6 +112,11 @@ def call(body) {
             runTask.DeployToProd()
             break
 
+        case 'DEPLOY_PTS':
+            runTask.BuildTest()
+            runTask.DeployToPts()
+            break
+
         case 'REBASE':
             runTask.Rebase()
             break
