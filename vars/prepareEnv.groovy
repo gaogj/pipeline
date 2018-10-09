@@ -77,6 +77,7 @@ def getBuildUser() {
 }
 
 def call(envCallback) {
+	sh 'env'
 	this.printPipelineEnv();
 	this.printGitLabEnv();
 
