@@ -3,7 +3,7 @@ package cn.kuick.pipeline.stage;
 import java.io.Serializable;
 
 /**
- *	部署测试环境
+ *	部署压测项目agent端环境
  */
 class DeployPtsStage implements Serializable {
 	def script;

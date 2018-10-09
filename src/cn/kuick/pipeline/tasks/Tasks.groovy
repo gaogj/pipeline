@@ -224,7 +224,7 @@ class Tasks implements Serializable {
 
     def DeployToPts(){
         // 部署压测项目
-        def DeployPts = new DeployPtsStage(this.script,'部署压测项目',this.config);
+        def DeployPts = new DeployPtsStage(this.script,'部署压测项目agent端',this.config);
         DeployPts.start();
         }
     }
