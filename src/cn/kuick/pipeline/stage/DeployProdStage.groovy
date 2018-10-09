@@ -60,7 +60,6 @@ class DeployProdStage implements Serializable {
 
 		// 部署正式环境
 		this.script.node("aliyun345-build") {
-			this.script.sh 'env'
 	        this.script.echo "login to aliyun345-build"
 
 	        this.script.checkout this.script.scm
