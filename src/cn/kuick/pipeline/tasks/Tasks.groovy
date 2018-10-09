@@ -18,7 +18,7 @@ import cn.kuick.pipeline.stage.PostDeployAutoChangeLogStage
 import cn.kuick.pipeline.stage.PostDeployAutoMergeStage
 import cn.kuick.pipeline.stage.BuildBaseImageStage
 import cn.kuick.pipeline.stage.UnitTestStage
-
+import cn.kuick.pipeline.stage.DeployPtsStage
 class Tasks implements Serializable {
 
     def script;
@@ -220,5 +220,11 @@ class Tasks implements Serializable {
 
         def BuildBaseImage = new BuildBaseImageStage(this.script,'生成基础镜像',this.config)
         BuildBaseImage.start()
+        }
+
+    def DeployToPts(){
+        // 部署压测项目
+        def DeployPts = new DeployPtsStage(this.script,'部署压测项目',this.config);
+        DeployPts.start();
         }
     }
