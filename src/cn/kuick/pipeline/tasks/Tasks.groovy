@@ -20,6 +20,7 @@ import cn.kuick.pipeline.stage.BuildBaseImageStage
 import cn.kuick.pipeline.stage.UnitTestStage
 import cn.kuick.pipeline.stage.StableTagStage
 import cn.kuick.pipeline.stage.DeployPtsStage
+import cn.kuick.pipeline.stage.AccessControlStage
 
 class Tasks implements Serializable {
 
@@ -179,6 +180,9 @@ class Tasks implements Serializable {
 
     def DeployToProd() {
         // 部署生产环境
+        def AccessControlProd = new AccessControlStage(this.script,'生产环境权限校验',this.config) 
+        AccessControlProd.start()
+
         this.config.tips = '该服务是否可以上线?'
         if (this.config.timeout == '' || this.config.timeout == null) {
             this.config.timeout = 24

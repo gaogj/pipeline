@@ -5,14 +5,14 @@ import java.io.Serializable;
 /**
  *	确认消息
  */
-class ConfirmMessgerStage implements Serializable {
+class AccessControlStage implements Serializable {
 	def script;
 
 	def stageName;
 	def version;
 	def config;
 
-	ConfirmMessgerStage(script, stageName, config) {
+	AccessControlStage(script, stageName, config) {
 		this.script = script;
 		this.stageName = stageName;
 		this.version = config.version;
