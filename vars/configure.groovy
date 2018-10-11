@@ -33,8 +33,8 @@ def call(body) {
     			case 'develop':
                 // MERGE 到develop分支场景，代码已通过测试test3测试，需要触发上线
                     runTask.BuildTest()
-                    runTask.DeployToTest1(skip = true)
-                    runTask.DeployToTest2(skip = true)
+                    runTask.DeployToTest1(true)
+                    runTask.DeployToTest2(true)
                     runTask.DeployToTest3()
                     runTask.DeployToProd()
                     runTask.Follow()
@@ -52,8 +52,8 @@ def call(body) {
                 // PUSH 到 master分支场景，紧急修复上线
     			case 'master':
 	    			runTask.BuildTest()
-                    runTask.DeployToTest1(skip = true)
-                    runTask.DeployToTest2(skip = true)
+                    runTask.DeployToTest1(true)
+                    runTask.DeployToTest2(true)
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
@@ -62,8 +62,8 @@ def call(body) {
     			case 'develop':
                 // PUSH 到 develop分支场景 简单BUG修复，紧急修复上线
 	    			runTask.BuildTest()
-	    			runTask.DeployToTest1(skip = true)
-                    runTask.DeployToTest2(skip = true)
+	    			runTask.DeployToTest1(true)
+                    runTask.DeployToTest2(true)
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
@@ -77,8 +77,8 @@ def call(body) {
     	case 'FIX_FLOW':
         // 热修复
 	    	runTask.BuildTest()
-	    	runTask.DeployToTest1(skip = true); 
-            runTask.DeployToTest2(skip = true); 
+	    	runTask.DeployToTest1(true); 
+            runTask.DeployToTest2(true); 
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
             runTask.Follow()
@@ -101,21 +101,21 @@ def call(body) {
 
         case 'DEPLOY_TEST2':
             runTask.BuildTest()
-            runTask.DeployToTest1(skip = true)
+            runTask.DeployToTest1(true)
             runTask.DeployToTest2()
             break
 
         case 'DEPLOY_TEST3':
             runTask.BuildTest()
-            runTask.DeployToTest1(skip = true)
-            runTask.DeployToTest2(skip = true)
+            runTask.DeployToTest1(true)
+            runTask.DeployToTest2(true)
             runTask.DeployToTest3()
             break
 
         case 'DEPLOY_PROD':
             runTask.BuildTest()
-            runTask.DeployToTest1(skip = true)
-            runTask.DeployToTest2(skip = true)
+            runTask.DeployToTest1(true)
+            runTask.DeployToTest2(true)
             runTask.DeployToTest3()
             runTask.DeployToProd()
             break
