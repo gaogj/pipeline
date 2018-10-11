@@ -62,9 +62,10 @@ class Tasks implements Serializable {
         UploadImage.start();
         }
 
-    def DeployToTest1() {
+    def DeployToTest1(skip) {
         //部署测试环境
-        if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" || this.changeType == "DEPLOY_TEST2") {
+        if (skip){
+        // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" || this.changeType == "DEPLOY_TEST2") {
             // 跳过以下步骤，保持视图完整
             this.script.stage("部署测试服务器") {
                 this.script.echo 'Skipped'
@@ -77,9 +78,10 @@ class Tasks implements Serializable {
     }
 
 
-    def DeployToTest2() {
+    def DeployToTest2(skip) {
         // 部署测试2
-        if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
+        if (skip){
+        // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
             //如果是测试3和FIX_FLOW 则跳过，保持视图完整
             this.script.stage("确认部署测试2") {
                 this.script.echo 'Skipped'

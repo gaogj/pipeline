@@ -23,16 +23,18 @@ def call(body) {
     		// 匹配分支
     		switch(branch) {
     			case 'master':
+                    // MERGE到master分支场景，上线后合并分支触发，仅进行构建测试
                     runTask.BuildTest()
-    			    runTask.DeployToTest3()
-	    			runTask.DeployToProd()
-                    runTask.Follow()
+    			 //    runTask.DeployToTest3()
+	    			// runTask.DeployToProd()
+        //             runTask.Follow()
     				break;
 
     			case 'develop':
+                // MERGE 到develop分支场景，代码已通过测试test3测试，需要触发上线
                     runTask.BuildTest()
-                    runTask.DeployToTest1()
-                    runTask.DeployToTest2()
+                    runTask.DeployToTest1(skip = true)
+                    runTask.DeployToTest2(skip = true)
                     runTask.DeployToTest3()
                     runTask.DeployToProd()
                     runTask.Follow()
@@ -47,17 +49,21 @@ def call(body) {
     	// 匹配推送代码动作
     	case 'PUSH':
     		switch(branch) {
+                // PUSH 到 master分支场景，紧急修复上线
     			case 'master':
 	    			runTask.BuildTest()
+                    runTask.DeployToTest1(skip = true)
+                    runTask.DeployToTest2(skip = true)
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
     				break;
 
     			case 'develop':
+                // PUSH 到 develop分支场景 简单BUG修复，紧急修复上线
 	    			runTask.BuildTest()
-	    			runTask.DeployToTest1()
-                    runTask.DeployToTest2()
+	    			runTask.DeployToTest1(skip = true)
+                    runTask.DeployToTest2(skip = true)
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
@@ -69,15 +75,17 @@ def call(body) {
     			}
 
     	case 'FIX_FLOW':
+        // 热修复
 	    	runTask.BuildTest()
-	    	runTask.DeployToTest1(); 
-            runTask.DeployToTest2(); 
+	    	runTask.DeployToTest1(skip = true); 
+            runTask.DeployToTest2(skip = true); 
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
             runTask.Follow()
     		break;
 
    		case 'WHOLE_FLOW':
+        // 全部流程
 	    	runTask.BuildTest()
 	    	runTask.DeployToTest1()
             runTask.DeployToTest2()
@@ -93,21 +101,21 @@ def call(body) {
 
         case 'DEPLOY_TEST2':
             runTask.BuildTest()
-            runTask.DeployToTest1()
+            runTask.DeployToTest1(skip = true)
             runTask.DeployToTest2()
             break
 
         case 'DEPLOY_TEST3':
             runTask.BuildTest()
-            runTask.DeployToTest1()
-            runTask.DeployToTest2()
+            runTask.DeployToTest1(skip = true)
+            runTask.DeployToTest2(skip = true)
             runTask.DeployToTest3()
             break
 
         case 'DEPLOY_PROD':
             runTask.BuildTest()
-            runTask.DeployToTest1()
-            runTask.DeployToTest2()
+            runTask.DeployToTest1(skip = true)
+            runTask.DeployToTest2(skip = true)
             runTask.DeployToTest3()
             runTask.DeployToProd()
             break
