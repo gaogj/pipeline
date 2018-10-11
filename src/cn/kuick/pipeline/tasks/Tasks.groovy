@@ -20,6 +20,7 @@ import cn.kuick.pipeline.stage.BuildBaseImageStage
 import cn.kuick.pipeline.stage.UnitTestStage
 import cn.kuick.pipeline.stage.StableTagStage
 import cn.kuick.pipeline.stage.DeployPtsStage
+import cn.kuick.pipeline.stage.AccessControlStage
 
 class Tasks implements Serializable {
 
@@ -62,9 +63,10 @@ class Tasks implements Serializable {
         UploadImage.start();
         }
 
-    def DeployToTest1() {
+    def DeployToTest1(skip) {
         //部署测试环境
-        if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" || this.changeType == "DEPLOY_TEST2") {
+        if (skip){
+        // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" || this.changeType == "DEPLOY_TEST2") {
             // 跳过以下步骤，保持视图完整
             this.script.stage("部署测试服务器") {
                 this.script.echo 'Skipped'
@@ -77,9 +79,10 @@ class Tasks implements Serializable {
     }
 
 
-    def DeployToTest2() {
+    def DeployToTest2(skip) {
         // 部署测试2
-        if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
+        if (skip){
+        // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
             //如果是测试3和FIX_FLOW 则跳过，保持视图完整
             this.script.stage("确认部署测试2") {
                 this.script.echo 'Skipped'
@@ -177,6 +180,9 @@ class Tasks implements Serializable {
 
     def DeployToProd() {
         // 部署生产环境
+        def AccessControlProd = new AccessControlStage(this.script,'生产环境权限校验',this.config) 
+        AccessControlProd.start()
+
         this.config.tips = '该服务是否可以上线?'
         if (this.config.timeout == '' || this.config.timeout == null) {
             this.config.timeout = 24
