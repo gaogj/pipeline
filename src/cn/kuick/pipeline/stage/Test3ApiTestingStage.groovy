@@ -46,7 +46,6 @@ class Test3ApiTestingStage implements Serializable {
 		def serverName = this.serverName;
 		def projectType = this.projectType;
 
-
 		this.script.checkout this.script.scm
 
 		this.script.dir("api-test") {
@@ -58,24 +57,22 @@ class Test3ApiTestingStage implements Serializable {
 
 		    def lockFile = "/tmp/run/jenkisn_api_test_test3.lock" 
 
-		   	this.script.timeout(time: 24, unit: 'HOURS'){
-			    while(this.script.fileExists(lockFile)) {
-			     	sleep(10)
-		      	}
-			}
 			try {
-			   	// Create a lock file
-			    this.script.writeFile file: lockFile, text: "${this.script.env.JOB_NAME} of ${this.script.env.BUILD_ID}"
-			    this.script.sh "echo 'start run.sh' "
-			   }
-			    catch(Exception e) {
-			    	this.script.echo "test3 api 测试失败: ${e}"
-			    	this.script.sh 'exit 1'
-			    }
-			    finally {
-			    	this.script.sh "rm ${lockFile}"
-		    	}
+				this.script.timeout(time: 24, unit: 'HOURS'){
+				   	while(this.script.fileExists(lockFile)) {
+					    sleep(10)
+				    }
+					this.script.writeFile file: lockFile, text: "${this.script.env.JOB_NAME} of ${this.script.env.BUILD_ID}"
+					this.script.sh "echo 'start run.sh' "
+				}
+			}
+			catch(Exception e) {
+			   	this.script.echo "test3 api 测试失败: ${e}"
+			   	this.script.sh 'exit 1'
+			}
+			finally {
+			    this.script.sh "rm ${lockFile}"
+		   	}
 		}
-		
 	}
 }
