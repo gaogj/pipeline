@@ -73,7 +73,7 @@ class Test3ApiTestingStage implements Serializable {
 			    finally {
 			    	this.script.sh "rm ${lockFile}"
 		    	}
-			}
 		}
+		
 	}
 }
