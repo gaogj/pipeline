@@ -46,6 +46,7 @@ class Test3ApiTestingStage implements Serializable {
 		def serverName = this.serverName;
 		def projectType = this.projectType;
 
+
 		this.script.checkout this.script.scm
 
 		this.script.dir("api-test") {
@@ -55,10 +56,11 @@ class Test3ApiTestingStage implements Serializable {
 	            credentialsId: 'kuick_git_auto_deploy_pwd'
 	        ]);
 
+	    def lockFile = "/var/run/jenkisn_api_test_test3.lock" 
+
 	    try {
-	    	def lockFile = "/var/run/jenkisn_api_test_test3.lock" 
-	    	// Create a lock
-	    	this.script.sh "echo $BUILD_ID:$JOB_NAME > ${lockFile}"
+	    	// Create a lock file
+	    	this.script.sh "echo ${env.BUILD_ID}:${env.JOB_NAME} > ${lockFile}"
 	    	this.script.sh "cd api-test && sh run_test3.sh "
 	    }
 	    catch(Exception e) {
