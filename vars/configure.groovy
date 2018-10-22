@@ -14,7 +14,7 @@ def call(body) {
 
     def changeType = "${env.CHANGE_TYPE}";
     def branch = "${env.CHANGE_TARGET}";
-    
+
     def runTask = new Tasks(this,config,changeType)
 
     switch(changeType) {

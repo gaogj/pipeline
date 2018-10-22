@@ -34,6 +34,12 @@ class Tasks implements Serializable {
         this.changeType = changeType
         }
 
+    def SkippedStagestage(stageName){
+        this.script.stage(stageName) {
+            this.script.echo 'Skipped'
+        }
+    }
+
     // 代码测试构建
     def BuildTest() {
         //
@@ -50,7 +56,7 @@ class Tasks implements Serializable {
         }else{
             this.script.stage("单元测试") {
             this.script.echo '非JAVA项目，跳过单元测试!'
-        }
+            }
         }
         //
         def SonarQube = new SonarQubeStage(this.script,'代码分析',this.config);
@@ -61,16 +67,14 @@ class Tasks implements Serializable {
         //
         def UploadImage = new UploadImageStage(this.script,'上传镜像',this.config);
         UploadImage.start();
-        }
+    }
 
     def DeployToTest1(skip) {
         //部署测试环境
         if (skip){
         // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" || this.changeType == "DEPLOY_TEST2") {
             // 跳过以下步骤，保持视图完整
-            this.script.stage("部署测试服务器") {
-                this.script.echo 'Skipped'
-                }
+            SkippedStagestage("部署测试服务器")
         } else {
             //
             def DeployTest = new DeployTestStage(this.script,'部署测试服务器',this.config)
@@ -78,43 +82,23 @@ class Tasks implements Serializable {
             }
     }
 
-
     def DeployToTest2(skip) {
         // 部署测试2
         if (skip){
         // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
             //如果是测试3和FIX_FLOW 则跳过，保持视图完整
-            this.script.stage("确认部署测试2") {
-                this.script.echo 'Skipped'
-            }
-
-            this.script.stage("部署测试2服务器") {
-                this.script.echo 'Skipped'
-            }
-
-            this.script.stage("测试2API接口测试")  {
-                this.script.echo 'Skipped'
-            }
-
-            this.script.stage("QA测试") {
-                this.script.echo 'Skipped'
-            }
+            SkippedStagestage("确认部署测试2")
+            SkippedStagestage("部署测试2服务器")
+            SkippedStagestage("测试2API接口测试")
+            SkippedStagestage("QA测试")
         }else{
-            this.config.tips = '该服务是否可以部署测试2?'
-            if (this.config.timeout == '' || this.config.timeout == null) {
-                this.config.timeout = 12
-            }
-            if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
-                this.config.timeoutUnit = 'HOURS'
-            }
+
             if (this.changeType == "DEPLOY_TEST2") {
-		            this.script.stage("确认部署测试2") {
-		            this.script.echo 'Skipped'
-		            }
-		        }else{
-		        	def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2',this.config)
-		            DeployTest2Messger.start()
-		        }
+                SkippedStagestage("确认部署测试2")
+            }else{
+                def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2','该服务是否可以部署测试3?',this.config)
+                DeployTest2Messger.start()
+            }
 
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
             DeployTest2.start()
@@ -123,14 +107,7 @@ class Tasks implements Serializable {
                     this.script.echo 'Skipped'
             }
 
-            this.config.tips = 'QA测试是否通过??'
-            if (this.config.timeout == '' || this.config.timeout == null) {
-                this.config.timeout = 24
-            }
-            if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
-                this.config.timeoutUnit = 'HOURS'
-            }
-            def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试',this.config)
+            def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试','QA测试是否通过?',this.config)
             QATestMessger.start()
             }
         }
@@ -138,22 +115,12 @@ class Tasks implements Serializable {
 
     def DeployToTest3() {
         // 部署测试3
-        this.config.tips = '该服务是否可以部署测试3?'
-        if (this.config.timeout == '' || this.config.timeout == null) {
-            this.config.timeout = 24
-        }
-        if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
-            this.config.timeoutUnit = 'HOURS'
-        }
         if (this.changeType == "DEPLOY_TEST3") {
-	        	this.script.stage("确认部署测试3") {
-		    	this.script.echo 'Skipped'
-		    	}
-	        }else{
-	        	def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3',this.config)
-	        	DeployToTest3Messger.start()
-	      }
-	    
+            SkippedStagestage("确认部署测试3")
+	    }else{
+	        def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3','该服务是否可以部署测试3?',this.config)
+	        DeployToTest3Messger.start()
+	    }
 
         def DeployTest3 = new DeployTest3Stage(this.script,'部署测试3服务器',this.config)
         DeployTest3.start()
@@ -165,15 +132,7 @@ class Tasks implements Serializable {
             this.script.echo "Skipped"
         }
 
-        this.config.tips = '验收测试是否通过?'
-        if (this.config.timeout == '' || this.config.timeout == null) {
-            this.config.timeout = 24
-        }
-        if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
-            this.config.timeoutUnit = 'HOURS'
-        }
-
-        def QATestMessger = new ConfirmMessgerStage(this.script,'验收测试',this.config)
+        def QATestMessger = new ConfirmMessgerStage(this.script,'验收测试','验收测试是否通过?',this.config)
         QATestMessger.start()
 
         }
@@ -183,15 +142,7 @@ class Tasks implements Serializable {
         // def AccessControlProd = new AccessControlStage(this.script,'生产环境权限校验',this.config) 
         // AccessControlProd.start()
 
-        this.config.tips = '该服务是否可以上线?'
-        if (this.config.timeout == '' || this.config.timeout == null) {
-            this.config.timeout = 24
-        }
-        if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
-            this.config.timeoutUnit = 'HOURS'
-        }
-
-        def DeployProdMessger = new ConfirmMessgerStage(this.script,'确认上线',this.config)
+        def DeployProdMessger = new ConfirmMessgerStage(this.script,'确认上线','该服务是否可以上线?',this.config)
         DeployProdMessger.start()
 
         def DeployProd = new DeployProdStage(this.script,'部署生产服务器',this.config)
@@ -212,15 +163,7 @@ class Tasks implements Serializable {
         def AutoChangeLog = new PostDeployAutoChangeLogStage(this.script,'自动生成Changelog',this.config)
         AutoChangeLog.start()
 
-        this.config.tips = '是否合并develop分支到master分支?'
-        if (this.config.timeout == '' || this.config.timeout == null) {
-            this.config.timeout = 24
-        }
-        if (this.config.timeoutUnit == '' ||this.config.timeoutUnit == null){
-            this.config.timeoutUnit = 'HOURS'
-        }
-
-        def MergeMessger = new ConfirmMessgerStage(this.script,'确认合并分支',this.config)
+        def MergeMessger = new ConfirmMessgerStage(this.script,'确认合并分支','是否合并develop分支到master分支?',this.config)
         MergeMessger.start()
 
         def AutoMerge = new PostDeployAutoMergeStage(this.script,'自动生成Changelog',this.config)
