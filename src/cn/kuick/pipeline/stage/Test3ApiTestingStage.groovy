@@ -58,10 +58,11 @@ class Test3ApiTestingStage implements Serializable {
 
 		    def lockFile = "/tmp/run/jenkisn_api_test_test3.lock" 
 
-		     while(this.script.fileExists(lockFile)) {
-		     	sleep(10)
-	      	}
-	      	
+		   	this.script.timeout(time: 24, unit: 'HOURS'){
+			    while(this.script.fileExists(lockFile)) {
+			     	sleep(10)
+		      	}
+			}
 			try {
 			   	// Create a lock file
 			    this.script.writeFile file: lockFile, text: "${this.script.env.JOB_NAME} of ${this.script.env.BUILD_ID}"
