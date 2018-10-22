@@ -23,13 +23,19 @@ class Test3ApiTestingStage implements Serializable {
 	}
 
 	def start() {
-		this.script.stage(this.stageName) {
-		    this.script.node('aliyun345-build') {
-		    	this.script.checkout this.script.scm
+		if (this.config.useApiTest) {
+			this.script.stage(this.stageName) {
+			    this.script.node('aliyun345-build') {
+			    	this.script.echo "login to aliyun345-build"
+			    	this.script.checkout this.script.scm
 
-		       	this.run();
-		    }
-		}
+			       	this.run();
+			    }
+			}
+		}else{
+			this.script.stage(this.stageName) {
+				this.script.echo "skip ApiTest"
+			}
 	}
 
 	def run() {
@@ -38,45 +44,29 @@ class Test3ApiTestingStage implements Serializable {
 		def serverName = this.serverName;
 		def projectType = this.projectType;
 
-		this.script.node("aliyun345-build") {
-	        this.script.echo "login to aliyun345-build"
+		this.script.checkout this.script.scm
 
-	        this.script.checkout this.script.scm
+		this.script.dir("api-test") {
+	    	this.script.git([
+	        	url: "https://git.kuick.cn/tests/api-test.git",
+	            branch: "develop",
+	            credentialsId: 'kuick_git_auto_deploy_pwd'
+	        ]);
 
-	        this.script.dir("api-test") {
-	            this.script.git([
-	                url: "https://git.kuick.cn/tests/api-test.git",
-	                branch: "develop",
-	                credentialsId: 'kuick_git_auto_deploy_pwd'
-	            ]);
-
-            this.script.sh"export SERVER_NAME=${serverName}"
-
-            this.script.echo "SERVER_NAME"
-
-            if (serverName == "deal-openweixin") {
-
-                this.script.sh'#!/bin/bash \n' + './release/docker/nginx/deploy.sh && ./release/docker/test3/deploy.sh'
-                }
-
-//            else if (projectType == "nodejs") {
-//
-//                this.script.sh "/opt/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.host.url=https://sonar.kuick.cn   -Dsonar.login=${sonarToken} Dsonar.projectKey=${serverName}-server  -Dsonar.sourceEncoding=UTF-8 -Dsonar.exclusions=libs/**  -Dsonar.sources=."
-//
-//                }
-
-            else {
-
-                this.script.echo "Test3 api test pass!"
-
-            }
-
-            this.script.echo "Please check test report https://testreport.kuick.cn/"
-
-
-            }
-        }
-
+	    try {
+	    	def lockFile="/var/run/jenkisn_api_test_test3.lock" 
+	    	// Create a lock
+	    	this.script.sh "echo $BUILD_ID:$JOB_NAME > ${lockFile}"
+	    	this.script.sh "cd api-test && sh run_test3.sh "
+	    }
+	    catch(Exception e) {
+	    	println(e)
+	    	println('test3 api 测试失败')
+	    	this.script.sh 'exit 1'
+	    }
+	    finally {
+	    	this.script.sh "rm ${lockFile}"
+	    }
 	}
 
 }
