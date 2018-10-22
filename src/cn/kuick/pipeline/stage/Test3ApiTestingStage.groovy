@@ -60,7 +60,8 @@ class Test3ApiTestingStage implements Serializable {
 
 		     while(this.script.fileExists(lockFile)) {
 		     	sleep(10)
-	      
+	      	}
+	      	
 			try {
 			   	// Create a lock file
 			    this.script.writeFile file: lockFile, text: "${this.script.env.JOB_NAME} of ${this.script.env.BUILD_ID}"
