@@ -84,7 +84,7 @@ class BuildBaseImageStage implements Serializable {
 			this.script.sh "clair-scanner ${parameter}"
 
 			this.script.echo "start send success mail!"
-			this.script.emailext attachmentsPattern: reportPath,body: "附件为镜像漏洞扫描结果 At ${imageName}", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})", to: 'zhoubangjun@kuick.cn',to: toMail,cc: 'devops@kuick.cn'
+			this.script.emailext attachmentsPattern: reportPath,body: "附件为镜像漏洞扫描结果 At ${imageName}", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",to: toMail,cc: 'devops@kuick.cn'
 
 			this.script.echo "success mail send ok!"
 
@@ -92,7 +92,7 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.echo "start send fail mail!"
 
-			this.script.emailext body: "${imageName} 镜像漏洞扫描失败", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})", to: 'zhoubangjun@kuick.cn',to: toMail, cc: 'devops@kuick.cn'
+			this.script.emailext body: "${imageName} 镜像漏洞扫描失败", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})", to: toMail,cc: 'devops@kuick.cn'
 	    
 			this.script.echo "fail mail send ok!"
 
