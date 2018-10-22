@@ -56,20 +56,24 @@ class Test3ApiTestingStage implements Serializable {
 	            credentialsId: 'kuick_git_auto_deploy_pwd'
 	        ]);
 
-	    def lockFile = "/var/run/jenkisn_api_test_test3.lock" 
+		    def lockFile = "/tmp/run/jenkisn_api_test_test3.lock" 
 
-	    try {
-	    	// Create a lock file
-	    	this.script.writeFile file: lockFile, text: "${this.script.env.JOB_NAME} of ${this.script.env.BUILD_ID}"
-	    	this.script.sh "cd api-test && sh run.sh "
-	    }
-	    catch(Exception e) {
-	    	this.script.echo "test3 api 测试失败: ${e}"
-	    	this.script.sh 'exit 1'
-	    }
-	    finally {
-	    	this.script.sh "rm ${lockFile}"
-	    }
+		     while(this.script.fileExists lockFile) {
+		     	sleep(10)
+	      	}else {
+			    try {
+			    	// Create a lock file
+			    	this.script.writeFile file: lockFile, text: "${this.script.env.JOB_NAME} of ${this.script.env.BUILD_ID}"
+			    	this.script.sh "cd api-test && sh run.sh "
+			    }
+			    catch(Exception e) {
+			    	this.script.echo "test3 api 测试失败: ${e}"
+			    	this.script.sh 'exit 1'
+			    }
+			    finally {
+			    	this.script.sh "rm ${lockFile}"
+		    	}
+			}
 		}
 	}
 }
