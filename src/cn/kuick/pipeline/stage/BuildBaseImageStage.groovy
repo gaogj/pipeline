@@ -84,7 +84,8 @@ class BuildBaseImageStage implements Serializable {
 			this.script.sh "clair-scanner ${parameter}"
 
 			this.script.echo "start send success mail!"
-			this.script.emailext attachmentsPattern: reportPath,body: "附件为镜像漏洞扫描结果 At ${imageName}", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",to: toMail,cc: 'devops@kuick.cn'
+			this.script.emailext attachmentsPattern: reportPath,body: "附件为镜像漏洞扫描结果 At ${imageName}", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",to: toMail
+			// cc: 'devops@kuick.cn'
 
 			this.script.echo "success mail send ok!"
 
