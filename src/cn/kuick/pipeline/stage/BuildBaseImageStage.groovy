@@ -67,7 +67,7 @@ class BuildBaseImageStage implements Serializable {
 		def buildNodeIP = this.buildNodeIP
 		def imageName = "registry.kuick.cn/cc/${name}-server:base"
 	//	def reportPath = "./clair-report.json"
-		def reportPath = 'clair-report.json'
+		def reportPath = './clair-report.json'
 		// def reportPath = "./imageScanner-Report-${name}-server.json"
 
 		def buildId = this.script.env.BUILD_ID;
