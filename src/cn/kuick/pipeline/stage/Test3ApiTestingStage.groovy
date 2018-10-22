@@ -15,7 +15,7 @@ class Test3ApiTestingStage implements Serializable {
 
 	Test3ApiTestingStage(script, stageName, config) {
 		this.script = script;
-
+		this.config = config
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
@@ -37,8 +37,8 @@ class Test3ApiTestingStage implements Serializable {
 				this.script.echo "skip ApiTest"
 			}
 		}
+	}
 
-	}	
 	def run() {
 		def version = this.version;
 		def docker = this.script.docker;
@@ -68,6 +68,6 @@ class Test3ApiTestingStage implements Serializable {
 	    finally {
 	    	this.script.sh "rm ${lockFile}"
 	    }
+		}
 	}
-}
 }
