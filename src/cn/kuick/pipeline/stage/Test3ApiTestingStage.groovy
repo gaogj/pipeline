@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 class Test3ApiTestingStage implements Serializable {
 	def script;
-
+	def config;
 	def stageName;
 	def serverName;
 	def version;
@@ -15,7 +15,7 @@ class Test3ApiTestingStage implements Serializable {
 
 	Test3ApiTestingStage(script, stageName, config) {
 		this.script = script;
-		this.config = config
+		this.config = config;
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;

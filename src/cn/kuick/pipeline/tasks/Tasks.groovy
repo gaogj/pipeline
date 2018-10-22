@@ -158,7 +158,7 @@ class Tasks implements Serializable {
         def DeployTest3 = new DeployTest3Stage(this.script,'部署测试3服务器',this.config)
         DeployTest3.start()
 
-        def Test3ApiTesting = new Test3ApiTestingStage(this.script,'测试3 API接口测试',this.config)
+        def Test3ApiTesting = new Test3ApiTestingStage(this.script,'测试3API接口测试',this.config)
         Test3ApiTesting.start()
 
         this.script.stage('回归测试') {
