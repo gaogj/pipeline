@@ -12,6 +12,7 @@ class Test3ApiTestingStage implements Serializable {
 	def serverName;
 	def version;
 	def projectType;
+	def lockFile;
 
 	Test3ApiTestingStage(script, stageName, config) {
 		this.script = script;
@@ -55,7 +56,7 @@ class Test3ApiTestingStage implements Serializable {
 	        ]);
 
 	    try {
-	    	def lockFile="/var/run/jenkisn_api_test_test3.lock" 
+	    	def lockFile = "/var/run/jenkisn_api_test_test3.lock" 
 	    	// Create a lock
 	    	this.script.sh "echo $BUILD_ID:$JOB_NAME > ${lockFile}"
 	    	this.script.sh "cd api-test && sh run_test3.sh "
