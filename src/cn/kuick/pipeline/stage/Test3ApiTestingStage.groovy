@@ -62,8 +62,7 @@ class Test3ApiTestingStage implements Serializable {
 	    	this.script.sh "cd api-test && sh run_test3.sh "
 	    }
 	    catch(Exception e) {
-	    	println(e)
-	    	println('test3 api 测试失败')
+	    	this.script.echo "test3 api 测试失败: ${e}"
 	    	this.script.sh 'exit 1'
 	    }
 	    finally {
