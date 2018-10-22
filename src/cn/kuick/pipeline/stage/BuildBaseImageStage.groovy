@@ -67,7 +67,7 @@ class BuildBaseImageStage implements Serializable {
 		def buildNodeIP = this.buildNodeIP
 		def imageName = "registry.kuick.cn/cc/${name}-server:base"
 	//	def reportPath = "./clair-report.json"
-		def reportPath = './clair-report.json'
+		def reportPath = 'clair-report.json'
 		// def reportPath = "./imageScanner-Report-${name}-server.json"
 
 		def buildId = this.script.env.BUILD_ID;
@@ -84,8 +84,11 @@ class BuildBaseImageStage implements Serializable {
 			this.script.sh "clair-scanner ${parameter}"
 
 			this.script.echo "start send success mail!"
-			this.script.emailext body: "附件为镜像漏洞扫描结果 At ${imageName}",attachmentsPattern: reportPath, recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",to: 'devops@kuick.cn'
-			// cc: 'devops@kuick.cn'
+			this.script.emailext attachmentsPattern: reportPath,
+					body: "附件为镜像漏洞扫描结果 At ${imageName}", 
+					recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
+					subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",
+					to: 'devops@kuick.cn'
 
 			this.script.echo "success mail send ok!"
 
