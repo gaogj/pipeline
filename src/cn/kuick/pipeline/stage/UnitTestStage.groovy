@@ -29,6 +29,7 @@ class UnitTestStage implements Serializable {
 		if (this.config.useUnitTest) {
 			this.script.stage(this.stageName) {
 			    this.script.node('aliyun345-build') {
+			    	this.script.echo "login to aliyun345-build"
 			    	this.script.checkout this.script.scm
 
 			       	this.run();
