@@ -58,7 +58,7 @@ class Test3ApiTestingStage implements Serializable {
 
 		    def lockFile = "/tmp/run/jenkisn_api_test_test3.lock" 
 
-		     while(this.script.fileExists lockFile) {
+		     while(this.script.fileExists(lockFile)) {
 		     	sleep(10)
 	      	}else {
 			    try {
