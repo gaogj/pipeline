@@ -84,12 +84,12 @@ class BuildBaseImageStage implements Serializable {
 
 			this.script.echo "start send success mail!"
 
-			this.script.emailext body: "附件为镜像漏洞扫描结果 At ${imageName}", 
-					recipientProviders: [[$class: 'DevelopersRecipientProvider'], 
-					[$class: 'RequesterRecipientProvider']], 
+			this.script.emailext attachLog: true, bodybody: "附件为镜像漏洞扫描结果 At ${imageName}", 
+					recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
 					subject: "${name}-server 镜像扫描结果 At buildId(#${buildId})",
 					attachmentsPattern: reportPath,
-					to: toMail,
+				//	to: toMail,
+					to: 'zhoubangjun@kuick.cn',
 					cc: 'devops@kuick.cn'
 
 			this.script.echo "success mail send ok!"
@@ -99,11 +99,11 @@ class BuildBaseImageStage implements Serializable {
 			this.script.echo "start send fail mail!"
 
 			this.script.emailext body: "${imageName} 镜像漏洞扫描失败", 
-			recipientProviders: [[$class: 'DevelopersRecipientProvider'], 
-			[$class: 'RequesterRecipientProvider']], 
+			recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], 
 			subject: "${name}-server 镜像漏洞扫描失败 At buildId(#${buildId})",
 			attachmentsPattern: reportPath, 
-			to: toMail, 
+		//	to: toMail, 
+			to: 'zhoubangjun@kuick.cn',
 			cc: 'devops@kuick.cn'
 	    
 			this.script.echo "fail mail send ok!"
