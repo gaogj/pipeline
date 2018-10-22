@@ -60,7 +60,7 @@ class Test3ApiTestingStage implements Serializable {
 
 	    try {
 	    	// Create a lock file
-	    	writeFile file: lockFile, text: "${env.BUILD_ID}:${env.JOB_NAME}"
+	    	writeFile file: lockFile, text: "${this.script.env.BUILD_ID}:${this.script.env.JOB_NAME}"
 	    	this.script.sh "cd api-test && sh run.sh "
 	    }
 	    catch(Exception e) {
