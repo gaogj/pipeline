@@ -19,8 +19,8 @@ class ConfirmMessgerStage implements Serializable {
 		this.config = config
 		this.script = script
 
-		this.stageName = stageName;
-		this.tips = config.tips;
+		this.stageName = stageName
+		this.tips = tips
 	}
 
 	def start() {
@@ -41,7 +41,7 @@ class ConfirmMessgerStage implements Serializable {
         }else{
         	this.timeoutUnit = this.config.timeoutUnit
         }
-        
+
 		this.script.timeout(time: this.timeout, unit: this.timeoutUnit){
 			this.script.input message: this.tips
 		}

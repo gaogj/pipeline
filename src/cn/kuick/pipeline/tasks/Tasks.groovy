@@ -103,9 +103,7 @@ class Tasks implements Serializable {
             def DeployTest2 = new DeployTest2Stage(this.script,'部署测试2服务器',this.config)
             DeployTest2.start()
 
-            this.script.stage("测试2API接口测试") {
-                    this.script.echo 'Skipped'
-            }
+            SkippedStage("测试2API接口测试")
 
             def QATestMessger = new ConfirmMessgerStage(this.script,'QA测试','QA测试是否通过?',this.config)
             QATestMessger.start()
@@ -128,9 +126,7 @@ class Tasks implements Serializable {
         def Test3ApiTesting = new Test3ApiTestingStage(this.script,'测试3 API接口测试',this.config)
         Test3ApiTesting.start()
 
-        this.script.stage('回归测试') {
-            this.script.echo "Skipped"
-        }
+        SkippedStage("回归测试")
 
         def QATestMessger = new ConfirmMessgerStage(this.script,'验收测试','验收测试是否通过?',this.config)
         QATestMessger.start()
@@ -148,9 +144,7 @@ class Tasks implements Serializable {
         def DeployProd = new DeployProdStage(this.script,'部署生产服务器',this.config)
         DeployProd.start()
 
-        this.script.stage("冒烟测试") {
-            this.script.echo '跳过冒烟测试'
-        }
+        SkippedStage("冒烟测试")
 
         def StableTag = new StableTagStage(this.script,'构建稳定版本镜像',this.config)
         StableTag.start()
