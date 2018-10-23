@@ -60,7 +60,7 @@ class Test3ApiTestingStage implements Serializable {
 			try {
 				this.script.timeout(time: 24, unit: 'HOURS'){
 				   	while(this.script.fileExists(lockFile)) {
-					    sleep(10)
+					    sleep(10000)
 				    }
 					this.script.writeFile file: lockFile, text: "${this.script.env.JOB_NAME} of ${this.script.env.BUILD_ID}"
 					this.script.sh "echo 'start run.sh' "
