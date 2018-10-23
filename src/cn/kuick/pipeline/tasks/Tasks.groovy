@@ -34,7 +34,7 @@ class Tasks implements Serializable {
         this.changeType = changeType
         }
 
-    def SkippedStagestage(stageName){
+    def SkippedStage(stageName){
         this.script.stage(stageName) {
             this.script.echo 'Skipped'
         }
@@ -74,7 +74,7 @@ class Tasks implements Serializable {
         if (skip){
         // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" || this.changeType == "DEPLOY_TEST2") {
             // 跳过以下步骤，保持视图完整
-            SkippedStagestage("部署测试服务器")
+            SkippedStage("部署测试服务器")
         } else {
             //
             def DeployTest = new DeployTestStage(this.script,'部署测试服务器',this.config)
@@ -87,14 +87,14 @@ class Tasks implements Serializable {
         if (skip){
         // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
             //如果是测试3和FIX_FLOW 则跳过，保持视图完整
-            SkippedStagestage("确认部署测试2")
-            SkippedStagestage("部署测试2服务器")
-            SkippedStagestage("测试2API接口测试")
-            SkippedStagestage("QA测试")
+            SkippedStage("确认部署测试2")
+            SkippedStage("部署测试2服务器")
+            SkippedStage("测试2API接口测试")
+            SkippedStage("QA测试")
         }else{
 
             if (this.changeType == "DEPLOY_TEST2") {
-                SkippedStagestage("确认部署测试2")
+                SkippedStage("确认部署测试2")
             }else{
                 def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2','该服务是否可以部署测试3?',this.config)
                 DeployTest2Messger.start()
@@ -116,7 +116,7 @@ class Tasks implements Serializable {
     def DeployToTest3() {
         // 部署测试3
         if (this.changeType == "DEPLOY_TEST3") {
-            SkippedStagestage("确认部署测试3")
+            SkippedStage("确认部署测试3")
 	    }else{
 	        def DeployToTest3Messger = new ConfirmMessgerStage(this.script,'确认部署测试3','该服务是否可以部署测试3?',this.config)
 	        DeployToTest3Messger.start()
