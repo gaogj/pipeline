@@ -9,6 +9,6 @@ def call(stageName, body) {
     body.delegate = config
     body()
 
-    def stage = new ConfirmMessgerStage(this, stageName, config);
+    def stage = new ConfirmMessgerStage(this, stageName, config.tips, config);
     stage.start();
 }
