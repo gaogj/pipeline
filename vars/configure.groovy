@@ -30,13 +30,10 @@ def call(body) {
     			case 'master':
                     // MERGE到master分支场景，上线后合并分支触发，仅进行构建测试
                     runTask.BuildTest()
-    			 //    runTask.DeployToTest3()
-	    			// runTask.DeployToProd()
-        //             runTask.Follow()
     				break;
 
     			case 'develop':
-                // MERGE 到develop分支场景，代码已通过测试test3测试，需要触发上线
+                    // MERGE 到develop分支场景，代码已通过测试test3测试，需要触发上线
                     runTask.BuildTest()
                     runTask.DeployToTest1(true)
                     runTask.DeployToTest2(true)
