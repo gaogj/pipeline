@@ -29,7 +29,7 @@ def call(body) {
     		switch(branch) {
     			case 'master':
                     // MERGE到master分支场景 合并分支，并将build test结果同步到gitlab merge request
-                    gitlabCommitStatus("Merge Test") {
+                    gitlabCommitStatus(name: "Merge Test") {
                         runTask.BuildTest()
                         addGitLabMRComment comment: '测试完成！'
                     }
@@ -37,7 +37,7 @@ def call(body) {
 
     			case 'develop':
                     // MERGE 到develop分支场景 合并分支，并将build test结果同步到gitlab merge request
-                    gitlabCommitStatus("Merge Test") {
+                    gitlabCommitStatus(name: "Merge Test") {
                         runTask.BuildTest()
                         addGitLabMRComment comment: '测试完成！'
                     }
