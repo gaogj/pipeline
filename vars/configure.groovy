@@ -35,11 +35,6 @@ def call(body) {
     			case 'develop':
                     // MERGE 到develop分支场景，代码已通过测试test3测试，需要触发上线
                     runTask.BuildTest()
-                    runTask.DeployToTest1(true)
-                    runTask.DeployToTest2(true)
-                    runTask.DeployToTest3()
-                    runTask.DeployToProd()
-                    runTask.Follow()
     				break;
     			default:
     				sh "echo 分支匹配失败"
@@ -64,8 +59,8 @@ def call(body) {
     			case 'develop':
                 // PUSH 到 develop分支场景 简单BUG修复，紧急修复上线
 	    			runTask.BuildTest()
-	    			runTask.DeployToTest1(true)
-                    runTask.DeployToTest2(true)
+	    			runTask.DeployToTest1()
+                    runTask.DeployToTest2()
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
