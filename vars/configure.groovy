@@ -65,8 +65,8 @@ def call(body) {
     			case 'develop':
                     // PUSH 到 develop分支场景 上线
 	    			runTask.BuildTest()
-	    			runTask.DeployToTest1(true)
-                    runTask.DeployToTest2(true)
+	    			runTask.DeployToTest1()
+                    runTask.DeployToTest2()
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
