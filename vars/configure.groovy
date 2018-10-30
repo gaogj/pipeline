@@ -12,8 +12,8 @@ def call(body) {
     body.delegate = config
     body()
 
-    def changeType = "${env.CHANGE_TYPE}";
-    def branch = "${env.CHANGE_TARGET}";
+    def changeType = "${env.CHANGE_TYPE}"
+    def branch = "${env.CHANGE_TARGET}"
     // 修复branch name错误，删除origin前缀
     if (branch.contains('origin/')){
         branch = branch[7..-1]
@@ -28,13 +28,19 @@ def call(body) {
     		// 匹配分支
     		switch(branch) {
     			case 'master':
-                    // MERGE到master分支场景，上线后合并分支触发，仅进行构建测试
-                    runTask.BuildTest()
-    				break;
+                    // MERGE到master分支场景 合并分支，并将build test结果同步到gitlab merge request
+                    gitlabCommitStatus(name: "Merge Test") {
+                        runTask.BuildTest()
+                        addGitLabMRComment comment: '测试完成！'
+                    }
+    				break
 
     			case 'develop':
-                    // MERGE 到develop分支场景，代码已通过测试test3测试，需要触发上线
-                    runTask.BuildTest()
+                    // MERGE 到develop分支场景 合并分支，并将build test结果同步到gitlab merge request
+                    gitlabCommitStatus(name: "Merge Test") {
+                        runTask.BuildTest()
+                        addGitLabMRComment comment: '测试完成！'
+                    }
     				break;
     			default:
     				sh "echo 分支匹配失败"
@@ -57,7 +63,7 @@ def call(body) {
     				break;
 
     			case 'develop':
-                // PUSH 到 develop分支场景 简单BUG修复，紧急修复上线
+                    // PUSH 到 develop分支场景 上线
 	    			runTask.BuildTest()
 	    			runTask.DeployToTest1()
                     runTask.DeployToTest2()
@@ -89,7 +95,7 @@ def call(body) {
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
             runTask.Follow()
-    		break;
+    		break
 
         case 'DEPLOY_TEST':
             runTask.BuildTest()

@@ -156,7 +156,7 @@ class Tasks implements Serializable {
         // 部署后操作
         def AutoChangeLog = new PostDeployAutoChangeLogStage(this.script,'自动生成Changelog',this.config)
         AutoChangeLog.start()
-
+        
         def MergeMessger = new ConfirmMessgerStage(this.script,'确认合并分支','是否合并develop分支到master分支?',this.config)
         MergeMessger.start()
 
