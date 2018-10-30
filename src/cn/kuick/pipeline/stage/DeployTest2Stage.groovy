@@ -9,7 +9,6 @@ class DeployTest2Stage implements Serializable {
 	def script;
 
 	def stageName;
-	def serverName;
 	def version;
 	def deployNode;
 	def commitId;
@@ -18,8 +17,6 @@ class DeployTest2Stage implements Serializable {
 		this.script = script;
 
 		this.stageName = stageName;
-
-		this.serverName = config.name;
 		this.version = config.version;
 		this.deployNode = config.deployT2Node;
 		this.commitId = version[-6..-1];
@@ -33,38 +30,34 @@ class DeployTest2Stage implements Serializable {
 
 	def run() {
 		def version = this.version;
-		def deployNode = this.deployNode;
-		def docker = this.script.docker;
-		def serverName = this.serverName;
+		def deployNode = this.deployNode
+		def docker = this.script.docker
 
 		// 部署测试2环境
-		// We are pushing to a private secure Docker registry in this demo.
-		// 'docker-registry-login' is the username/password credentials ID as defined in Jenkins Credentials.
-		// This is used to authenticate the Docker client to the registry.
-		this.script.node("${deployNode}-test2") {
-			
-			docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+		if (deployNode.getClass().name == java.util.ArrayList ) {
+			for (node in deployNode) {
+				this.script.node("${node}-test2") {
+					docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+						this.script.echo "login to ${node}-test2"
+						this.script.checkout this.script.scm
+    					this.script.sh "git reset --hard ${commitId}"
 
-                this.script.echo "login to ${deployNode}-test2"
-
-                this.script.checkout this.script.scm
-    
-                this.script.sh "git reset --hard ${commitId}"
-
-                if (serverName == "kafka" || serverName == "kafka2" || serverName == "zookeeper") {
-
-                this.script.sh "release/docker/${deployNode}-test2/deploy.sh ${version}"
-
-                this.script.echo "deploy test2 success!"
-
-                }
-
-                else {
-                    this.script.sh "release/docker/test2/deploy.sh ${version}"
-
-                    this.script.echo "deploy test2 success!"
-                }
-	        }
-	    }
+    					this.script.sh "release/docker/${node}-test2/deploy.sh ${version}"
+						this.script.echo "deploy test2 in ${node} success!"
+					}
+				}
+			}
+		}
+		else if (deployNode.getClass().name == java.lang.String ) {
+			this.script.node("${deployNode}-test2") {
+				docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+					this.script.sh "release/docker/test2/deploy.sh ${version}"
+					this.script.echo "deploy test2 success!"
+				}
+			}
+		}
+		else {
+			this.script.echo "error: deployTest2Node parameter not found"
+		}
 	}
 }

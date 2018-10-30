@@ -64,7 +64,6 @@ class Test3ApiTestingStage implements Serializable {
 				    }
 					this.script.writeFile file: lockFile, text: "${this.script.env.JOB_NAME} of ${this.script.env.BUILD_ID}"
 					this.script.sh "./release/docker/test3/deploy.sh ${version} ${this.script.env.JOB_NAME}"
-					// this.script.sh "echo 'start run.sh' "
 				}
 			}
 			catch(Exception e) {

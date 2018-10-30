@@ -14,6 +14,7 @@ def call(body) {
 
     def changeType = "${env.CHANGE_TYPE}"
     def branch = "${env.CHANGE_TARGET}"
+    
     // 修复branch name错误，删除origin前缀
     if (branch.contains('origin/')){
         branch = branch[7..-1]
