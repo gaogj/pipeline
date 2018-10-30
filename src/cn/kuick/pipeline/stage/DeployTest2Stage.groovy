@@ -48,6 +48,7 @@ class DeployTest2Stage implements Serializable {
 				}
 			}
 		}
+		
 		else if (deployNode.getClass().name == java.lang.String ) {
 			this.script.node("${deployNode}-test2") {
 				docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
