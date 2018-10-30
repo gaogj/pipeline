@@ -34,9 +34,7 @@ class DeployTest2Stage implements Serializable {
 		def docker = this.script.docker
 
 		// 部署测试2环境
-		this.script.echo "${deployNode}"
-		this.script.echo deployNode.getClass().name
-		if (deployNode.getClass().name == java.util.ArrayList ) {
+		if (deployNode.getClass() == java.util.ArrayList ) {
 			for (node in deployNode) {
 				this.script.node("${node}-test2") {
 					docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
@@ -51,7 +49,7 @@ class DeployTest2Stage implements Serializable {
 			}
 		}
 
-		else if (deployNode.getClass().name == java.lang.String ) {
+		else if (deployNode.getClass() == java.lang.String ) {
 			this.script.node("${deployNode}-test2") {
 				docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 					this.script.sh "release/docker/test2/deploy.sh ${version}"
