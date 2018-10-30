@@ -34,7 +34,8 @@ class DeployTest2Stage implements Serializable {
 		def docker = this.script.docker
 
 		// 部署测试2环境
-		println(deployNode)
+		this.script.echo "${deployNode}"
+		this.script.echo deployNode.getClass().name
 		if (deployNode.getClass().name == java.util.ArrayList ) {
 			for (node in deployNode) {
 				this.script.node("${node}-test2") {
@@ -59,7 +60,7 @@ class DeployTest2Stage implements Serializable {
 			}
 		}
 		else {
-			this.script.echo "error: deployTest2Node parameter not found"
+			this.script.echo "error: deployT2Node parameter not found"
 		}
 	}
 }
