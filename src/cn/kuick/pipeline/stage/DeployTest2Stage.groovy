@@ -34,8 +34,6 @@ class DeployTest2Stage implements Serializable {
 		def docker = this.script.docker
 
 		// 部署测试2环境
-		println(deployNode.getClass().name)
-		println(deployNode.getClass())
 		println(deployNode)
 		if (deployNode.getClass().name == java.util.ArrayList ) {
 			for (node in deployNode) {
