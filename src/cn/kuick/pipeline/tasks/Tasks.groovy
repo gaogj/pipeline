@@ -96,7 +96,7 @@ class Tasks implements Serializable {
             if (this.changeType == "DEPLOY_TEST2") {
                 SkippedStage("确认部署测试2")
             }else{
-                def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2','该服务是否可以部署测试3?',this.config)
+                def DeployTest2Messger = new ConfirmMessgerStage(this.script,'确认部署测试2','该服务是否可以部署测试2?',this.config)
                 DeployTest2Messger.start()
             }
 
