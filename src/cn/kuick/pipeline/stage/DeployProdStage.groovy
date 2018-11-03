@@ -2,6 +2,7 @@ package cn.kuick.pipeline.stage;
 
 import java.io.Serializable;
 
+
 /**
  *	部署正式环境 + 自动打tag
  */
@@ -16,6 +17,7 @@ class DeployProdStage implements Serializable {
 	def deployNode;
 	def commitId;
 
+
 	DeployProdStage(script, stageName, config) {
 		this.script = script;
 
@@ -27,10 +29,48 @@ class DeployProdStage implements Serializable {
 		this.commitId = version[-6..-1];
 	}
 
+
+	@NonCPS
+	def getBuildUser() {
+		def cause = this.script.currentBuild.rawBuild.getCause(Cause.UserIdCause);
+
+		if (cause != null) {
+			return cause.getUserId()
+		}
+
+		return "gitlab"
+	}
+
+	def getId() {
+		this.script.node{
+			this.script.wrap([$class: 'BuildUser']) {
+				def userId = this.script.env.BUILD_USER_ID;
+
+				if (userId != null) {
+					return  userId
+				}
+
+				return "kuickdev"
+			}
+		}
+	}
+
+	def gitlabUserId() {
+		this.script.node{
+			def gitlabUserId = this.script.env.CHANGE_AUTHOR;
+
+			if (gitlabUserId != null) {
+				return  gitlabUserId
+			}
+
+			return "gitlab"
+		}
+	}
+
 	def start() {
 		this.script.stage(this.stageName) {
 			/*
-			def token = this.script.input message: '请输入部署正式服务器授权码？', parameters: [
+			def String token = this.script.input message: '请输入部署正式服务器授权码？', parameters: [
 				[$class: 'PasswordParameterDefinition', defaultValue: '', description: '部署正式服务器授权码', name: '授权码']
 			];
 
@@ -41,7 +81,7 @@ class DeployProdStage implements Serializable {
 		    }
 		    */
 
-		    this.run();
+			this.run();
 		}
 	}
 
@@ -52,56 +92,96 @@ class DeployProdStage implements Serializable {
 	def run() {
 		def version = this.version;
 		def deployNode = this.deployNode;
+		def docker = this.script.docker;
+		//def USER_ID = this.getBuildUser();
+		def USER_ID = this.getId();
+		def GITLAB_USER_ID = this.gitlabUserId();
+
 
 		// 部署正式环境
 		this.script.node("aliyun345-build") {
-	        this.script.echo "login to aliyun345-build"
+			this.script.echo "login to aliyun345-build"
 
-	        this.script.checkout this.script.scm
+			this.script.echo "'USER_ID':${USER_ID}"
 
-	        def serverEnv = [];
+			this.script.echo "'GITLAB_USER_ID':${GITLAB_USER_ID}"
 
-	        this.script.dir("deploy-config") {
-	            this.script.git([
-	                url: "https://git.kuick.cn/deploys/deploy-config.git",
-	                branch: "master",
-	                credentialsId: 'kuick_git_auto_deploy_pwd'
-	            ]);
+			this.script.checkout this.script.scm
 
-	            // application.properties
-	            def properties = this.readProperties("prod/aliyuncsvpc/application.properties");
+			def serverEnv = [];
 
-	            for(def entry : properties) {
-	            	def key = entry.key.trim().replace(".", "_").toUpperCase();
-	            	def value = entry.value.trim();
+			this.script.dir("deploy-config") {
+				this.script.git([
+						url: "https://git.kuick.cn/deploys/deploy-config.git",
+						branch: "master",
+						credentialsId: 'kuick_git_auto_deploy_pwd'
+				]);
 
-	            	def item = "${key}=${value}";
-	            	serverEnv.add(item)
-	            }
+				// application.properties
+				def properties = this.readProperties("prod/aliyuncsvpc/application.properties");
 
-	            // certs
-	            def PGRDIR = this.script.pwd();
+				for(def entry : properties) {
+					def key = entry.key.trim().replace(".", "_").toUpperCase();
+					def value = entry.value.trim();
 
-	           	serverEnv.add("DOCKER_TLS_VERIFY=1")
+					def item = "${key}=${value}";
+					serverEnv.add(item)
+				}
+
+				this.script.withEnv(serverEnv) {
+
+					if (deployNode == "jd-prod") {
+						this.script.node("jd-prod") {
+							this.script.echo "jd-prod"
+
+							this.script.checkout this.script.scm
+
+							this.script.sh "git reset --hard ${commitId}"
+
+							this.script.sh "./release/docker/prod/deploy.sh ${version}";
+						}
+					}
+				}
+
+				// certs
+				def PGRDIR = this.script.pwd();
+
+				serverEnv.add("DOCKER_TLS_VERIFY=1")
 				serverEnv.add("DOCKER_HOST=tcp://master3g9.cs-cn-hangzhou.aliyun.com:20103")
-				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncs/certs")
-	        }
+				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncsvpc/certs")
+			}
 
-	        this.script.withEnv(serverEnv) {
+			this.script.withEnv(serverEnv) {
 
-                // Fix: docker部署时变量代码的版本与镜像版本不一致的问题
-	        	this.script.sh "git reset --hard ${commitId}"
+				// Fix: docker部署时变量代码的版本与镜像版本不一致的问题
+				this.script.sh "git reset --hard ${commitId}"
 
-	        	// 部署prod
-	            this.script.sh "release/docker/prod/deploy.sh ${version}"
+				if (USER_ID == "kuick" || USER_ID == "kuick-devops" || GITLAB_USER_ID == "Johny.Zheng" || GITLAB_USER_ID == "Administrator" || GITLAB_USER_ID == "Wu CongWen") {
 
-                // 自动打tag
-			    this.script.sh "git tag -f v${version} ${commitId}"
+					if (deployNode == "jd-prod") {
+						this.script.node("jd-prod") {
+							this.script.echo "jd-prod"
+						}
 
-			    this.script.sh " git push origin v${version}"
-	        }
+					} else {
 
-	        this.script.echo "deploy prod success!"
-	    }
+						// 部署prod
+						this.script.sh "release/docker/prod/deploy.sh ${version}"
+
+						// 自动打tag
+						this.script.sh "git tag -f v${version} ${commitId}"
+
+						this.script.sh " git push origin v${version}"
+					}
+				} else {
+					this.script.echo "You have no authority to build production!!!"
+
+					this.script.sh "echo 'You have no authority to build production!!!'; exit 1"
+				}
+
+			}
+
+			this.script.echo "deploy prod success!"
+		}
 	}
 }
