@@ -50,8 +50,20 @@ class DeployProdVPCStage implements Serializable {
 						return  userId
 					}
 
-					return "kuick"
+					return "kuickdev"
 			}
+		}
+	}
+
+	def gitlabUserId() {
+		this.script.node{
+			def gitlabUserId = this.script.env.CHANGE_AUTHOR;;
+
+			if (gitlabUserId != null) {
+				return  gitlabUserId
+			}
+
+			return "gitlab"
 		}
 	}
 
@@ -83,9 +95,8 @@ class DeployProdVPCStage implements Serializable {
 		def docker = this.script.docker;
 		//def USER_ID = this.getBuildUser();
 		def USER_ID = this.getId();
-
-	def GITLAB_USER_ID = this.script.env.CHANGE_AUTHOR;
-
+		def GITLAB_USER_ID = this.gitlabUserId();
+		
 
 		// 部署正式环境
 		this.script.node("aliyun345-build") {
