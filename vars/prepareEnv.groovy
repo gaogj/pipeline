@@ -23,6 +23,7 @@ def printPipelineEnv() {
 	echo "CHANGE_TARGET:${env.CHANGE_TARGET}"
 
     echo "USER_ID:${env.USER_ID}"
+	echo "CHANGE_AUTHOR:${env.CHANGE_AUTHOR}"
 
 	echo "------------------printPipelineEnv-end----------------"
 	echo "----------------------------------------------"

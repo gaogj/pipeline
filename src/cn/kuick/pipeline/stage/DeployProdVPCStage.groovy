@@ -84,12 +84,16 @@ class DeployProdVPCStage implements Serializable {
 		//def USER_ID = this.getBuildUser();
 		def USER_ID = this.getId();
 
+		def GITLAB_USER_ID = this.script.env.CHANGE_AUTHOR;
+
 
 				// 部署正式环境
 		this.script.node("aliyun345-build") {
 	        this.script.echo "login to aliyun345-build"
 
 			this.script.echo "'USER_ID':${USER_ID}"
+
+			this.script.echo "'GITLAB_USER_ID':${GITLAB_USER_ID}"
 
 	        this.script.checkout this.script.scm
 
@@ -141,7 +145,7 @@ class DeployProdVPCStage implements Serializable {
                 // Fix: docker部署时变量代码的版本与镜像版本不一致的问题
 	        	this.script.sh "git reset --hard ${commitId}"
 
-	        	if (USER_ID == "kuick" || USER_ID == "kuick-devops") {
+	        	if (USER_ID == "kuick" || USER_ID == "kuick-devops" || GITLAB_USER_ID == "Johny.Zheng") {
 
 					if (deployNode == "jd-prod") {
 						this.script.node("jd-prod") {
