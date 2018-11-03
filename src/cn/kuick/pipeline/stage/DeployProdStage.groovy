@@ -118,7 +118,7 @@ class DeployProdStage implements Serializable {
 				]);
 
 				// application.properties
-				def properties = this.readProperties("prod/aliyuncsvpc/application.properties");
+				def properties = this.readProperties("prod/aliyuncs/application.properties");
 
 				for(def entry : properties) {
 					def key = entry.key.trim().replace(".", "_").toUpperCase();
@@ -148,7 +148,7 @@ class DeployProdStage implements Serializable {
 
 				serverEnv.add("DOCKER_TLS_VERIFY=1")
 				serverEnv.add("DOCKER_HOST=tcp://master3g9.cs-cn-hangzhou.aliyun.com:20103")
-				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncsvpc/certs")
+				serverEnv.add("DOCKER_CERT_PATH=$PGRDIR/prod/aliyuncs/certs")
 			}
 
 			this.script.withEnv(serverEnv) {
