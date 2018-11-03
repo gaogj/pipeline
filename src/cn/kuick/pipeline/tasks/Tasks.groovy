@@ -70,9 +70,8 @@ class Tasks implements Serializable {
     }
 
     def DeployToTest1(skip) {
-        //部署测试环境
+        // 部署测试1
         if (skip){
-        // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" || this.changeType == "DEPLOY_TEST2") {
             // 跳过以下步骤，保持视图完整
             SkippedStage("部署测试服务器")
         } else {
@@ -85,7 +84,6 @@ class Tasks implements Serializable {
     def DeployToTest2(skip) {
         // 部署测试2
         if (skip){
-        // if (this.changeType == "DEPLOY_TEST3" || this.changeType == "FIX_FLOW" ) {
             //如果是测试3和FIX_FLOW 则跳过，保持视图完整
             SkippedStage("确认部署测试2")
             SkippedStage("部署测试2服务器")
@@ -135,6 +133,8 @@ class Tasks implements Serializable {
 
     def DeployToProd() {
         // 部署生产环境
+
+        // 权限校验
         // def AccessControlProd = new AccessControlStage(this.script,'生产环境权限校验',this.config) 
         // AccessControlProd.start()
 
@@ -148,8 +148,6 @@ class Tasks implements Serializable {
 
         def StableTag = new StableTagStage(this.script,'构建稳定版本镜像',this.config)
         StableTag.start()
-        // def SmokeTesting = new SmokeTestingStage(this.script,'冒烟测试',this.config)
-        // SmokeTesting.start()
         }
 
     def Follow(){
