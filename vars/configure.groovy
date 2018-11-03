@@ -41,13 +41,13 @@ def call(body) {
                         runTask.BuildTest()
                         addGitLabMRComment comment: '测试完成！'
                     }
-    				break;
+    				break
     			default:
     				sh "echo 分支匹配失败"
     				sh "exit 1"
     				break
     		}
-    		break;
+    		break
 
     	// 匹配推送代码动作
     	case 'PUSH':
@@ -60,7 +60,7 @@ def call(body) {
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
-    				break;
+    				break
 
     			case 'develop':
                     // PUSH 到 develop分支场景 上线
@@ -70,7 +70,7 @@ def call(body) {
 	    			runTask.DeployToTest3()
 	    			runTask.DeployToProd()
                     runTask.Follow()
-    				break;
+    				break
     			default:
     				sh "echo 分支匹配失败"
     				sh "exit 1"
@@ -85,7 +85,7 @@ def call(body) {
 	    	runTask.DeployToTest3()
 	    	runTask.DeployToProd()
             runTask.Follow()
-    		break;
+    		break
 
    		case 'WHOLE_FLOW':
         // 全部流程
