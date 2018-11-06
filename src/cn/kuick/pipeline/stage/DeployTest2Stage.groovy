@@ -52,6 +52,7 @@ class DeployTest2Stage implements Serializable {
 		else if (deployNode.getClass().name == java.lang.String ) {
 			this.script.node("${deployNode}-test2") {
 				docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
+					this.script.checkout this.script.scm
 					this.script.sh "release/docker/test2/deploy.sh ${version}"
 					this.script.echo "deploy test2 success!"
 				}
