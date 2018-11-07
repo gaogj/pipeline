@@ -22,8 +22,8 @@ class AccessControlStage implements Serializable {
 	}
 
 	def getUserId(){
-		if (this.this.script.env.CHANGE_AUTHOR){
-			return this.this.script.env.CHANGE_AUTHOR
+		if (this.script.env.CHANGE_AUTHOR){
+			return this.script.env.CHANGE_AUTHOR
 		}
 		return this.script.env.BUILD_USER_ID
 	}
