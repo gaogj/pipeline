@@ -11,6 +11,7 @@ class AccessControlStage implements Serializable {
 	def stageName;
 	def version;
 	def config;
+	def commitId;
 
 	AccessControlStage(script, stageName, config) {
 		this.script = script;
