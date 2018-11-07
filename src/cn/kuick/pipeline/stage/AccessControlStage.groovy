@@ -65,14 +65,14 @@ class AccessControlStage implements Serializable {
 
 		// 非master和develop分支禁止上线 并校验jenkins用户权限
 		if (gitlabBranch == 'master' || gitlabBranch == 'develop' ){
-			if (this.commitId != getLatestCommit()){
-				this.script.input message: '当前上线版本非最新commitid,是否确认上线？'
-			}
 			if (whiteList.contains(userId)){
 				this.script.echo "userid: ${userId},权限检验成功,准备上线"
 			}else{
 				this.script.echo "userid: ${userId},账号权限校验失败，停止上线"
 				this.script.sh 'exit 1' 
+			}
+			if (this.commitId != getLatestCommit()){
+				this.script.input message: '当前上线版本非最新commitid,是否确认上线？'
 			}
 		}else{
 			this.script.echo '非master和develop分支禁止上线'
