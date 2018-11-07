@@ -135,8 +135,8 @@ class Tasks implements Serializable {
         // 部署生产环境
 
         // 权限校验
-        // def AccessControlProd = new AccessControlStage(this.script,'生产环境权限校验',this.config) 
-        // AccessControlProd.start()
+        def AccessControlProd = new AccessControlStage(this.script,'生产环境权限校验',this.config) 
+        AccessControlProd.start()
 
         def DeployProdMessger = new ConfirmMessgerStage(this.script,'确认上线','该服务是否可以上线?',this.config)
         DeployProdMessger.start()
