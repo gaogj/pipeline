@@ -64,7 +64,7 @@ class AccessControlStage implements Serializable {
 		// }
 
 		// 非master和develop分支禁止上线 
-		if (gitlabBranch != 'master' || gitlabBranch != 'develop' ){
+		if (config.branch != 'master' || config.branch != 'develop' ){
 			this.script.echo '非master和develop分支禁止上线'
 			this.script.sh 'exit 1'
 		}
