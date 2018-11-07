@@ -62,9 +62,5 @@ class AccessControlStage implements Serializable {
 			this.script.echo '非master和develop分支禁止上线'
 			this.script.sh 'exit 1' 
 		}
-
-		if ()
-
-
 	}
 }
