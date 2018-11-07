@@ -14,8 +14,22 @@ class AccessControlStage implements Serializable {
 
 	AccessControlStage(script, stageName, config) {
 		this.script = script;
+		this.config = config
 		this.stageName = stageName;
 		this.version = config.version;
+		this.commitId = config.gitCommitId
+	}
+
+	def getUserId(){
+		if (this.this.script.env.CHANGE_AUTHOR){
+			return this.this.script.env.CHANGE_AUTHOR
+		}
+		return this.script.env.BUILD_USER_ID
+	}
+
+	def getLatestCommit(){
+		this.script.checkout this.script.scm
+		return this.script.sh 'git rev-parse HEAD'
 	}
 
 	def start() {
@@ -25,27 +39,31 @@ class AccessControlStage implements Serializable {
 	}
 
 	def run() {
+		def userId = getUserId()
 		def gitlabBranch = this.script.env.gitlabBranch
 		def gitlabActionType = this.script.env.gitlabActionType
 
-		def buildUserName = this.script.env.BUILD_USER_ID
-
 		// 权限白名单
-		def whiteList = ['kuick-devops','kuick']
+		def whiteList = ['kuick-devops','kuick','Johny.Zheng','Administrator','Wu CongWen']
 
 		// 非master和develop分支禁止上线 并校验jenkins用户权限
-		println(buildUserName)
 		if (gitlabBranch == 'master' || gitlabBranch == 'develop' ){
-			if (whiteList.contains(buildUserName)){
-				this.script.echo '权限检验成功,准备上线'
+			if (this.commitId != getLatestCommit()){
+				ConfirmMessgerStage(this.script,'确认commit id','当前上线版本非最新commitid,是否确认上线？',this.config)
+			}
+			if (whiteList.contains(userId)){
+				this.script.echo 'userid: ${userId},权限检验成功,准备上线'
 			}else{
-				this.script.echo '账号权限校验失败，停止上线'
+				this.script.echo 'userid: ${userId},账号权限校验失败，停止上线'
 				this.script.sh 'exit 1' 
 			}
 		}else{
 			this.script.echo '非master和develop分支禁止上线'
 			this.script.sh 'exit 1' 
 		}
+
+		if ()
+
 
 	}
 }

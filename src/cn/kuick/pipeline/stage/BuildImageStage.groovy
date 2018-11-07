@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 class BuildImageStage implements Serializable {
 	def script;
+	def config
 
 	def stageName;
 	def serverName;
@@ -14,16 +15,16 @@ class BuildImageStage implements Serializable {
 
 	BuildImageStage(script, stageName, config) {
 		this.script = script;
-
+		this.config = config;
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-	}
 
 	def start() {
 		this.script.stage(this.stageName) {
 		    this.script.node('aliyun345-build') {
 		    	this.script.checkout this.script.scm
+		    	this.config.gitCommitId = this.script.sh 'git rev-parse HEAD'
 
 		       	this.run();
 		    }
@@ -40,6 +41,8 @@ class BuildImageStage implements Serializable {
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// 构建镜像
 			this.script.sh "./release/docker/build.sh ${version}";
+
+			def 
 		}
 	}
 }
