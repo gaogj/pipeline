@@ -11,6 +11,7 @@ class AccessControlStage implements Serializable {
 	def stageName;
 	def version;
 	def config;
+	def commitId;
 
 	AccessControlStage(script, stageName, config) {
 		this.script = script;
@@ -21,20 +22,23 @@ class AccessControlStage implements Serializable {
 	}
 
 	def getUserId(){
-		if (this.this.script.env.CHANGE_AUTHOR){
-			return this.this.script.env.CHANGE_AUTHOR
+		if (this.script.env.CHANGE_AUTHOR){
+			return this.script.env.CHANGE_AUTHOR
 		}
-		return this.script.env.BUILD_USER_ID
+		return this.script.env.USER_ID
 	}
 
 	def getLatestCommit(){
 		this.script.checkout this.script.scm
-		return this.script.sh 'git rev-parse HEAD'
+		def commitid = this.script.sh(returnStdout: true, script: "git rev-parse HEAD")
+		return commitid
 	}
 
 	def start() {
 		this.script.stage(this.stageName) {
-			this.run();
+			this.script.node('aliyun345-build') {
+				this.run();
+			}
 		}
 	}
 
@@ -46,24 +50,33 @@ class AccessControlStage implements Serializable {
 		// 权限白名单
 		def whiteList = ['kuick-devops','kuick','Johny.Zheng','Administrator','Wu CongWen']
 
+		// test
+		// this.script.echo this.commitId
+		// this.script.echo getLatestCommit()
+		// if (this.commitId != getLatestCommit()){
+		// 	this.script.input message: '当前上线版本非最新commitid,是否确认上线？'
+		// }
+		// if (whiteList.contains(userId)){
+		// 	this.script.echo "userid: ${userId},权限检验成功,准备上线"
+		// }else{
+		// 	this.script.echo "userid: ${userId},账号权限校验失败，不允许上线"
+		// 	this.script.sh 'exit 1' 
+		// }
+
 		// 非master和develop分支禁止上线 并校验jenkins用户权限
 		if (gitlabBranch == 'master' || gitlabBranch == 'develop' ){
 			if (this.commitId != getLatestCommit()){
 				this.script.input message: '当前上线版本非最新commitid,是否确认上线？'
 			}
 			if (whiteList.contains(userId)){
-				this.script.echo 'userid: ${userId},权限检验成功,准备上线'
+				this.script.echo "userid: ${userId},权限检验成功,准备上线"
 			}else{
-				this.script.echo 'userid: ${userId},账号权限校验失败，停止上线'
+				this.script.echo "userid: ${userId},账号权限校验失败，停止上线"
 				this.script.sh 'exit 1' 
 			}
 		}else{
 			this.script.echo '非master和develop分支禁止上线'
 			this.script.sh 'exit 1' 
 		}
-
-		if ()
-
-
 	}
 }

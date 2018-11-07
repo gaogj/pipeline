@@ -25,8 +25,7 @@ class BuildImageStage implements Serializable {
 		this.script.stage(this.stageName) {
 		    this.script.node('aliyun345-build') {
 		    	this.script.checkout this.script.scm
-		    	this.config.gitCommitId = this.script.sh 'git rev-parse HEAD'
-
+		    	this.config.gitCommitId = this.script.sh(returnStdout: true, script: "git rev-parse HEAD")
 		       	this.run();
 		    }
 		}
