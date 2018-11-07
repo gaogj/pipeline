@@ -29,16 +29,16 @@ class AccessControlStage implements Serializable {
 	}
 
 	def getLatestCommit(){
-		this.script.node('aliyun345-build') {
-			this.script.checkout this.script.scm
-			def commitid = this.script.sh 'git rev-parse HEAD'
-			return commitid
-		}
+		this.script.checkout this.script.scm
+		def commitid = this.script.sh 'git rev-parse HEAD'
+		return commitid
 	}
 
 	def start() {
 		this.script.stage(this.stageName) {
-			this.run();
+			this.script.node('aliyun345-build') {
+				this.run();
+			}
 		}
 	}
 
@@ -50,6 +50,17 @@ class AccessControlStage implements Serializable {
 		// 权限白名单
 		def whiteList = ['kuick-devops','kuick','Johny.Zheng','Administrator','Wu CongWen']
 
+		// test
+		if (this.commitId != getLatestCommit()){
+			this.script.input message: '当前上线版本非最新commitid,是否确认上线？'
+		}
+		if (whiteList.contains(userId)){
+			this.script.echo 'userid: ${userId},权限检验成功,准备上线'
+		}else{
+			this.script.echo 'userid: ${userId},账号权限校验失败，停止上线'
+			this.script.sh 'exit 1' 
+		}
+		
 		// 非master和develop分支禁止上线 并校验jenkins用户权限
 		if (gitlabBranch == 'master' || gitlabBranch == 'develop' ){
 			if (this.commitId != getLatestCommit()){
