@@ -30,7 +30,7 @@ class AccessControlStage implements Serializable {
 
 	def getLatestCommit(){
 		this.script.checkout this.script.scm
-		def commitid = sh('git rev-parse HEAD').execute().text
+		def commitid = "git rev-parse HEAD".execute().text
 		return commitid
 	}
 
