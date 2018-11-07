@@ -19,7 +19,8 @@ class BuildImageStage implements Serializable {
 		this.stageName = stageName;
 		this.serverName = config.name;
 		this.version = config.version;
-
+	}
+	
 	def start() {
 		this.script.stage(this.stageName) {
 		    this.script.node('aliyun345-build') {
