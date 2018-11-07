@@ -51,6 +51,8 @@ class AccessControlStage implements Serializable {
 		def whiteList = ['kuick-devops','kuick','Johny.Zheng','Administrator','Wu CongWen']
 
 		// test
+		this.script.echo this.commitId
+		this.script.echo getLatestCommit()
 		if (this.commitId != getLatestCommit()){
 			this.script.input message: '当前上线版本非最新commitid,是否确认上线？'
 		}
