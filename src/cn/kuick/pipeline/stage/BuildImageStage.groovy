@@ -41,8 +41,6 @@ class BuildImageStage implements Serializable {
 		docker.withRegistry('https://registry.kuick.cn', 'kuick_docker_registry_login') {
 			// 构建镜像
 			this.script.sh "./release/docker/build.sh ${version}";
-
-			def 
 		}
 	}
 }
