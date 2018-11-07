@@ -22,10 +22,10 @@ class AccessControlStage implements Serializable {
 	}
 
 	def getUserId(){
-		// if (this.script.env.CHANGE_AUTHOR){
-			// return this.script.env.CHANGE_AUTHOR
-		// }
-		return this.script.env.BUILD_USER_ID
+		if (this.script.env.CHANGE_AUTHOR){
+			return this.script.env.CHANGE_AUTHOR
+		}
+		return this.script.env.USER_ID
 	}
 
 	def getLatestCommit(){
