@@ -66,7 +66,7 @@ class AccessControlStage implements Serializable {
 		// 非master和develop分支禁止上线 
 
 		if (config.branch != 'master' || config.branch != 'develop' ){
-			this.script.echo '当前分支: ${config.branch},非master和develop分支禁止上线'
+			this.script.echo "当前分支: ${config.branch},非master和develop分支禁止上线"
 			this.script.sh 'exit 1'
 		}
 		// 校验用户权限
