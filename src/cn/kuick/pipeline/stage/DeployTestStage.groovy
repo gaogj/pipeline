@@ -47,10 +47,8 @@ class DeployTestStage implements Serializable {
                 this.script.sh "./release/docker/test/deploy.sh ${version}";
 
                 this.script.echo "deploy test success!"
-                }
             }
-
-        else {
+        }else {
             this.script.node("aliyun354-test") {
                 this.script.echo "login to aliyun354-test"
 
@@ -63,7 +61,7 @@ class DeployTestStage implements Serializable {
                 this.script.sh "./release/docker/test/deploy.sh ${version}";
 
                 this.script.echo "deploy test success!"
-                }
             }
-	    }
+        }
+    }
 }
